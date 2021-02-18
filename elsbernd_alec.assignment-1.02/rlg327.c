@@ -755,8 +755,8 @@ void load_dungeon(dungeon_t *d)
   fread(y_pos,1,1,f);
 
   //should read the hardness of the dungeon and set it
-  for (int i = 0; i < DUNGEON_X; i++) {
-    for (int j = 0; j < DUNGEON_Y; j++) {
+  for (int i = 0; i < DUNGEON_Y; i++) {
+    for (int j = 0; j < DUNGEON_X; j++) {
       int hardness;
       d->hardness[i][j] = fread(hardness,1,1,f); //if there is a seg fault, swap dungeon_x and dungeon_y
     }
@@ -802,9 +802,14 @@ void load_dungeon(dungeon_t *d)
     }
   }
   
+
+
+
+
+
+
+
   fclose(f);
-  
-  
 }
 
 //adding to deal with the save file
@@ -852,6 +857,12 @@ void save_dungeon(dungeon_t *d)
   to_write = htobe32(size);
   fwrite(&to_write,4,1,f);
   
+  //should write the hardness of each cell in the dungeon to a file
+  for (int i = 0; i < DUNGEON_Y; i++) {
+    for (int j = 0; j < DUNGEON_X; j++) {
+      fwrite(d->hardness[i][j],1,1,f); //if there is a seg fault, swap dungeon_x and dungeon_y
+    }
+  }
 
   
   
