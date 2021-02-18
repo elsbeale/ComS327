@@ -879,7 +879,57 @@ void save_dungeon(dungeon_t *d)
   uint16_t number_rooms = d->num_rooms;
   fwrite(number_rooms,2,1,f);
   
+  //writes the position of each room to a file
+  for (int i = 0; i < d->num_rooms; i++) {
+    uint8_t room_pos_x = d->rooms[i].position[dim_x];
+    uint8_t room_pos_y = d->rooms[i].position[dim_y];
+    uint8_t room_dim_x = d->rooms[i].size[dim_x];
+    uint8_t room_dim_y = d->rooms[i].size[dim_y];
+    fwrite(room_pos_x,1,1,f);
+    fwrite(room_pos_y,1,1,f);
+    fwrite(room_dim_x,1,1,f);
+    fwrite(room_dim_y,1,1,f);
+  }
+
+  //writes the number of upward stairs to a file
+  fwrite(num_up_stairs,2,1,f);
   
+  //writes the position of the up stairs to the file
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
+      switch (mappair(p)) {
+      case ter_stairs_up:
+        //stuff
+        uint8_t up_stairs_x = dim_x;
+        uint8_t up_stairs_y = dim_y;
+        fwrite(up_stairs_x,1,1,f);
+        fwrite(up_stairs_y,1,1,f);
+        break;
+      default:
+        break;
+      }
+    }
+  }
+
+  //writes the number of downward stairs to a file
+  fwrite(num_down_stairs,2,1,f);
+
+  //writes the position of the down stairs to a file
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
+      switch (mappair(p)) {
+      case ter_stairs_down:
+        //stuff
+        uint8_t down_stairs_x = dim_x;
+        uint8_t down_stairs_y = dim_y;
+        fwrite(down_stairs_x,1,1,f);
+        fwrite(down_stairs_y,1,1,f);
+        break;
+      default:
+        break;
+      }
+    }
+  }
   
   fclose(f);
  
