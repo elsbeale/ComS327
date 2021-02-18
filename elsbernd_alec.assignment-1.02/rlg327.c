@@ -796,7 +796,7 @@ void load_dungeon(dungeon_t *d)
   //2d array with each row being a down stair and the first column being the x position of the stair
   //and the second column being the y position of the stair
   int down_stair_dim[down][2];
-  for (int down_stair_counter = 0; down_stair_counter < u; down_stair_counter++) {
+  for (int down_stair_counter = 0; down_stair_counter < down; down_stair_counter++) {
     for (int i = 0; i < 2; i ++) {
       fread(down_stair_dim[down_stair_counter][i],1,1,f);
     }
