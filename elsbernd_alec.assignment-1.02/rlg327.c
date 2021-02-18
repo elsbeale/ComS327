@@ -755,10 +755,8 @@ void load_dungeon(dungeon_t *d)
   fread(y_pos,1,1,f);
 
   //should read the hardness of the dungeon and set it
-  for (int i = 0; i < DUNGEON_X; i++)
-  {
-    for (int j = 0; j < DUNGEON_Y; j++)
-    {
+  for (int i = 0; i < DUNGEON_X; i++) {
+    for (int j = 0; j < DUNGEON_Y; j++) {
       int hardness;
       d->hardness[i][j] = fread(hardness,1,1,f); //if there is a seg fault, swap dungeon_x and dungeon_y
     }
@@ -775,8 +773,9 @@ void load_dungeon(dungeon_t *d)
 
   for (int room_counter = 0; room_counter < r; room_counter++)
   {
-    for (int i = 0; i < 4; i++)
-    fread(room_dim[room_counter][i], 1,1,f);
+    for (int i = 0; i < 4; i++) {
+      fread(room_dim[room_counter][i], 1,1,f);
+    }
   }
   
 
