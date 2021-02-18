@@ -746,6 +746,24 @@ void load_dungeon(dungeon_t *d)
   fread(&size,4,1,f);
   size = be32toh(size);
 
+  //should in theory get the PC's x position
+  int x_pos;
+  fread(x_pos,1,1,f);
+  
+  //should in theory get the PC's y position
+  int y_pos;
+  fread(y_pos,1,1,f);
+
+  //should read the hardness of the dungeon and set it
+  for (int i = 0; i < DUNGEON_X; i++)
+  {
+    for (int j = 0; j < DUNGEON_Y; j++)
+    {
+      int hardness;
+      d->hardness[i][j] = fread(hardness,1,1,f);
+    }
+  }
+  
   
   fclose(f);
   
