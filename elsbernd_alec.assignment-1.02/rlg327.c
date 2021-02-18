@@ -760,10 +760,26 @@ void load_dungeon(dungeon_t *d)
     for (int j = 0; j < DUNGEON_Y; j++)
     {
       int hardness;
-      d->hardness[i][j] = fread(hardness,1,1,f);
+      d->hardness[i][j] = fread(hardness,1,1,f); //if there is a seg fault, swap dungeon_x and dungeon_y
     }
   }
   
+  //should read 1 data element(number of rooms) that is 2 bytes long
+  int r; //number of rooms in the dungeon
+  fread(r,2,1,f);
+
+  //2d array with each row being a room and each column being the room dimensions.
+  //should go through 1 room at a time and record the x position then y position of the room.
+  //Then should record the x size(width) and y size(height) of the room.
+  int room_dim[r][4]; 
+
+  for (int room_counter = 0; room_counter < r; room_counter++)
+  {
+    for (int i = 0; i < 4; i++)
+    fread(room_dim[room_counter][i], 1,1,f);
+  }
+  
+
   
   fclose(f);
   
