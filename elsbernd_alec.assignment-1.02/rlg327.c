@@ -747,7 +747,6 @@ void load_dungeon(dungeon_t *d)
   size = be32toh(size);
 
   
-  printf("%d",size);
   fclose(f);
   
   
@@ -769,6 +768,7 @@ void save_dungeon(dungeon_t *d)
   fwrite(semantic,1,12,f);
 
   int version = 0;
+
   uint32_t to_write = htobe32(version);
   fwrite(&to_write,4,1,f);
 
@@ -793,8 +793,7 @@ void save_dungeon(dungeon_t *d)
   }
  
   
-  uint32_t size = 1708 +(d->num_rooms); //(2*num_up_stairs)+(2*num_down_stairs);
-  printf("%d",size);
+  uint32_t size = 1708 +(d->num_rooms)+(2*num_up_stairs)+(2*num_down_stairs);
   to_write = htobe32(size);
   fwrite(&to_write,4,1,f);
   
@@ -819,7 +818,7 @@ int main(int argc, char *argv[])
   UNUSED(in_room);
 
   // I added this to deal with the flag
-  if ((argc == 2) && (strcmp(argv[1],"-l") != 0) && (strcmp(argv[1],"-s") != 0)){
+  if ((argc == 2) && (strcmp(argv[1],"-load") != 0) && (strcmp(argv[1],"-save") != 0)){
        seed = atoi(argv[1]);
   } else {
     gettimeofday(&tv, NULL);
@@ -833,17 +832,27 @@ int main(int argc, char *argv[])
   
   init_dungeon(&d);
 
-  //
+  int l = 1;
+  
+  //activates if load flag
   for(i = 0; i < argc ;i++){
-    if(!strcmp(argv[i], "-l")){
+    if(!strcmp(argv[i], "-load")){
       load_dungeon(&d);
+      l = 0;
     }
   }
 
-  save_dungeon(&d);
-
-   
+  if(l){
   gen_dungeon(&d);
+  }
+
+  //activates if save flag
+  for(i = 0; i < argc ;i++){
+    if(!strcmp(argv[i], "-save")){
+      save_dungeon(&d);
+    }
+  }
+ 
   render_dungeon(&d);
   delete_dungeon(&d);
 
