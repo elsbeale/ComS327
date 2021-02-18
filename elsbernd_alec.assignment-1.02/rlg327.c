@@ -770,15 +770,37 @@ void load_dungeon(dungeon_t *d)
   //should go through 1 room at a time and record the x position then y position of the room.
   //Then should record the x size(width) and y size(height) of the room.
   int room_dim[r][4]; 
-
-  for (int room_counter = 0; room_counter < r; room_counter++)
-  {
+  for (int room_counter = 0; room_counter < r; room_counter++) {
     for (int i = 0; i < 4; i++) {
-      fread(room_dim[room_counter][i], 1,1,f);
+      fread(room_dim[room_counter][i],1,1,f);
     }
   }
   
+  //should read 1 data element(number of upward staircases) that is 2 bytes long
+  int u; //number of upward staircases in the dungeon
+  fread(u,2,1,f);
 
+  //2d array with each row being a up stair and the first column being the x position of the stair
+  //and the second column being the y position of the stair
+  int up_stair_dim[u][2];
+  for (int up_stair_counter = 0; up_stair_counter < u; up_stair_counter++) {
+    for (int i = 0; i < 2; i ++) {
+      fread(up_stair_dim[up_stair_counter][i],1,1,f);
+    }
+  }
+
+  //should read 1 data element(number of downward staircases) that is 2 bytes long
+  int down; //number of downward stair cases in the dungeon
+  fread(down,2,1,f);
+
+  //2d array with each row being a down stair and the first column being the x position of the stair
+  //and the second column being the y position of the stair
+  int down_stair_dim[down][2];
+  for (int down_stair_counter = 0; down_stair_counter < u; down_stair_counter++) {
+    for (int i = 0; i < 2; i ++) {
+      fread(down_stair_dim[down_stair_counter][i],1,1,f);
+    }
+  }
   
   fclose(f);
   
