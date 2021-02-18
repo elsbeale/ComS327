@@ -784,7 +784,7 @@ void save_dungeon(dungeon_t *d)
         num_up_stairs++;
         break;
       case ter_stairs_down:
-	num_down_stairs++;
+	      num_down_stairs++;
         break;
       default:
         break;
