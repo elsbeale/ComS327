@@ -856,6 +856,17 @@ void save_dungeon(dungeon_t *d)
   uint32_t size = 1708 +(d->num_rooms)+(2*num_up_stairs)+(2*num_down_stairs);
   to_write = htobe32(size);
   fwrite(&to_write,4,1,f);
+
+  //should find the PC and write its position to a file
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
+      if (mappair(p) == '@')
+      {
+        fwrite(p[dim_x],1,1,f);
+        fwrite(p[dim_y],1,1,f);
+      }
+    }
+  }
   
   //should write the hardness of each cell in the dungeon to a file
   for (int i = 0; i < DUNGEON_Y; i++) {
@@ -864,6 +875,9 @@ void save_dungeon(dungeon_t *d)
     }
   }
 
+  //writes the number of rooms to a file
+  uint16_t number_rooms = d->num_rooms;
+  fwrite(number_rooms,2,1,f);
   
   
   
