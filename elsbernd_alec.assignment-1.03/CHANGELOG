@@ -1,0 +1,10 @@
+2/12/2021: 15:53: Started project
+2/17/2021: 12:00: Main function mostly completed.
+2/18/2021: 12:00: Added to load_dungeon PC's x and y position. Also added the hardness of the dungeon.
+2/18/2021: 14:00: Added to load_dungeon.
+2/18/2021: 14:00: Fixed Bracket error.
+2/18/2021: 14:00: Added more to load_dungeon.
+2/18/2021: 14:00: Changed upper bounds for the down stairs.
+2/18/2021: 17:00: Added to save_dungeon.
+2/18/2021: 18:00: Finished save_dungeon.
+2/18/2021: 20:00: Error fixing
