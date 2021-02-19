@@ -72,9 +72,14 @@ typedef struct room {
   pair_t size;
 } room_t;
 
+typedef struct PC {
+  pair_t position;
+} PC_t;
+
 typedef struct dungeon {
   uint32_t num_rooms;
   room_t rooms[MAX_ROOMS];
+  PC_t PC;
   terrain_type_t map[DUNGEON_Y][DUNGEON_X];
   /* Since hardness is usually not used, it would be expensive to pull it *
    * into cache every time we need a map cell, so we store it in a        *
@@ -811,11 +816,34 @@ void load_dungeon(dungeon_t *d)
     d->rooms[i].size[dim_y] = room_dim[i][3]; //size in the y direction
   }
 
-  
+  //placing corridors
+  for (int i = 0; i < DUNGEON_Y; i++) {
+    for (int j = 0; j < DUNGEON_X; j++) {
+      if (d->map[i][j] != ter_floor_room && d->hardness[i][j] == 0) {
+        d->map[i][j] = ter_floor_hall;
+      }
+    }
+  }
 
+  //placing PC
+  d->PC.position[dim_x] = x_pos;
+  d->PC.position[dim_y] = y_pos;
 
-  free(path);
-  fclose(f);
+  //placing up and down stair cases
+  pair_t p;
+  for (int i = 0; i < u; i++) {
+    p[dim_x] = up_stair_dim[i][0];
+    p[dim_y] = up_stair_dim[i][1];
+    mappair(p) = ter_stairs_up;
+  }
+  for (int i = 0; i < down; i++) {
+    p[dim_x] = down_stair_dim[i][0];
+    p[dim_y] = down_stair_dim[i][1];
+    mappair(p) = ter_stairs_down;
+  }
+
+  free(path); //frees allocated memory
+  fclose(f); //closes file
 }
 
 //adding to deal with the save file
@@ -936,8 +964,8 @@ void save_dungeon(dungeon_t *d)
       }
     }
   }
-  free(path);
-  fclose(f);
+  free(path); //frees allocated memory
+  fclose(f); //closes file
  
   
 }
