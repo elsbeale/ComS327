@@ -753,23 +753,23 @@ void load_dungeon(dungeon_t *d)
 
   //should in theory be the PC's x position
   int x_pos;
-  fread(x_pos,1,1,f);
+  fread(&x_pos,1,1,f);
   
   //should in theory be the PC's y position
   int y_pos;
-  fread(y_pos,1,1,f);
+  fread(&y_pos,1,1,f);
 
   //should read the hardness of the dungeon and set it
   for (int i = 0; i < DUNGEON_Y; i++) {
     for (int j = 0; j < DUNGEON_X; j++) {
       int hardness;
-      d->hardness[i][j] = fread(hardness,1,1,f); //if there is a seg fault, swap dungeon_x and dungeon_y
+      d->hardness[i][j] = fread(&hardness,1,1,f); //if there is a seg fault, swap dungeon_x and dungeon_y
     }
   }
   
   //should read 1 data element(number of rooms) that is 2 bytes long
   int r; //number of rooms in the dungeon
-  fread(r,2,1,f);
+  fread(&r,2,1,f);
   d->num_rooms = r;
 
   //2d array with each row being a room and each column being the room dimensions.
@@ -778,12 +778,12 @@ void load_dungeon(dungeon_t *d)
   int room_dim[r][4];
   for (int room_counter = 0; room_counter < r; room_counter++) {
     for (int i = 0; i < 4; i++) {
-      fread(room_dim[room_counter][i],1,1,f);
+      fread(&room_dim[room_counter][i],1,1,f);
     }
   }
   //should read 1 data element(number of upward staircases) that is 2 bytes long
   int u; //number of upward staircases in the dungeon
-  fread(u,2,1,f);
+  fread(&u,2,1,f);
 
 
   //2d array with each row being a up stair and the first column being the x position of the stair
@@ -791,20 +791,20 @@ void load_dungeon(dungeon_t *d)
   int up_stair_dim[u][2];
   for (int up_stair_counter = 0; up_stair_counter < u; up_stair_counter++) {
     for (int i = 0; i < 2; i ++) {
-      fread(up_stair_dim[up_stair_counter][i],1,1,f);
+      fread(&up_stair_dim[up_stair_counter][i],1,1,f);
     }
   }
 
   //should read 1 data element(number of downward staircases) that is 2 bytes long
   int down; //number of downward stair cases in the dungeon
-  fread(down,2,1,f);
+  fread(&down,2,1,f);
 
   //2d array with each row being a down stair and the first column being the x position of the stair
   //and the second column being the y position of the stair
   int down_stair_dim[down][2];
   for (int down_stair_counter = 0; down_stair_counter < down; down_stair_counter++) {
     for (int i = 0; i < 2; i ++) {
-      fread(down_stair_dim[down_stair_counter][i],1,1,f);
+      fread(&down_stair_dim[down_stair_counter][i],1,1,f);
     }
   }
   
@@ -896,8 +896,8 @@ void save_dungeon(dungeon_t *d)
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
       if (mappair(p) == '@')
       {
-        fwrite(p[dim_x],1,1,f);
-        fwrite(p[dim_y],1,1,f);
+        fwrite(&p[dim_x],1,1,f);
+        fwrite(&p[dim_y],1,1,f);
       }
     }
   }
@@ -905,13 +905,13 @@ void save_dungeon(dungeon_t *d)
   //should write the hardness of each cell in the dungeon to a file
   for (int i = 0; i < DUNGEON_Y; i++) {
     for (int j = 0; j < DUNGEON_X; j++) {
-      fwrite(d->hardness[i][j],1,1,f); //if there is a seg fault, swap dungeon_x and dungeon_y
+      fwrite(&d->hardness[i][j],1,1,f); //if there is a seg fault, swap dungeon_x and dungeon_y
     }
   }
 
   //writes the number of rooms to a file
   uint16_t number_rooms = d->num_rooms;
-  fwrite(number_rooms,2,1,f);
+  fwrite(&number_rooms,2,1,f);
   
   //writes the position of each room to a file
   for (int i = 0; i < d->num_rooms; i++) {
@@ -919,14 +919,14 @@ void save_dungeon(dungeon_t *d)
     uint8_t room_pos_y = d->rooms[i].position[dim_y];
     uint8_t room_dim_x = d->rooms[i].size[dim_x];
     uint8_t room_dim_y = d->rooms[i].size[dim_y];
-    fwrite(room_pos_x,1,1,f);
-    fwrite(room_pos_y,1,1,f);
-    fwrite(room_dim_x,1,1,f);
-    fwrite(room_dim_y,1,1,f);
+    fwrite(&room_pos_x,1,1,f);
+    fwrite(&room_pos_y,1,1,f);
+    fwrite(&room_dim_x,1,1,f);
+    fwrite(&room_dim_y,1,1,f);
   }
 
   //writes the number of upward stairs to a file
-  fwrite(num_up_stairs,2,1,f);
+  fwrite(&num_up_stairs,2,1,f);
   
   //writes the position of the up stairs to the file
   uint8_t up_stairs;
@@ -936,9 +936,9 @@ void save_dungeon(dungeon_t *d)
       case ter_stairs_up:
         //stuff
         up_stairs = dim_x;
-        fwrite(up_stairs,1,1,f);
+        fwrite(&up_stairs,1,1,f);
         up_stairs = dim_y;
-        fwrite(up_stairs,1,1,f);
+        fwrite(&up_stairs,1,1,f);
         break;
       default:
         break;
@@ -947,7 +947,7 @@ void save_dungeon(dungeon_t *d)
   }
 
   //writes the number of downward stairs to a file
-  fwrite(num_down_stairs,2,1,f);
+  fwrite(&num_down_stairs,2,1,f);
 
   //writes the position of the down stairs to a file
   uint8_t down_stairs;
@@ -957,9 +957,9 @@ void save_dungeon(dungeon_t *d)
       case ter_stairs_down:
         //stuff
         down_stairs = dim_x;
-        fwrite(down_stairs,1,1,f);
+        fwrite(&down_stairs,1,1,f);
         down_stairs = dim_y;
-        fwrite(down_stairs,1,1,f);
+        fwrite(&down_stairs,1,1,f);
         break;
       default:
         break;
