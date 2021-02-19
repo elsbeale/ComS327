@@ -929,15 +929,16 @@ void save_dungeon(dungeon_t *d)
   fwrite(num_up_stairs,2,1,f);
   
   //writes the position of the up stairs to the file
+  uint8_t up_stairs;
   for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
       switch (mappair(p)) {
       case ter_stairs_up:
         //stuff
-        uint8_t up_stairs_x = dim_x;
-        uint8_t up_stairs_y = dim_y;
-        fwrite(up_stairs_x,1,1,f);
-        fwrite(up_stairs_y,1,1,f);
+        up_stairs = dim_x;
+        fwrite(up_stairs,1,1,f);
+        up_stairs = dim_y;
+        fwrite(up_stairs,1,1,f);
         break;
       default:
         break;
@@ -949,15 +950,16 @@ void save_dungeon(dungeon_t *d)
   fwrite(num_down_stairs,2,1,f);
 
   //writes the position of the down stairs to a file
+  uint8_t down_stairs;
   for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
       switch (mappair(p)) {
       case ter_stairs_down:
         //stuff
-        uint8_t down_stairs_x = dim_x;
-        uint8_t down_stairs_y = dim_y;
-        fwrite(down_stairs_x,1,1,f);
-        fwrite(down_stairs_y,1,1,f);
+        down_stairs = dim_x;
+        fwrite(down_stairs,1,1,f);
+        down_stairs = dim_y;
+        fwrite(down_stairs,1,1,f);
         break;
       default:
         break;
