@@ -746,11 +746,11 @@ void load_dungeon(dungeon_t *d)
   fread(&size,4,1,f);
   size = be32toh(size);
 
-  //should in theory get the PC's x position
+  //should in theory be the PC's x position
   int x_pos;
   fread(x_pos,1,1,f);
   
-  //should in theory get the PC's y position
+  //should in theory be the PC's y position
   int y_pos;
   fread(y_pos,1,1,f);
 
@@ -765,20 +765,21 @@ void load_dungeon(dungeon_t *d)
   //should read 1 data element(number of rooms) that is 2 bytes long
   int r; //number of rooms in the dungeon
   fread(r,2,1,f);
+  d->num_rooms = r;
 
   //2d array with each row being a room and each column being the room dimensions.
   //should go through 1 room at a time and record the x position then y position of the room.
   //Then should record the x size(width) and y size(height) of the room.
-  int room_dim[r][4]; 
+  int room_dim[r][4];
   for (int room_counter = 0; room_counter < r; room_counter++) {
     for (int i = 0; i < 4; i++) {
       fread(room_dim[room_counter][i],1,1,f);
     }
   }
-  
   //should read 1 data element(number of upward staircases) that is 2 bytes long
   int u; //number of upward staircases in the dungeon
   fread(u,2,1,f);
+
 
   //2d array with each row being a up stair and the first column being the x position of the stair
   //and the second column being the y position of the stair
@@ -802,13 +803,18 @@ void load_dungeon(dungeon_t *d)
     }
   }
   
+  //setting the position and size of the room
+  for (int i = 0; i < r; i++) {
+    d->rooms[i].position[dim_x] = room_dim[i][0]; //x position
+    d->rooms[i].position[dim_y] = room_dim[i][1]; //y position
+    d->rooms[i].size[dim_x] = room_dim[i][2]; //size in the x direction
+    d->rooms[i].size[dim_y] = room_dim[i][3]; //size in the y direction
+  }
+
+  
 
 
-
-
-
-
-
+  free(path);
   fclose(f);
 }
 
@@ -930,7 +936,7 @@ void save_dungeon(dungeon_t *d)
       }
     }
   }
-  
+  free(path);
   fclose(f);
  
   
