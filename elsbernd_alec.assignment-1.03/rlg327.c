@@ -1231,6 +1231,274 @@ void usage(char *name)
   exit(-1);
 }
 
+// For normal monster
+void monsterPathfinding(dungeon_t *d){
+  static corridor_path_t path[DUNGEON_Y][DUNGEON_X], *p;
+  static uint32_t initialized = 0;
+  heap_t h;
+  uint32_t x, y;
+
+  if (!initialized) {
+    for (y = 0; y < DUNGEON_Y; y++) {
+      for (x = 0; x < DUNGEON_X; x++) {
+        path[y][x].pos[dim_y] = y;
+        path[y][x].pos[dim_x] = x;
+      }
+    }
+    initialized = 1;
+  }
+  
+  for (y = 0; y < DUNGEON_Y; y++) {
+    for (x = 0; x < DUNGEON_X; x++) {
+      path[y][x].cost = INT_MAX;
+    }
+  }
+
+  // Changed this to be the players position
+  path[d->pc[dim_y]][d->pc[dim_x]].cost = 0;
+
+  heap_init(&h, corridor_path_cmp, NULL);
+
+  for (y = 0; y < DUNGEON_Y; y++) {
+    for (x = 0; x < DUNGEON_X; x++) {
+      // Changed this to only put in open space
+      if (mapxy(x, y) == ter_floor || mapxy(x,y) == ter_floor_room || mapxy(x,y) == ter_floor_room) {
+        path[y][x].hn = heap_insert(&h, &path[y][x]);
+      } else {
+        path[y][x].hn = NULL;
+      }
+    }
+  }
+
+  while ((p = heap_remove_min(&h))) {
+    p->hn = NULL;
+
+
+#define hardnesspair_inv(p) (is_open_space(d, p[dim_y], p[dim_x]) ? 127 :     \
+                             (adjacent_to_room(d, p[dim_y], p[dim_x]) ? 191 : \
+                              (255 - hardnesspair(p))))
+
+    if ((path[p->pos[dim_y] - 1][p->pos[dim_x]    ].hn) &&
+        (path[p->pos[dim_y] - 1][p->pos[dim_x]    ].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] - 1][p->pos[dim_x]    ].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] - 1][p->pos[dim_x]    ].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] - 1][p->pos[dim_x]    ].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
+                                           [p->pos[dim_x]    ].hn);
+    }
+    if ((path[p->pos[dim_y]    ][p->pos[dim_x] - 1].hn) &&
+        (path[p->pos[dim_y]    ][p->pos[dim_x] - 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y]    ][p->pos[dim_x] - 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y]    ][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y]    ][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y]    ]
+                                           [p->pos[dim_x] - 1].hn);
+    }
+    if ((path[p->pos[dim_y]    ][p->pos[dim_x] + 1].hn) &&
+        (path[p->pos[dim_y]    ][p->pos[dim_x] + 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y]    ][p->pos[dim_x] + 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y]    ][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y]    ][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y]    ]
+                                           [p->pos[dim_x] + 1].hn);
+    }
+    if ((path[p->pos[dim_y] + 1][p->pos[dim_x]    ].hn) &&
+        (path[p->pos[dim_y] + 1][p->pos[dim_x]    ].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] + 1][p->pos[dim_x]    ].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] + 1][p->pos[dim_x]    ].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] + 1][p->pos[dim_x]    ].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
+                                           [p->pos[dim_x]    ].hn);
+    }
+    //adding 4 new directions
+     if ((path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].hn) &&
+        (path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
+                                           [p->pos[dim_x] - 1].hn);
+    }
+     if ((path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].hn) &&
+        (path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
+                                           [p->pos[dim_x] - 1].hn);
+    }
+    if ((path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].hn) &&
+        (path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
+                                           [p->pos[dim_x] + 1].hn);
+    }
+    if ((path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].hn) &&
+        (path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
+                                           [p->pos[dim_x] + 1].hn);
+    }
+    // We need to take these costs and put them in a array and print the area
+    heap_delete(&h);
+  }
+}
+
+
+// For tunneling monster
+void monsterTunnelerPathfinding(dungeon_t *d){\
+  static corridor_path_t path[DUNGEON_Y][DUNGEON_X], *p;
+  static uint32_t initialized = 0;
+  heap_t h;
+  uint32_t x, y;
+
+  if (!initialized) {
+    for (y = 0; y < DUNGEON_Y; y++) {
+      for (x = 0; x < DUNGEON_X; x++) {
+        path[y][x].pos[dim_y] = y;
+        path[y][x].pos[dim_x] = x;
+      }
+    }
+    initialized = 1;
+  }
+  
+  for (y = 0; y < DUNGEON_Y; y++) {
+    for (x = 0; x < DUNGEON_X; x++) {
+      path[y][x].cost = INT_MAX;
+    }
+  }
+
+  // Changed this to be the players position
+  path[d->pc[dim_y]][d->pc[dim_x]].cost = 0;
+
+  heap_init(&h, corridor_path_cmp, NULL);
+
+  for (y = 0; y < DUNGEON_Y; y++) {
+    for (x = 0; x < DUNGEON_X; x++) {
+      // Changed this to put in everything except immutable
+      if (mapxy(x, y) == ter_wall_immutable) {
+        path[y][x].hn = heap_insert(&h, &path[y][x]);
+      } else {
+        path[y][x].hn = NULL;
+      }
+    }
+  }
+
+  while ((p = heap_remove_min(&h))) {
+    p->hn = NULL;
+
+
+#define hardnesspair_inv(p) (is_open_space(d, p[dim_y], p[dim_x]) ? 127 :     \
+                             (adjacent_to_room(d, p[dim_y], p[dim_x]) ? 191 : \
+                              (255 - hardnesspair(p))))
+
+    if ((path[p->pos[dim_y] - 1][p->pos[dim_x]    ].hn) &&
+        (path[p->pos[dim_y] - 1][p->pos[dim_x]    ].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] - 1][p->pos[dim_x]    ].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] - 1][p->pos[dim_x]    ].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] - 1][p->pos[dim_x]    ].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
+                                           [p->pos[dim_x]    ].hn);
+    }
+    if ((path[p->pos[dim_y]    ][p->pos[dim_x] - 1].hn) &&
+        (path[p->pos[dim_y]    ][p->pos[dim_x] - 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y]    ][p->pos[dim_x] - 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y]    ][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y]    ][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y]    ]
+                                           [p->pos[dim_x] - 1].hn);
+    }
+    if ((path[p->pos[dim_y]    ][p->pos[dim_x] + 1].hn) &&
+        (path[p->pos[dim_y]    ][p->pos[dim_x] + 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y]    ][p->pos[dim_x] + 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y]    ][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y]    ][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y]    ]
+                                           [p->pos[dim_x] + 1].hn);
+    }
+    if ((path[p->pos[dim_y] + 1][p->pos[dim_x]    ].hn) &&
+        (path[p->pos[dim_y] + 1][p->pos[dim_x]    ].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] + 1][p->pos[dim_x]    ].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] + 1][p->pos[dim_x]    ].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] + 1][p->pos[dim_x]    ].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
+                                           [p->pos[dim_x]    ].hn);
+    }
+    //adding 4 new directions
+     if ((path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].hn) &&
+        (path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
+                                           [p->pos[dim_x] - 1].hn);
+    }
+     if ((path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].hn) &&
+        (path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
+                                           [p->pos[dim_x] - 1].hn);
+    }
+    if ((path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].hn) &&
+        (path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
+                                           [p->pos[dim_x] + 1].hn);
+    }
+    if ((path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].hn) &&
+        (path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].cost >
+         p->cost + hardnesspair_inv(p->pos))) {
+      path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].cost =
+        p->cost + hardnesspair_inv(p->pos);
+      path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
+      path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
+      heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
+                                           [p->pos[dim_x] + 1].hn);
+    }
+
+    // We need to take these costs and put them in a array and print the area
+    heap_delete(&h);
+  }
+}
+
 int main(int argc, char *argv[])
 {
   dungeon_t d;
@@ -1365,6 +1633,8 @@ int main(int argc, char *argv[])
     d.pc[dim_y] = d.rooms[0].position[dim_y];
   }
 
+  monsterTunnelerPathfinding(&d);
+  monsterPathfinding(&d);
   render_dungeon(&d);
 
   if (do_save) {
