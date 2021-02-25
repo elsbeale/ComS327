@@ -139,7 +139,7 @@ int read_dungeon(1059,29867
 int read_pgm(1140,31726
 void usage(1225,34129
 void monsterPathfinding(1236,34361
-#define hardnesspair_inv(1278,35386
-void monsterTunnelerPathfinding(1393,40783
-#define hardnesspair_inv(1435,41774
-int main(1528,46608
+#define hardnesspair_inv(1278,35359
+void monsterTunnelerPathfinding(1391,40391
+#define hardnesspair_inv(1433,41382
+int main(1546,46767
