@@ -2,7 +2,4 @@ Alec Elsbernd elsbeale@iastate.edu
 Noah Tang ntang1@iastate.edu
 Brett Bethke bwbethke@iastate.edu
 
-This is an add onto the proffessors code that allows the user to save and load dungeon files.
-Specifically this allows the program to save and load the generated map's rooms, stairs, corridors,
-and player character location. In future iterations things like monster locations will also be 
-loadable and saveable.
+This is an add onto the proffessors code that gives monsters the ability to pathfind their way to the player character.
