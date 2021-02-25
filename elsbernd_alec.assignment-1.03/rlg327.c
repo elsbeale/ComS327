@@ -92,6 +92,7 @@ typedef struct dungeon {
    * and pulling in unnecessary data with each map cell would add a lot   *
    * of overhead to the memory system.                                    */
   uint8_t hardness[DUNGEON_Y][DUNGEON_X];
+  uint8_t cost_map[DUNGEON_Y][DUNGEON_X];
   pair_t pc;
 } dungeon_t;
 
@@ -1360,6 +1361,29 @@ void monsterPathfinding(dungeon_t *d){
                                            [p->pos[dim_x] + 1].hn);
     }
     // We need to take these costs and put them in a array and print the area
+
+    //adding the cost to a cost array
+    for (int i = 0; i < DUNGEON_Y; i++) {
+      for (int j = 0; j < DUNGEON_X; j++) {
+        d->cost_map[p->pos[i][p->pos[j]]] = path[p->pos[i]][p->pos[j]].cost;
+      }
+    }
+    
+    //printing cost array
+    for (int i = 0; i < DUNGEON_Y; i++) {
+      for (int j = 0; j < DUNGEON_X; j++) {
+        if (d->cost_map[p->pos[i][p->pos[j]]] == 0) {
+          printf("@");
+        }
+        else {
+          printf("%c", d->cost_map[p->pos[i][p->pos[j]]] % 10); //printing cost with mod 10 so that it only prints the remainder.
+        }
+      }
+      printf("\n");
+    }
+
+
+
     heap_delete(&h);
   }
 }
@@ -1495,6 +1519,8 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
     }
 
     // We need to take these costs and put them in a array and print the area
+    
+
     heap_delete(&h);
   }
 }
