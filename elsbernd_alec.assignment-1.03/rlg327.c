@@ -1263,7 +1263,7 @@ void monsterPathfinding(dungeon_t *d){
   for (y = 0; y < DUNGEON_Y; y++) {
     for (x = 0; x < DUNGEON_X; x++) {
       // Changed this to only put in open space
-      if ( mapxy(x,y) == ter_floor_room || mapxy(x,y) == ter_floor_hall) {
+      if (mapxy(x, y) != ter_wall_immutable||mapxy(x,y) != ter_wall) {
         path[y][x].hn = heap_insert(&h, &path[y][x]);
       } else {
         path[y][x].hn = NULL;
@@ -1275,9 +1275,6 @@ void monsterPathfinding(dungeon_t *d){
     p->hn = NULL;
 
 
-#define hardnesspair_inv(p) (is_open_space(d, p[dim_y], p[dim_x]) ? 127 :     \
-                             (adjacent_to_room(d, p[dim_y], p[dim_x]) ? 191 : \
-                              (255 - hardnesspair(p))))
 
     if ((path[p->pos[dim_y] - 1][p->pos[dim_x]    ].hn) &&
         (path[p->pos[dim_y] - 1][p->pos[dim_x]    ].cost >
@@ -1361,7 +1358,9 @@ void monsterPathfinding(dungeon_t *d){
                                            [p->pos[dim_x] + 1].hn);
     }
   }
-    // We need to take these costs and put them in a array and print the area
+
+
+  // We need to take these costs and put them in a array and print the area
 
     //adding the cost to a cost array
       for (int i = 0; i < DUNGEON_Y; i++) {
@@ -1435,9 +1434,9 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
 
     if ((path[p->pos[dim_y] - 1][p->pos[dim_x]    ].hn) &&
         (path[p->pos[dim_y] - 1][p->pos[dim_x]    ].cost >
-	 p->cost + 1 + d->hardness[dim_y][dim_x]/85)){
+	 p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85))){
       path[p->pos[dim_y] - 1][p->pos[dim_x]    ].cost =
-	p->cost + 1 + d->hardness[dim_y][dim_x]/85;
+	p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85);
       path[p->pos[dim_y] - 1][p->pos[dim_x]    ].from[dim_y] = p->pos[dim_y];
       path[p->pos[dim_y] - 1][p->pos[dim_x]    ].from[dim_x] = p->pos[dim_x];
       heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
@@ -1445,9 +1444,9 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
     }
     if ((path[p->pos[dim_y]    ][p->pos[dim_x] - 1].hn) &&
         (path[p->pos[dim_y]    ][p->pos[dim_x] - 1].cost >
-         p->cost + 1 + (d->hardness[dim_y][dim_x]/85))) {
+         p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85))) {
       path[p->pos[dim_y]    ][p->pos[dim_x] - 1].cost =
-        p->cost + 1 + (d->hardness[dim_y][dim_x]/85);
+        p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85);
       path[p->pos[dim_y]    ][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
       path[p->pos[dim_y]    ][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
       heap_decrease_key_no_replace(&h, path[p->pos[dim_y]    ]
@@ -1455,9 +1454,9 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
     }
     if ((path[p->pos[dim_y]    ][p->pos[dim_x] + 1].hn) &&
         (path[p->pos[dim_y]    ][p->pos[dim_x] + 1].cost >
-         p->cost + 1 +  (d->hardness[dim_y][dim_x]/85))) {
+         p->cost + 1 +  (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85))) {
       path[p->pos[dim_y]    ][p->pos[dim_x] + 1].cost =
-        p->cost +  + 1 + (d->hardness[dim_y][dim_x]/85);
+        p->cost +  + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85);
       path[p->pos[dim_y]    ][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
       path[p->pos[dim_y]    ][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
       heap_decrease_key_no_replace(&h, path[p->pos[dim_y]    ]
@@ -1465,9 +1464,9 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
     }
     if ((path[p->pos[dim_y] + 1][p->pos[dim_x]    ].hn) &&
         (path[p->pos[dim_y] + 1][p->pos[dim_x]    ].cost >
-         p->cost + 1 + (d->hardness[dim_y][dim_x]/85))) {
+         p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85))) {
       path[p->pos[dim_y] + 1][p->pos[dim_x]    ].cost =
-        p->cost + 1 + ( d->hardness[dim_y][dim_x]/85);
+        p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85);
       path[p->pos[dim_y] + 1][p->pos[dim_x]    ].from[dim_y] = p->pos[dim_y];
       path[p->pos[dim_y] + 1][p->pos[dim_x]    ].from[dim_x] = p->pos[dim_x];
       heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
@@ -1476,9 +1475,9 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
     //adding 4 new directions
      if ((path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].hn) &&
         (path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].cost >
-         p->cost + 1 + (d->hardness[dim_y][dim_x]/85))) {
+         p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85))) {
       path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].cost =
-        p->cost + 1 + (d->hardness[dim_y][dim_x]/85);
+        p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85);
       path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
       path[p->pos[dim_y] - 1][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
       heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
@@ -1486,9 +1485,9 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
     }
      if ((path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].hn) &&
         (path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].cost >
-         p->cost + 1 + ( d->hardness[dim_y][dim_x]/85))) {
+         p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85))) {
       path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].cost =
-        p->cost + ( d->hardness[dim_y][dim_x]/85);
+        p->cost + 1 +(d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85);
       path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].from[dim_y] = p->pos[dim_y];
       path[p->pos[dim_y] + 1][p->pos[dim_x] - 1].from[dim_x] = p->pos[dim_x];
       heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
@@ -1496,9 +1495,9 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
     }
     if ((path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].hn) &&
         (path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].cost >
-         p->cost + 1 + (d->hardness[dim_y][dim_x]/85))) {
+         p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85))) {
       path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].cost =
-        p->cost +  + 1 + ( d->hardness[dim_y][dim_x]/85);
+        p->cost +  + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85);
       path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
       path[p->pos[dim_y] - 1][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
       heap_decrease_key_no_replace(&h, path[p->pos[dim_y] - 1]
@@ -1506,9 +1505,9 @@ void monsterTunnelerPathfinding(dungeon_t *d){\
     }
     if ((path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].hn) &&
         (path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].cost >
-         p->cost + 1 + (d->hardness[dim_y][dim_x]/85))) {
+         p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85))) {
       path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].cost =
-        p->cost + 1 + (d->hardness[dim_y][dim_x]/85);
+        p->cost + 1 + (d->hardness[p->pos[dim_y]][p->pos[dim_x]]/85);
       path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].from[dim_y] = p->pos[dim_y];
       path[p->pos[dim_y] + 1][p->pos[dim_x] + 1].from[dim_x] = p->pos[dim_x];
       heap_decrease_key_no_replace(&h, path[p->pos[dim_y] + 1]
@@ -1679,9 +1678,9 @@ int main(int argc, char *argv[])
     d.pc[dim_y] = d.rooms[0].position[dim_y];
   }
 
-  monsterTunnelerPathfinding(&d);
-  monsterPathfinding(&d);
   render_dungeon(&d);
+  monsterPathfinding(&d);
+  monsterTunnelerPathfinding(&d);
 
   if (do_save) {
     if (do_save_seed) {

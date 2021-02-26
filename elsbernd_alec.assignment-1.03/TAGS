@@ -42,7 +42,7 @@ typedef struct heap 13,153
   void (*datum_delete)datum_delete17,269
 } heap_t;18,301
 
-rlg327.c,2970
+rlg327.c,2933
 #define DUMP_HARDNESS_IMAGES 15,245
 # define rand_under(19,390
 # define rand_range(23,533
@@ -139,6 +139,5 @@ int read_dungeon(1059,29867
 int read_pgm(1140,31726
 void usage(1225,34129
 void monsterPathfinding(1236,34361
-#define hardnesspair_inv(1278,35359
-void monsterTunnelerPathfinding(1394,40491
-int main(1548,46863
+void monsterTunnelerPathfinding(1393,40271
+int main(1547,46902
