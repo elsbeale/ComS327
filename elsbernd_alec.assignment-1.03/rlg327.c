@@ -1263,7 +1263,7 @@ void monsterPathfinding(dungeon_t *d){
   for (y = 0; y < DUNGEON_Y; y++) {
     for (x = 0; x < DUNGEON_X; x++) {
       // Changed this to only put in open space
-      if (mapxy(x, y) != ter_wall_immutable||mapxy(x,y) != ter_wall) {
+      if (mapxy(x, y)  == ter_floor_room||mapxy(x,y) == ter_floor_hall ||mapxy(x,y) == ter_stairs_down || mapxy(x,y) == ter_stairs_up) {
         path[y][x].hn = heap_insert(&h, &path[y][x]);
       } else {
         path[y][x].hn = NULL;
