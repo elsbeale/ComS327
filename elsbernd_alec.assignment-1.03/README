@@ -3,3 +3,6 @@ Noah Tang ntang1@iastate.edu
 Brett Bethke bwbethke@iastate.edu
 
 This is an add onto the proffessors code that gives monsters the ability to pathfind their way to the player character.
+This was done by implementing Dijkstra's algorithm to calculate the shortest path to the player character for both tunneling and non-tunneling monsters 
+where tunneling monsters will have the ability to break their way through dungeon walls to get to the player character and non-tunneling monsters must
+use the provided rooms, stairs, and hallways to reach the pc.
