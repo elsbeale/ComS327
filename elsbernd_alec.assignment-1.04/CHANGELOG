@@ -1,0 +1,9 @@
+2/24/2021: 12:53: Started project
+2/24/2021: 14:30: Implemented Dijkstra's algorithm for the non-tunneling monsters pathfinding
+2/25/2021: 12:21: Added cost to an array and print said array
+2/25/2021: 13:28: Updated monster pathfinding
+2/25/2021: 15:12: Non-tunneling monster pathfinding now partially working
+2/25/2021: 15:42: Added space for dungeon walls
+2/25/2021: 17:10: Updated, now the tunneler is all that is left
+2/25/2021: 18:32: More updates, more bugs but it is working
+2/25/2021: 19:21: Finished
