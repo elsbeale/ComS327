@@ -209,11 +209,12 @@ void temp_code(dungeon_t *d, int s)
 {
   srand(time(0));
 
+  int num_monsters;
 
   if(s == -1){
-  //NEED a check to see if the switch is present.
+  //checks to see if the switch is present.
   //if not then hardcode the amount of monsters
-  int num_monsters = 10;
+  num_monsters = 10;
   }
   else{
     num_monsters = s;
@@ -320,21 +321,32 @@ void temp_code(dungeon_t *d, int s)
     mons[i].priority = prio;
     mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
 
-    //NEED TO GET THE POSITION OF THE MONSTER
-    int mon_pos_y = d->rooms[i].position[dim_y] + (rand() % (d->rooms[i].size[dim_y] + 1));
-    int mon_pos_x = d->rooms->position[dim_x] + (rand() % (d->rooms[i].size[dim_x] + 1));
+    //position of monster
+    int mon_pos_y;
+    int mon_pos_x;
     int placed = 0;
-    while(!placed)
+    int random_room;
+    while(!placed) //prevents monsters spawning on top of monsters
     {
-      //NEED TO PREVENT MONSTERS BEING PLACED ON OTHER MONSTERS
-      // for (int j = 0; j < i+1; j++)
-      // {
-      //     if ()
-      // }
-
-      mons[i].position[dim_y] = mon_pos_y; //these go into the if statement
-      mons[i].position[dim_x] = mon_pos_x; //these go into the if statement
-      placed = 1;
+      random_room = (rand() % (d->num_rooms + 1)); //picks a random room
+      //getting the position
+      mon_pos_y = d->rooms[random_room].position[dim_y] + (rand() % (d->rooms[random_room].size[dim_y] + 1));
+      mon_pos_x = d->rooms[random_room].position[dim_x] + (rand() % (d->rooms[random_room].size[dim_x] + 1));
+      int is_good = 1;
+      for (int j = 0; j < i+1; j++) //goes through every monster and checks their position
+      {
+	      if (mon_pos_y == mons[j].position[dim_y] && mon_pos_x == mons[j].position[dim_y])
+        {
+          is_good = -1; //sets to -1 to indicate that there is already a monster there
+          break;
+        }
+      }
+      if (is_good) //should be 1 if spot is empty
+      {
+        mons[i].position[dim_y] = mon_pos_y; //places monster position
+        mons[i].position[dim_x] = mon_pos_x; //places monster position
+        placed = 1;
+      }
     }
     prio++;
   }
