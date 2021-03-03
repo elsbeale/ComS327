@@ -43,131 +43,73 @@ void temp_code(dungeon_t *d)
         if (erratic == 0 && tunneling == 0 && telepathy == 0 && intelligence == 0)
         {
             mons[i].symbol = '0';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 0 && tunneling == 0 && telepathy == 0 && intelligence == 1)
         {
             mons[i].symbol = '1';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 0 && tunneling == 0 && telepathy == 1 && intelligence == 0)
         {
             mons[i].symbol = '2';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 0 && tunneling == 0 && telepathy == 1 && intelligence == 1)
         {
             mons[i].symbol = '3';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 0 && tunneling == 1 && telepathy == 0 && intelligence == 0)
         {
             mons[i].symbol = '4';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 0 && tunneling == 1 && telepathy == 0 && intelligence == 1)
         {
             mons[i].symbol = '5';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 0 && tunneling == 1 && telepathy == 1 && intelligence == 0)
         {
             mons[i].symbol = '6';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 0 && tunneling == 1 && telepathy == 1 && intelligence == 1)
         {
             mons[i].symbol = '7';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 1 && tunneling == 0 && telepathy == 0 && intelligence == 0)
         {
             mons[i].symbol = '8';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 1 && tunneling == 0 && telepathy == 0 && intelligence == 1)
         {
             mons[i].symbol = '9';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 1 && tunneling == 0 && telepathy == 1 && intelligence == 0)
         {
             mons[i].symbol = 'a';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 1 && tunneling == 0 && telepathy == 1 && intelligence == 1)
         {
             mons[i].symbol = 'b';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 1 && tunneling == 1 && telepathy == 0 && intelligence == 0)
         {
             mons[i].symbol = 'c';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 1 && tunneling == 1 && telepathy == 0 && intelligence == 1)
         {
             mons[i].symbol = 'd';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 1 && tunneling == 1 && telepathy == 1 && intelligence == 0)
         {
             mons[i].symbol = 'e';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
         else if (erratic == 1 && tunneling == 1 && telepathy == 1 && intelligence == 1)
         {
             mons[i].symbol = 'f';
-            mons[i].next_turn = 0;
-            mons[i].priority = prio;
-            mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
-            //need to get position of monster
         }
+        mons[i].next_turn = 0;
+        mons[i].priority = prio;
+        mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
+
+        //NEED TO GET THE POSITION OF THE MONSTER
+
         prio++;
     }
 
