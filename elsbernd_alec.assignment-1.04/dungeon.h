@@ -41,7 +41,20 @@ typedef struct room {
 
 typedef struct pc {
   pair_t position;
+  char symbol;
+  int next_turn;
+  int priority;
+  int speed;
 } pc_t;
+
+//this is for either pc or monster. Might be able to combine pc and monster type into one
+typedef struct monster_type {
+  pair_t position;
+  char symbol;
+  int next_turn;
+  int priority;
+  int speed;
+} monster_type_t;
 
 typedef struct dungeon {
   uint32_t num_rooms;
@@ -59,6 +72,7 @@ typedef struct dungeon {
   uint8_t pc_distance[DUNGEON_Y][DUNGEON_X];
   uint8_t pc_tunnel[DUNGEON_Y][DUNGEON_X];
   pc_t pc;
+  monster_type_t monster;
 } dungeon_t;
 
 void init_dungeon(dungeon_t *d);
