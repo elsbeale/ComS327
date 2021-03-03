@@ -109,16 +109,23 @@ void temp_code(dungeon_t *d)
         mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
 
         //NEED TO GET THE POSITION OF THE MONSTER
+        int mon_pos_y = d->rooms[i].position[dim_y] + (rand() % (d->rooms[i].size[dim_y] + 1));
+        int mon_pos_x = d->rooms->position[dim_x] + (rand() % (d->rooms[i].size[dim_x] + 1));
+        int placed = 0;
+        while(!placed)
+        {
+            //NEED TO PREVENT MONSTERS BEING PLACED ON OTHER MONSTERS
+            // for (int j = 0; j < i+1; j++)
+            // {
+            //     if ()
+            // }
+
+            mons[i].position[dim_y] = mon_pos_y; //these go into the if statement
+            mons[i].position[dim_x] = mon_pos_x; //these go into the if statement
+            placed = 1;
+        }
 
         prio++;
     }
 
 }
-
-//typedef struct pc {
-//   pair_t position;
-//   char symbol;
-//   int next_turn;
-//   int priority;
-//   int speed;
-// } pc_t;
