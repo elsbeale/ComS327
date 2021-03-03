@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
   char *save_file;
   char *load_file;
   char *pgm_file;
+  int numMonsters = -1;
 
   /* Quiet a false positive from valgrind. */
   memset(&d, 0, sizeof (d));
@@ -114,6 +115,17 @@ int main(int argc, char *argv[])
             pgm_file = argv[++i];
           }
           break;
+	case 'n':
+	  if ((!long_arg && argv[i][2]) ||
+              (long_arg && strcmp(argv[i], "-nummon"))) {
+            usage(argv[0]);
+          }
+	  if ((argc > i + 1) && argv[i + 1][0] != '-') {
+            /* There is another argument, and it's not a switch, so *
+             * we'll treat it as a save file and try to load it.    */
+	    numMonsters = atoi(argv[++i]);
+	    printf("%d",numMonsters);
+          }
         default:
           usage(argv[0]);
         }
@@ -198,9 +210,15 @@ void temp_code(dungeon_t *d, int s)
   srand(time(0));
 
 
+  if(s == -1){
   //NEED a check to see if the switch is present.
   //if not then hardcode the amount of monsters
   int num_monsters = 10;
+  }
+  else{
+    num_monsters = s;
+  }
+
   
   //array of monsters
   monster_type_t mons[num_monsters];
@@ -318,7 +336,6 @@ void temp_code(dungeon_t *d, int s)
       mons[i].position[dim_x] = mon_pos_x; //these go into the if statement
       placed = 1;
     }
-
     prio++;
   }
 
