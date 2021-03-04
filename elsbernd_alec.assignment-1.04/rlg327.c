@@ -6,6 +6,9 @@
 #include "dungeon.h"
 #include "path.h"
 
+static int32_t monster_compare(const void *key, const void *with);
+void temp_code(dungeon_t *d, int s);
+
 void usage(char *name)
 {
   fprintf(stderr,
@@ -117,15 +120,12 @@ int main(int argc, char *argv[])
           break;
 	case 'n':
 	  if ((!long_arg && argv[i][2]) ||
-              (long_arg && strcmp(argv[i], "-nummon"))) {
+              (long_arg && strcmp(argv[i], "-nummon")) ||
+              argc < ++i + 1 /* No more arguments */ ||
+              !sscanf(argv[i], "%d", &numMonsters) /* Argument is not an integer */) {
             usage(argv[0]);
-          }
-	  if ((argc > i + 1) && argv[i + 1][0] != '-') {
-            /* There is another argument, and it's not a switch, so *
-             * we'll treat it as a save file and try to load it.    */
-	    numMonsters = atoi(argv[++i]);
-	    printf("%d",numMonsters);
-          }
+	  }
+	    break;
         default:
           usage(argv[0]);
         }
@@ -193,6 +193,9 @@ int main(int argc, char *argv[])
       }
     }
     write_dungeon(&d, save_file);
+    temp_code(&d,numMonsters);
+
+    
 
     if (do_save_seed || do_save_image) {
       free(save_file);
@@ -207,7 +210,6 @@ int main(int argc, char *argv[])
 //added code here
 void temp_code(dungeon_t *d, int s)
 {
-  srand(time(0));
 
   int num_monsters;
 
