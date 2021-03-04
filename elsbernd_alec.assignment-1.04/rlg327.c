@@ -326,6 +326,7 @@ void temp_code(dungeon_t *d, int s)
     int mon_pos_x;
     int placed = 0;
     int random_room;
+
     while(!placed) //prevents monsters spawning on top of monsters
     {
       random_room = (rand() % (d->num_rooms + 1)); //picks a random room
@@ -351,6 +352,35 @@ void temp_code(dungeon_t *d, int s)
     prio++;
   }
 
-    
+  for (int i = 0; i < num_monsters; i++)
+  {
+    d->mon_array[i] = mons[i];
+  }
 
+  heap_t test;
+  heap_init(&test, monster_compare, NULL);
+  heap_insert(&test, &d->pc);
+  for (int i = 0; i < num_monsters; i++)
+  {
+    heap_insert(&test, &d->mon_array[i]);
+  }
+  monster_type_t *temp = (monster_type_t *) heap_remove_min(&test);
+  temp->next_turn = temp->next_turn + 1000 / temp->speed;
+  heap_insert(&test, &temp);
+
+
+
+  
+  
+  
+}
+
+
+static int32_t monster_compare(const void *key, const void *with)
+{
+  if (((monster_type_t *) key)->next_turn == ((monster_type_t *) with)->next_turn)
+  {
+    return ((monster_type_t *) key)->priority - ((monster_type_t *) with)->priority;
+  }
+  return ((monster_type_t *) key)->next_turn - ((monster_type_t *) with)->next_turn;
 }

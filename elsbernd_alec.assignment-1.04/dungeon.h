@@ -73,6 +73,7 @@ typedef struct dungeon {
   uint8_t pc_tunnel[DUNGEON_Y][DUNGEON_X];
   pc_t pc;
   monster_type_t monster;
+  monster_type_t *mon_array;
 } dungeon_t;
 
 void init_dungeon(dungeon_t *d);
