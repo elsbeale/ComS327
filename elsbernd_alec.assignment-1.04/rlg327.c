@@ -359,6 +359,8 @@ void temp_code(dungeon_t *d, int s)
     d->mon_array[i] = mons[i];
   }
 
+ 
+
   heap_t test;
   heap_init(&test, monster_compare, NULL);
   heap_insert(&test, &d->pc);
@@ -370,11 +372,50 @@ void temp_code(dungeon_t *d, int s)
   temp->next_turn = temp->next_turn + 1000 / temp->speed;
   heap_insert(&test, &temp);
 
+  pair_t p;
+  int i;
 
-
-  
-  
-  
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
+      
+      for(i = 0; i < num_monsters;i++){
+	if (mons[i].position[dim_y] == p[dim_y] && mons[i].position[dim_x] == p[dim_x]){
+	  putchar(mons[i].symbol);
+      	}
+      }
+      if (d->pc.position[dim_x] == p[dim_x] && d->pc.position[dim_y] == p[dim_y]) {
+        putchar('@');
+      }
+      else {
+        switch (mappair(p)) {
+        case ter_wall:
+        case ter_wall_immutable:
+          putchar(' ');
+          break;
+        case ter_floor:
+        case ter_floor_room:
+          putchar('.');
+          break;
+        case ter_floor_hall:
+          putchar('#');
+          break;
+        case ter_debug:
+          putchar('*');
+          fprintf(stderr, "Debug character at %d, %d\n", p[dim_y], p[dim_x]);
+          break;
+        case ter_stairs_up:
+          putchar('<');
+          break;
+        case ter_stairs_down:
+          putchar('>');
+          break;
+        default:
+          break;
+        }
+      }
+    }
+    putchar('\n');
+  }
 }
 
 

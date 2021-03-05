@@ -628,7 +628,8 @@ void render_dungeon(dungeon_t *d)
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
       if (d->pc.position[dim_x] == p[dim_x] && d->pc.position[dim_y] == p[dim_y]) {
         putchar('@');
-      } else {
+      }
+      else {
         switch (mappair(p)) {
         case ter_wall:
         case ter_wall_immutable:
