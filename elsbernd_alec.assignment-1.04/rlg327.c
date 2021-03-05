@@ -507,7 +507,7 @@ void temp_code(dungeon_t *d, int s)
               stucklr = 1;
             }
           }
-          else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stucklr == 0)
+          else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stuckud == 0)
           {
             temp->position[dim_y] = temp->position[dim_y] - 1;
             if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
@@ -591,7 +591,7 @@ void temp_code(dungeon_t *d, int s)
               stucklr = 1;
             }
           }
-          else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stucklr == 0)
+          else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stuckud == 0)
           {
             temp->position[dim_y] = temp->position[dim_y] - 1;
             if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
