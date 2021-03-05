@@ -355,12 +355,6 @@ void temp_code(dungeon_t *d, int s)
     prio++;
   }
 
-  d->mon_array = malloc(sizeof(int) * num_monsters);
-  for (int i = 0; i < num_monsters; i++)
-  {
-    d->mon_array[i] = mons[i];
-  }
-
  
 
   heap_t test;
@@ -368,11 +362,12 @@ void temp_code(dungeon_t *d, int s)
   heap_insert(&test, &d->pc);
   for (int i = 0; i < num_monsters; i++)
   {
-    heap_insert(&test, &d->mon_array[i]);
+    heap_insert(&test, &mons[i]);
   }
   monster_type_t *temp = (monster_type_t *) heap_remove_min(&test);
   temp->next_turn = temp->next_turn + 1000 / temp->speed;
   heap_insert(&test, &temp);
+  heap_delete(&test);
 
   pair_t p;
   int i;
