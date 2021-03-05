@@ -376,15 +376,20 @@ void temp_code(dungeon_t *d, int s)
 
   pair_t p;
   int i;
+  int flag;
 
   for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
+      flag = 0;
       for(i = 0; i < num_monsters;i++){
 	if (mons[i].position[dim_y] == p[dim_y] && mons[i].position[dim_x] == p[dim_x]){
 	  putchar(mons[i].symbol);
+	  flag = 1;
 	}
       }
-      if (d->pc.position[dim_x] == p[dim_x] && d->pc.position[dim_y] == p[dim_y]) {
+      if(flag){
+      }
+      else if (d->pc.position[dim_x] == p[dim_x] && d->pc.position[dim_y] == p[dim_y]) {
 	putchar('@');
       }
       else {

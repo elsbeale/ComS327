@@ -180,7 +180,7 @@ rlg327.c,103
 void usage(12,227
 int main(22,437
 void temp_code(212,6502
-static int32_t monster_compare(423,12141
+static int32_t monster_compare(428,12211
 
 temp_code.c,21
 void temp_code(8,82
