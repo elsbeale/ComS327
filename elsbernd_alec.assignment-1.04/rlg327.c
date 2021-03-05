@@ -489,8 +489,164 @@ void temp_code(dungeon_t *d, int s)
         }
         else
         {
-          
+          int stucklr = 0;
+          int stuckud = 0;
+          if (temp->position[dim_x] > d->pc.position[dim_x] && d->map[temp->position[dim_x] - 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_x] = temp->position[dim_x] - 1;
+            if (d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+            {
+              stucklr = 1;
+            }
+          }
+          else if (temp->position[dim_x] < d->pc.position[dim_x] && d->map[temp->position[dim_x] + 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + 1;
+            if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+            {
+              stucklr = 1;
+            }
+          }
+          else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_y] = temp->position[dim_y] - 1;
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+            {
+              stuckud = 1;
+            }
+          }
+          else
+          {
+            temp->position[dim_y] = temp->position[dim_y] + 1;
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+            {
+              stuckud = 1;
+            }
+          }
         }
+      }
+      else if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 1)
+      {
+        move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+        move_y = (rand() % (1 + 1 + 1)) - 1;
+        if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+        {
+          temp->position[dim_x] = temp->position[dim_x] + move_x;
+          temp->position[dim_y] = temp->position[dim_y] + move_y;
+        }
+      }
+      else if (temp->tunnel == 1 && temp->tele == 1 && temp->intelli == 0)
+      {
+        int random1 = rand() % 2;
+        int random2 = rand() % 2;
+        if (random1 == 0 && random2 == 0)
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else if (random1 == 1 && random2 == 0)
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (random1 == 0)
+          {
+            if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+            {
+              temp->position[dim_x] = temp->position[dim_x] + move_x;
+              temp->position[dim_y] = temp->position[dim_y] + move_y;
+            }
+          }
+          else
+          {
+            if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] == ter_wall)
+            {
+              d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] = ter_floor_hall;
+              temp->position[dim_x] = temp->position[dim_x] + move_x;
+              temp->position[dim_y] = temp->position[dim_y] + move_y;
+            }
+          }
+        }
+        else if (random1 == 0 && random2 == 1)
+        {
+          int stucklr = 0;
+          int stuckud = 0;
+          if (temp->position[dim_x] > d->pc.position[dim_x] && d->map[temp->position[dim_x] - 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_x] = temp->position[dim_x] - 1;
+            if (d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+            {
+              stucklr = 1;
+            }
+          }
+          else if (temp->position[dim_x] < d->pc.position[dim_x] && d->map[temp->position[dim_x] + 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + 1;
+            if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+            {
+              stucklr = 1;
+            }
+          }
+          else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_y] = temp->position[dim_y] - 1;
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+            {
+              stuckud = 1;
+            }
+          }
+          else
+          {
+            temp->position[dim_y] = temp->position[dim_y] + 1;
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+            {
+              stuckud = 1;
+            }
+          }
+        }
+        else if (random1 == 1 && random2 == 1)
+        {
+          if (temp->position[dim_x] > d->pc.position[dim_x])
+          {
+            if(d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+            {
+              d->map[temp->position[dim_x] - 1][temp->position[dim_y]] = ter_floor_hall;
+            }
+            temp->position[dim_x] = temp->position[dim_x] - 1;
+          }
+          else if (temp->position[dim_x] < d->pc.position[dim_x])
+          {
+            if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+            {
+              d->map[temp->position[dim_x] + 1][temp->position[dim_y]] = ter_floor_hall;
+            }
+            temp->position[dim_x] = temp->position[dim_x] + 1;
+          }
+          else if (temp->position[dim_y] > d->pc.position[dim_y])
+          {
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+            {
+              d->map[temp->position[dim_x]][temp->position[dim_y] - 1] = ter_floor_hall;
+            }
+            temp->position[dim_y] = temp->position[dim_y] - 1;
+          }
+          else
+          {
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+            {
+              d->map[temp->position[dim_x]][temp->position[dim_y] + 1] = ter_floor_hall;
+            }
+            temp->position[dim_y] = temp->position[dim_y] + 1;
+          }
+        }
+      }
+      else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 1)
+      {
+        
       }
     }
 
