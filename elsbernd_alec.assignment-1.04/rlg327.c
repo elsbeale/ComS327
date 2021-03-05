@@ -431,6 +431,8 @@ void temp_code(dungeon_t *d, int s)
 
   //loops galore here
   int game_over = 0;
+  int move_x;
+  int move_y;
   while (game_over == 0)
   {
     monster_type_t *temp = (monster_type_t *) heap_remove_min(&test);
@@ -441,12 +443,53 @@ void temp_code(dungeon_t *d, int s)
       if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 0) //if monster is erratic and nothing else
       {
         //move in range of -1 to 1
-        int move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
-        int move_y = (rand() % (1 + 1 + 1)) - 1;
+        move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+        move_y = (rand() % (1 + 1 + 1)) - 1;
         if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
         {
           temp->position[dim_x] = temp->position[dim_x] + move_x;
           temp->position[dim_y] = temp->position[dim_y] + move_y;
+        }
+      }
+      else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 0)
+      {
+        int random1 = rand() % 2;
+        move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+        move_y = (rand() % (1 + 1 + 1)) - 1;
+        if (random1 == 0)
+        {
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else
+        {
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] == ter_wall)
+          {
+            d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] = ter_floor_hall;
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+      }
+      else if (temp->tunnel == 0 && temp->tele == 1 && temp->intelli == 0)
+      {
+        int random1 = rand() % 2;
+        move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+        move_y = (rand() % (1 + 1 + 1)) - 1;
+        if (random1 == 0)
+        {
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else
+        {
+          
         }
       }
     }
