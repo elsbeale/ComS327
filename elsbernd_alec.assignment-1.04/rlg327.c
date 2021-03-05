@@ -646,7 +646,82 @@ void temp_code(dungeon_t *d, int s)
       }
       else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 1)
       {
-        
+        int random1 = rand() % 2;
+        int random2 = rand() % 2;
+        if (random1 == 0 && random2 == 0)
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else if (random1 == 1 && random2 == 0)
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] == ter_wall)
+          {
+            d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] = ter_floor_hall;
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else if (random1 == 0 && random2 == 1)
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] == ter_wall)
+          {
+            d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] = ter_floor_hall;
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+      }
+      else if (temp->tunnel == 1 && temp->tele == 1 && temp->intelli == 1) //erratic, tunneling, telepathic, intelligent
+      {
+        int random1 = rand() % 2;
+        int random2 = rand() % 2;
+        int random3 = rand() % 2;
+        if (random1 == 0 && random2 == 0 && random3 == 0)
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else if (random1 == 1 && random2 == 0 && random3 == 0)
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] == ter_wall)
+          {
+            d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] = ter_floor_hall;
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else if (random1 == 0 && random2 == 1 && random3 == 0)
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+        }
       }
     }
 
