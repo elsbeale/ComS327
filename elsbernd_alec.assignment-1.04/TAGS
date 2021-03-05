@@ -179,8 +179,8 @@ typedef struct dungeon dungeon_t;6,63
 rlg327.c,103
 void usage(12,227
 int main(22,437
-void temp_code(211,6501
-static int32_t monster_compare(422,12236
+void temp_code(212,6502
+static int32_t monster_compare(423,12141
 
 temp_code.c,21
 void temp_code(8,82

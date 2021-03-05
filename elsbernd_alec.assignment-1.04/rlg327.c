@@ -174,6 +174,7 @@ int main(int argc, char *argv[])
   render_tunnel_distance_map(&d);
   render_hardness_map(&d);
   render_movement_cost_map(&d);
+  temp_code(&d,numMonsters);
 
   if (do_save) {
     if (do_save_seed) {
@@ -193,9 +194,9 @@ int main(int argc, char *argv[])
       }
     }
     write_dungeon(&d, save_file);
-    temp_code(&d,numMonsters);
-
     
+
+  
 
     if (do_save_seed || do_save_image) {
       free(save_file);
@@ -331,10 +332,10 @@ void temp_code(dungeon_t *d, int s)
 
     while(!placed) //prevents monsters spawning on top of monsters
     {
-      random_room = (rand() % (d->num_rooms + 1)); //picks a random room
+      random_room = (rand() % (d->num_rooms)); //picks a random room
       //getting the position
-      mon_pos_y = d->rooms[random_room].position[dim_y] + (rand() % (d->rooms[random_room].size[dim_y] + 1));
-      mon_pos_x = d->rooms[random_room].position[dim_x] + (rand() % (d->rooms[random_room].size[dim_x] + 1));
+      mon_pos_y = d->rooms[random_room].position[dim_y] + (rand() % (d->rooms[random_room].size[dim_y]));
+      mon_pos_x = d->rooms[random_room].position[dim_x] + (rand() % (d->rooms[random_room].size[dim_x]));
       int is_good = 1;
       for (int j = 0; j < i+1; j++) //goes through every monster and checks their position
       {
@@ -354,6 +355,7 @@ void temp_code(dungeon_t *d, int s)
     prio++;
   }
 
+  d->mon_array = malloc(sizeof(int) * num_monsters);
   for (int i = 0; i < num_monsters; i++)
   {
     d->mon_array[i] = mons[i];
@@ -377,45 +379,44 @@ void temp_code(dungeon_t *d, int s)
 
   for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
-      
       for(i = 0; i < num_monsters;i++){
 	if (mons[i].position[dim_y] == p[dim_y] && mons[i].position[dim_x] == p[dim_x]){
 	  putchar(mons[i].symbol);
-      	}
+	}
       }
       if (d->pc.position[dim_x] == p[dim_x] && d->pc.position[dim_y] == p[dim_y]) {
-        putchar('@');
+	putchar('@');
       }
       else {
-        switch (mappair(p)) {
+	switch (mappair(p)) {
         case ter_wall:
-        case ter_wall_immutable:
+	case ter_wall_immutable:
           putchar(' ');
           break;
         case ter_floor:
-        case ter_floor_room:
+	case ter_floor_room:
           putchar('.');
-          break;
-        case ter_floor_hall:
+	  break;
+	case ter_floor_hall:
           putchar('#');
-          break;
-        case ter_debug:
-          putchar('*');
-          fprintf(stderr, "Debug character at %d, %d\n", p[dim_y], p[dim_x]);
-          break;
-        case ter_stairs_up:
+	  break;
+	case ter_debug:
+	  putchar('*');
+	  fprintf(stderr, "Debug character at %d, %d\n", p[dim_y], p[dim_x]);
+	  break;
+	case ter_stairs_up:
           putchar('<');
-          break;
-        case ter_stairs_down:
+	  break;
+	case ter_stairs_down:
           putchar('>');
-          break;
-        default:
-          break;
-        }
+	  break;
+	default:
+	  break;
+	  }
+	}
       }
-    }
-    putchar('\n');
-  }
+      putchar('\n');
+   }
 }
 
 
