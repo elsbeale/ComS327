@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
    * files.  No means to save to non-default locations, however.    *
    * And the final switch, '--image', allows me to create a dungeon *
    * from a PGM image, so that I was able to create those more      *
-   * interesting test dungeons for you.                             */
+   * interesting mon_heap dungeons for you.                             */
  
  if (argc > 1) {
     for (i = 1, long_arg = 0; i < argc; i++, long_arg = 0) {
@@ -250,12 +250,13 @@ void temp_code(dungeon_t *d, int s)
   //this is for the 16 types of possible monsters
   for (int i = 0; i < num_monsters; i++)
   {
-    //setting the type
+    //setting the type randomly
     intelligence = rand() % 2;
     telepathy = rand() % 2;
     tunneling = rand() % 2;
     erratic = rand() % 2;
 
+    //setting the symbol, erra, tunnel, tele, and intelli depending on the type above
     if (erratic == 0 && tunneling == 0 && telepathy == 0 && intelligence == 0)
     {
       mons[i].symbol = '0';
@@ -384,8 +385,8 @@ void temp_code(dungeon_t *d, int s)
       mons[i].tele = 1;
       mons[i].intelli = 1;
     }
-    mons[i].next_turn = 0;
-    mons[i].priority = prio;
+    mons[i].next_turn = 0; //initializing next_turn to 0
+    mons[i].priority = prio; //setting the priority for the monsters
     mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
 
     //position of monster
@@ -396,10 +397,10 @@ void temp_code(dungeon_t *d, int s)
 
     while(!placed) //prevents monsters spawning on top of monsters
     {
-      random_room = (rand() % (d->num_rooms)); //picks a random room
+      random_room = (rand() % (d->num_rooms)); //picks a random room to put the monster in
       //getting the position
-      mon_pos_y = d->rooms[random_room].position[dim_y] + (rand() % (d->rooms[random_room].size[dim_y]));
-      mon_pos_x = d->rooms[random_room].position[dim_x] + (rand() % (d->rooms[random_room].size[dim_x]));
+      mon_pos_y = d->rooms[random_room].position[dim_y] + (rand() % (d->rooms[random_room].size[dim_y])); //random y position in the room
+      mon_pos_x = d->rooms[random_room].position[dim_x] + (rand() % (d->rooms[random_room].size[dim_x])); //random x position in the room
       int is_good = 1;
       for (int j = 0; j < i+1; j++) //goes through every monster and checks their position
       {
@@ -409,24 +410,24 @@ void temp_code(dungeon_t *d, int s)
           break;
         }
       }
-      if (is_good) //should be 1 if spot is empty
+      if (is_good) //should be 1 if spot is empty, if not then it repicks a spot
       {
         mons[i].position[dim_y] = mon_pos_y; //places monster position
         mons[i].position[dim_x] = mon_pos_x; //places monster position
         placed = 1;
       }
     }
-    prio++;
+    prio++; //increases priority for the next monster
   }
 
  
 
-  heap_t test;
-  heap_init(&test, monster_compare, NULL);
-  heap_insert(&test, &d->pc);
+  heap_t mon_heap;
+  heap_init(&mon_heap, monster_compare, NULL);
+  heap_insert(&mon_heap, &d->pc);
   for (int i = 0; i < num_monsters; i++)
   {
-    heap_insert(&test, &mons[i]);
+    heap_insert(&mon_heap, &mons[i]); //adding each monster to the queue
   }
 
   //loops galore here
@@ -435,10 +436,10 @@ void temp_code(dungeon_t *d, int s)
   int move_y;
   while (game_over == 0)
   {
-    monster_type_t *temp = (monster_type_t *) heap_remove_min(&test);
-    temp->next_turn = temp->next_turn + 1000 / temp->speed;
+    monster_type_t *temp = (monster_type_t *) heap_remove_min(&mon_heap); //removing the head of the queue
+    temp->next_turn = temp->next_turn + 1000 / temp->speed; //setting next_turn
     
-    if (temp->erra == 1)
+    if (temp->erra == 1) //erratic
     {
       if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 0) //if monster is erratic and nothing else
       {
@@ -451,12 +452,12 @@ void temp_code(dungeon_t *d, int s)
           temp->position[dim_y] = temp->position[dim_y] + move_y;
         }
       }
-      else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 0)
+      else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 0) //erratic and tunneling
       {
         int random1 = rand() % 2;
         move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
         move_y = (rand() % (1 + 1 + 1)) - 1;
-        if (random1 == 0)
+        if (random1 == 0) //only erratic
         {
           if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
           {
@@ -464,7 +465,7 @@ void temp_code(dungeon_t *d, int s)
             temp->position[dim_y] = temp->position[dim_y] + move_y;
           }
         }
-        else
+        else //erratic and tunneling
         {
           if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] == ter_wall)
           {
@@ -474,12 +475,12 @@ void temp_code(dungeon_t *d, int s)
           }
         }
       }
-      else if (temp->tunnel == 0 && temp->tele == 1 && temp->intelli == 0)
+      else if (temp->tunnel == 0 && temp->tele == 1 && temp->intelli == 0) //erratic and telepathic
       {
         int random1 = rand() % 2;
         move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
         move_y = (rand() % (1 + 1 + 1)) - 1;
-        if (random1 == 0)
+        if (random1 == 0) //only erratic
         {
           if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
           {
@@ -487,14 +488,14 @@ void temp_code(dungeon_t *d, int s)
             temp->position[dim_y] = temp->position[dim_y] + move_y;
           }
         }
-        else
+        else //erratic and telepathic
         {
           int stucklr = 0;
           int stuckud = 0;
           if (temp->position[dim_x] > d->pc.position[dim_x] && d->map[temp->position[dim_x] - 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
           {
             temp->position[dim_x] = temp->position[dim_x] - 1;
-            if (d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+            if (d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall) //checks to see if the next space is a wall
             {
               stucklr = 1;
             }
@@ -502,7 +503,7 @@ void temp_code(dungeon_t *d, int s)
           else if (temp->position[dim_x] < d->pc.position[dim_x] && d->map[temp->position[dim_x] + 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
           {
             temp->position[dim_x] = temp->position[dim_x] + 1;
-            if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+            if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall) //checks to see if the next space is a wall
             {
               stucklr = 1;
             }
@@ -510,7 +511,7 @@ void temp_code(dungeon_t *d, int s)
           else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stuckud == 0)
           {
             temp->position[dim_y] = temp->position[dim_y] - 1;
-            if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall) //checks to see if the next space is a wall
             {
               stuckud = 1;
             }
@@ -518,15 +519,15 @@ void temp_code(dungeon_t *d, int s)
           else
           {
             temp->position[dim_y] = temp->position[dim_y] + 1;
-            if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall) //checks to see if the next space is a wall
             {
               stuckud = 1;
             }
           }
         }
       }
-      else if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 1)
-      {
+      else if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 1) //erratic and intelligent
+      { //both should have random movement since intelligence without telepathy does nothing
         move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
         move_y = (rand() % (1 + 1 + 1)) - 1;
         if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
@@ -535,11 +536,11 @@ void temp_code(dungeon_t *d, int s)
           temp->position[dim_y] = temp->position[dim_y] + move_y;
         }
       }
-      else if (temp->tunnel == 1 && temp->tele == 1 && temp->intelli == 0)
+      else if (temp->tunnel == 1 && temp->tele == 1 && temp->intelli == 0) //erratic and tunneling and telepathic
       {
         int random1 = rand() % 2;
         int random2 = rand() % 2;
-        if (random1 == 0 && random2 == 0)
+        if (random1 == 0 && random2 == 0) //only erratic
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
@@ -549,7 +550,7 @@ void temp_code(dungeon_t *d, int s)
             temp->position[dim_y] = temp->position[dim_y] + move_y;
           }
         }
-        else if (random1 == 1 && random2 == 0)
+        else if (random1 == 1 && random2 == 0) //erratic and tunneling
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
@@ -571,7 +572,7 @@ void temp_code(dungeon_t *d, int s)
             }
           }
         }
-        else if (random1 == 0 && random2 == 1)
+        else if (random1 == 0 && random2 == 1) //erratic and telepathic
         {
           int stucklr = 0;
           int stuckud = 0;
@@ -608,7 +609,7 @@ void temp_code(dungeon_t *d, int s)
             }
           }
         }
-        else if (random1 == 1 && random2 == 1)
+        else if (random1 == 1 && random2 == 1) //erratic tunneling and telepathic
         {
           if (temp->position[dim_x] > d->pc.position[dim_x])
           {
@@ -644,11 +645,11 @@ void temp_code(dungeon_t *d, int s)
           }
         }
       }
-      else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 1)
+      else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 1) //erratic, tunneling, and intelligent
       {
         int random1 = rand() % 2;
         int random2 = rand() % 2;
-        if (random1 == 0 && random2 == 0)
+        if (random1 == 0 && random2 == 0) //only erratic
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
@@ -658,7 +659,7 @@ void temp_code(dungeon_t *d, int s)
             temp->position[dim_y] = temp->position[dim_y] + move_y;
           }
         }
-        else if (random1 == 1 && random2 == 0)
+        else if (random1 == 1 && random2 == 0) //erratic and tunneling
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
@@ -669,7 +670,7 @@ void temp_code(dungeon_t *d, int s)
             temp->position[dim_y] = temp->position[dim_y] + move_y;
           }
         }
-        else if (random1 == 0 && random2 == 1)
+        else if (random1 == 0 && random2 == 1) //erratic and intelligent
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
@@ -679,7 +680,7 @@ void temp_code(dungeon_t *d, int s)
             temp->position[dim_y] = temp->position[dim_y] + move_y;
           }
         }
-        else
+        else //erratic tunneling and intelligent
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
@@ -691,12 +692,11 @@ void temp_code(dungeon_t *d, int s)
           }
         }
       }
-      else if (temp->tunnel == 1 && temp->tele == 1 && temp->intelli == 1) //erratic, tunneling, telepathic, intelligent
+      else if (temp->tunnel == 0 && temp->tele == 1 && temp->intelli == 1) //erratic, telepathic, intelligent
       {
         int random1 = rand() % 2;
         int random2 = rand() % 2;
-        int random3 = rand() % 2;
-        if (random1 == 0 && random2 == 0 && random3 == 0)
+        if (random1 == 0 && random2 == 0) //only erratic
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
@@ -706,7 +706,97 @@ void temp_code(dungeon_t *d, int s)
             temp->position[dim_y] = temp->position[dim_y] + move_y;
           }
         }
-        else if (random1 == 1 && random2 == 0 && random3 == 0)
+        else if (random1 == 1 && random2 == 0) //erratic and telepathic
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          int stucklr = 0;
+          int stuckud = 0;
+          if (temp->position[dim_x] > d->pc.position[dim_x] && d->map[temp->position[dim_x] - 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_x] = temp->position[dim_x] - 1;
+            if (d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+            {
+              stucklr = 1;
+            }
+          }
+          else if (temp->position[dim_x] < d->pc.position[dim_x] && d->map[temp->position[dim_x] + 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + 1;
+            if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+            {
+              stucklr = 1;
+            }
+          }
+          else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stuckud == 0)
+          {
+            temp->position[dim_y] = temp->position[dim_y] - 1;
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+            {
+              stuckud = 1;
+            }
+          }
+          else
+          {
+            temp->position[dim_y] = temp->position[dim_y] + 1;
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+            {
+              stuckud = 1;
+            }
+          }
+        }
+        else if (random1 == 0 && random2 == 1) //erratic and intelligent
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else //erratic telepathic and intelligent
+        {
+          //use distance map
+          int pos_x = temp->position[dim_x];
+          int pos_y = temp->position[dim_y];
+          int smallest_pos_x = pos_x - 1;
+          int smallest_pos_y = pos_y - 1;
+          int smallest_dist = d->pc_distance[pos_x - 1][pos_y - 1]; //top left corner of the monster as default smallest distance from pc
+          for (int i = -1; i < 2; i++) //checks around monster to see if it can find a smaller distance
+          {
+            for (int j = -1; j < 2; j++)
+            {
+              if (d->pc_distance[pos_y + i][pos_x + j] < smallest_dist)
+              {
+                smallest_dist = d->pc_distance[pos_y + i][pos_x + j];
+                smallest_pos_x = pos_x + j;
+                smallest_pos_y = pos_y + i;
+              }
+            }
+          }
+          temp->position[dim_x] = smallest_pos_x;
+          temp->position[dim_y] = smallest_pos_y;
+        }
+      }
+
+
+      else if (temp->tunnel == 1 && temp->tele == 1 && temp->intelli == 1) //erratic, tunneling, telepathic, intelligent
+      {
+        int random1 = rand() % 2;
+        int random2 = rand() % 2;
+        int random3 = rand() % 2;
+        if (random1 == 0 && random2 == 0 && random3 == 0) //only erratic
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else if (random1 == 1 && random2 == 0 && random3 == 0) //erratic and tunneling
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
@@ -717,11 +807,291 @@ void temp_code(dungeon_t *d, int s)
             temp->position[dim_y] = temp->position[dim_y] + move_y;
           }
         }
-        else if (random1 == 0 && random2 == 1 && random3 == 0)
+        else if (random1 == 0 && random2 == 1 && random3 == 0) //erratic and telepathic
         {
           move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
           move_y = (rand() % (1 + 1 + 1)) - 1;
+          int stucklr = 0;
+          int stuckud = 0;
+          if (temp->position[dim_x] > d->pc.position[dim_x] && d->map[temp->position[dim_x] - 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_x] = temp->position[dim_x] - 1;
+            if (d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+            {
+              stucklr = 1;
+            }
+          }
+          else if (temp->position[dim_x] < d->pc.position[dim_x] && d->map[temp->position[dim_x] + 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + 1;
+            if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+            {
+              stucklr = 1;
+            }
+          }
+          else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stuckud == 0)
+          {
+            temp->position[dim_y] = temp->position[dim_y] - 1;
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+            {
+              stuckud = 1;
+            }
+          }
+          else
+          {
+            temp->position[dim_y] = temp->position[dim_y] + 1;
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+            {
+              stuckud = 1;
+            }
+          }
         }
+        else if (random1 == 0 && random2 == 0 && random3 == 1) //erratic and intelligent
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+          {
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else if (random1 == 1 && random2 == 1 && random3 == 0) //erratic, tunneling, and telepathic
+        {
+          if (temp->position[dim_x] > d->pc.position[dim_x])
+          {
+            if(d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+            {
+              d->map[temp->position[dim_x] - 1][temp->position[dim_y]] = ter_floor_hall;
+            }
+            temp->position[dim_x] = temp->position[dim_x] - 1;
+          }
+          else if (temp->position[dim_x] < d->pc.position[dim_x])
+          {
+            if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+            {
+              d->map[temp->position[dim_x] + 1][temp->position[dim_y]] = ter_floor_hall;
+            }
+            temp->position[dim_x] = temp->position[dim_x] + 1;
+          }
+          else if (temp->position[dim_y] > d->pc.position[dim_y])
+          {
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+            {
+              d->map[temp->position[dim_x]][temp->position[dim_y] - 1] = ter_floor_hall;
+            }
+            temp->position[dim_y] = temp->position[dim_y] - 1;
+          }
+          else
+          {
+            if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+            {
+              d->map[temp->position[dim_x]][temp->position[dim_y] + 1] = ter_floor_hall;
+            }
+            temp->position[dim_y] = temp->position[dim_y] + 1;
+          }
+        }
+        else if (random1 == 1 && random2 == 0 && random3 == 1) //erratic, tunneling, and intelligent
+        {
+          move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+          move_y = (rand() % (1 + 1 + 1)) - 1;
+          if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] == ter_wall)
+          {
+            d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] = ter_floor_hall;
+            temp->position[dim_x] = temp->position[dim_x] + move_x;
+            temp->position[dim_y] = temp->position[dim_y] + move_y;
+          }
+        }
+        else if (random1 == 0 && random2 == 1 && random3 == 1) //erratic, telepathic, and intelligent
+        {
+          
+          //use distance map
+          int pos_x = temp->position[dim_x];
+          int pos_y = temp->position[dim_y];
+          int smallest_pos_x = pos_x - 1;
+          int smallest_pos_y = pos_y - 1;
+          int smallest_dist = d->pc_distance[pos_x - 1][pos_y - 1]; //top left corner of the monster as default smallest distance from pc
+          for (int i = -1; i < 2; i++) //checks around monster to see if it can find a smaller distance
+          {
+            for (int j = -1; j < 2; j++)
+            {
+              if (d->pc_distance[pos_y + i][pos_x + j] < smallest_dist)
+              {
+                smallest_dist = d->pc_distance[pos_y + i][pos_x + j];
+                smallest_pos_x = pos_x + j;
+                smallest_pos_y = pos_y + i;
+              }
+            }
+          }
+          temp->position[dim_x] = smallest_pos_x;
+          temp->position[dim_y] = smallest_pos_y;
+        
+        }
+        else //erratic, tunneling, telepathic, and intelligent
+        {
+          int pos_x = temp->position[dim_x];
+          int pos_y = temp->position[dim_y];
+          int smallest_pos_x = pos_x - 1;
+          int smallest_pos_y = pos_y - 1;
+          int smallest_dist = d->pc_tunnel[pos_x - 1][pos_y - 1];
+          for (int i = -1; i < 2; i++) //checks around monster to see if it can find a smaller distance
+          {
+            for (int j = -1; j < 2; j++)
+            {
+              if (d->pc_tunnel[pos_y + i][pos_x + j] < smallest_dist)
+              {
+                smallest_dist = d->pc_tunnel[pos_y + i][pos_x + j];
+                smallest_pos_x = pos_x + j;
+                smallest_pos_y = pos_y + i;
+              }
+            }
+          }
+          if (d->map[smallest_pos_y][smallest_pos_x] == ter_wall)
+          {
+            d->map[smallest_pos_y][smallest_pos_x] = ter_floor_hall;
+          }
+          temp->position[dim_x] = smallest_pos_x;
+          temp->position[dim_y] = smallest_pos_y;
+        }
+      }
+    }
+    else //not erratic
+    {
+      if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 0) //nothing
+      {
+        //doesn't move
+      }
+      else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 0) //tunneling
+      {
+        //doesn't move
+      }
+      else if (temp->tunnel == 0 && temp->tele == 1 && temp->intelli == 0) //telepathic
+      {
+        int stucklr = 0;
+        int stuckud = 0;
+        if (temp->position[dim_x] > d->pc.position[dim_x] && d->map[temp->position[dim_x] - 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+        {
+          temp->position[dim_x] = temp->position[dim_x] - 1;
+          if (d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+          {
+            stucklr = 1;
+          }
+        }
+        else if (temp->position[dim_x] < d->pc.position[dim_x] && d->map[temp->position[dim_x] + 1][temp->position[dim_y]] != ter_wall && stucklr == 0)
+        {
+          temp->position[dim_x] = temp->position[dim_x] + 1;
+          if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+          {
+            stucklr = 1;
+          }
+        }
+        else if (temp->position[dim_y] > d->pc.position[dim_y] && d->map[temp->position[dim_x]][temp->position[dim_y] - 1] != ter_wall && stuckud == 0)
+        {
+          temp->position[dim_y] = temp->position[dim_y] - 1;
+          if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+          {
+            stuckud = 1;
+          }
+        }
+        else
+        {
+          temp->position[dim_y] = temp->position[dim_y] + 1;
+          if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+          {
+            stuckud = 1;
+          }
+        }
+      }
+      else if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 1) //intelligent
+      {
+        //doesn't move
+      }
+      else if (temp->tunnel == 1 && temp->tele == 1 && temp->intelli == 0) //tunneling and telepathic
+      {
+        if (temp->position[dim_x] > d->pc.position[dim_x])
+        {
+          if(d->map[temp->position[dim_x] - 1][temp->position[dim_y]] == ter_wall)
+          {
+            d->map[temp->position[dim_x] - 1][temp->position[dim_y]] = ter_floor_hall;
+          }
+          temp->position[dim_x] = temp->position[dim_x] - 1;
+        }
+        else if (temp->position[dim_x] < d->pc.position[dim_x])
+        {
+          if (d->map[temp->position[dim_x] + 1][temp->position[dim_y]] == ter_wall)
+          {
+            d->map[temp->position[dim_x] + 1][temp->position[dim_y]] = ter_floor_hall;
+          }
+          temp->position[dim_x] = temp->position[dim_x] + 1;
+        }
+        else if (temp->position[dim_y] > d->pc.position[dim_y])
+        {
+          if (d->map[temp->position[dim_x]][temp->position[dim_y] - 1] == ter_wall)
+          {
+            d->map[temp->position[dim_x]][temp->position[dim_y] - 1] = ter_floor_hall;
+          }
+          temp->position[dim_y] = temp->position[dim_y] - 1;
+        }
+        else
+        {
+          if (d->map[temp->position[dim_x]][temp->position[dim_y] + 1] == ter_wall)
+          {
+            d->map[temp->position[dim_x]][temp->position[dim_y] + 1] = ter_floor_hall;
+          }
+          temp->position[dim_y] = temp->position[dim_y] + 1;
+        }
+      }
+      else if (temp->tunnel == 1 && temp->tele == 0 && temp->intelli == 1) //tunneling and intelligent
+      {
+        //doesn't move
+      }
+      else if (temp->tunnel == 0 && temp->tele == 1 && temp->intelli == 1) //telepathic and intelligent
+      {
+        int pos_x = temp->position[dim_x];
+        int pos_y = temp->position[dim_y];
+        int smallest_pos_x = pos_x - 1;
+        int smallest_pos_y = pos_y - 1;
+        int smallest_dist = d->pc_distance[pos_x - 1][pos_y - 1]; //top left corner of the monster as default smallest distance from pc
+        for (int i = -1; i < 2; i++) //checks around monster to see if it can find a smaller distance
+        {
+          for (int j = -1; j < 2; j++)
+          {
+            if (d->pc_distance[pos_y + i][pos_x + j] < smallest_dist)
+            {
+              smallest_dist = d->pc_distance[pos_y + i][pos_x + j];
+              smallest_pos_x = pos_x + j;
+              smallest_pos_y = pos_y + i;
+            }
+          }
+        }
+        temp->position[dim_x] = smallest_pos_x;
+        temp->position[dim_y] = smallest_pos_y;
+      }
+      else //tunneling, telepathic, and intelligent
+      {
+        int pos_x = temp->position[dim_x];
+        int pos_y = temp->position[dim_y];
+        int smallest_pos_x = pos_x - 1;
+        int smallest_pos_y = pos_y - 1;
+        int smallest_dist = d->pc_tunnel[pos_x - 1][pos_y - 1];
+        for (int i = -1; i < 2; i++) //checks around monster to see if it can find a smaller distance
+        {
+          for (int j = -1; j < 2; j++)
+          {
+            if (d->pc_tunnel[pos_y + i][pos_x + j] < smallest_dist)
+            {
+              smallest_dist = d->pc_tunnel[pos_y + i][pos_x + j];
+              smallest_pos_x = pos_x + j;
+              smallest_pos_y = pos_y + i;
+            }
+          }
+        }
+        if (d->map[smallest_pos_y][smallest_pos_x] == ter_wall)
+        {
+          d->map[smallest_pos_y][smallest_pos_x] = ter_floor_hall;
+        }
+        temp->position[dim_x] = smallest_pos_x;
+        temp->position[dim_y] = smallest_pos_y;
       }
     }
 
@@ -733,10 +1103,10 @@ void temp_code(dungeon_t *d, int s)
     }
 
 
-    heap_insert(&test, &temp);
+    heap_insert(&mon_heap, &temp);
     
   }
-  heap_delete(&test);
+  heap_delete(&mon_heap);
 
   pair_t p;
   int i;
