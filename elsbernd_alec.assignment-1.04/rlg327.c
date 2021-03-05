@@ -496,6 +496,11 @@ void temp_code(dungeon_t *d, int s)
 
 
 
+    if (temp->position[dim_x] == d->pc.position[dim_x] && temp->position[dim_y] == d->pc.position[dim_y])
+    {
+      game_over = 1;
+    }
+
 
     heap_insert(&test, &temp);
     
