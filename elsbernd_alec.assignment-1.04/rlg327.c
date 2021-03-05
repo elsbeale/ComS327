@@ -428,7 +428,7 @@ void temp_code(dungeon_t *d, int s)
   {
     heap_insert(&test, &mons[i]);
   }
-  
+
   //loops galore here
   int game_over = 0;
   while (game_over == 0)
@@ -436,7 +436,26 @@ void temp_code(dungeon_t *d, int s)
     monster_type_t *temp = (monster_type_t *) heap_remove_min(&test);
     temp->next_turn = temp->next_turn + 1000 / temp->speed;
     
+    if (temp->erra == 1)
+    {
+      if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 0) //if monster is erratic and nothing else
+      {
+        //move in range of -1 to 1
+        int move_x = (rand() % (1 + 1 + 1)) - 1; //(rand() % (upper - lower + 1)) + lower
+        int move_y = (rand() % (1 + 1 + 1)) - 1;
+        if (d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall || d->map[temp->position[dim_x] + move_x][temp->position[dim_y] + move_y] != ter_wall_immutable)
+        {
+          temp->position[dim_x] = temp->position[dim_x] + move_x;
+          temp->position[dim_y] = temp->position[dim_y] + move_y;
+        }
+      }
+    }
+
+
+
+
     heap_insert(&test, &temp);
+    
   }
   heap_delete(&test);
 
