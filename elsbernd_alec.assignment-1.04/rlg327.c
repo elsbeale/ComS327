@@ -259,66 +259,130 @@ void temp_code(dungeon_t *d, int s)
     if (erratic == 0 && tunneling == 0 && telepathy == 0 && intelligence == 0)
     {
       mons[i].symbol = '0';
+      mons[i].erra = 0;
+      mons[i].tunnel = 0;
+      mons[i].tele = 0;
+      mons[i].intelli = 0;
     }
     else if (erratic == 0 && tunneling == 0 && telepathy == 0 && intelligence == 1)
     {
       mons[i].symbol = '1';
+      mons[i].erra = 0;
+      mons[i].tunnel = 0;
+      mons[i].tele = 0;
+      mons[i].intelli = 1;
     }
     else if (erratic == 0 && tunneling == 0 && telepathy == 1 && intelligence == 0)
     {
       mons[i].symbol = '2';
+      mons[i].erra = 0;
+      mons[i].tunnel = 0;
+      mons[i].tele = 1;
+      mons[i].intelli = 0;
     }
     else if (erratic == 0 && tunneling == 0 && telepathy == 1 && intelligence == 1)
     {
       mons[i].symbol = '3';
+      mons[i].erra = 0;
+      mons[i].tunnel = 0;
+      mons[i].tele = 1;
+      mons[i].intelli = 1;
     }
     else if (erratic == 0 && tunneling == 1 && telepathy == 0 && intelligence == 0)
     {
       mons[i].symbol = '4';
+      mons[i].erra = 0;
+      mons[i].tunnel = 1;
+      mons[i].tele = 0;
+      mons[i].intelli = 0;
     }
     else if (erratic == 0 && tunneling == 1 && telepathy == 0 && intelligence == 1)
     {
       mons[i].symbol = '5';
+      mons[i].erra = 0;
+      mons[i].tunnel = 1;
+      mons[i].tele = 0;
+      mons[i].intelli = 1;
     }
     else if (erratic == 0 && tunneling == 1 && telepathy == 1 && intelligence == 0)
     {
       mons[i].symbol = '6';
+      mons[i].erra = 0;
+      mons[i].tunnel = 1;
+      mons[i].tele = 1;
+      mons[i].intelli = 0;
     }
     else if (erratic == 0 && tunneling == 1 && telepathy == 1 && intelligence == 1)
     {
       mons[i].symbol = '7';
+      mons[i].erra = 0;
+      mons[i].tunnel = 1;
+      mons[i].tele = 1;
+      mons[i].intelli = 1;
     }
     else if (erratic == 1 && tunneling == 0 && telepathy == 0 && intelligence == 0)
     {
       mons[i].symbol = '8';
+      mons[i].erra = 1;
+      mons[i].tunnel = 0;
+      mons[i].tele = 0;
+      mons[i].intelli = 0;
     }
     else if (erratic == 1 && tunneling == 0 && telepathy == 0 && intelligence == 1)
     {
       mons[i].symbol = '9';
+      mons[i].erra = 1;
+      mons[i].tunnel = 0;
+      mons[i].tele = 0;
+      mons[i].intelli = 1;
     }
     else if (erratic == 1 && tunneling == 0 && telepathy == 1 && intelligence == 0)
     {
       mons[i].symbol = 'a';
+      mons[i].erra = 1;
+      mons[i].tunnel = 0;
+      mons[i].tele = 1;
+      mons[i].intelli = 0;
     }
     else if (erratic == 1 && tunneling == 0 && telepathy == 1 && intelligence == 1)
     {
       mons[i].symbol = 'b';
+      mons[i].erra = 1;
+      mons[i].tunnel = 0;
+      mons[i].tele = 1;
+      mons[i].intelli = 1;
     }
     else if (erratic == 1 && tunneling == 1 && telepathy == 0 && intelligence == 0)
     {
       mons[i].symbol = 'c';
+      mons[i].erra = 1;
+      mons[i].tunnel = 1;
+      mons[i].tele = 0;
+      mons[i].intelli = 0;
     }
     else if (erratic == 1 && tunneling == 1 && telepathy == 0 && intelligence == 1)
     {
       mons[i].symbol = 'd';
+      mons[i].erra = 1;
+      mons[i].tunnel = 1;
+      mons[i].tele = 0;
+      mons[i].intelli = 1;
     }
     else if (erratic == 1 && tunneling == 1 && telepathy == 1 && intelligence == 0)
     {
       mons[i].symbol = 'e';
+      mons[i].erra = 1;
+      mons[i].tunnel = 1;
+      mons[i].tele = 1;
+      mons[i].intelli = 0;
     }
     else if (erratic == 1 && tunneling == 1 && telepathy == 1 && intelligence == 1)
     {
       mons[i].symbol = 'f';
+      mons[i].erra = 1;
+      mons[i].tunnel = 1;
+      mons[i].tele = 1;
+      mons[i].intelli = 1;
     }
     mons[i].next_turn = 0;
     mons[i].priority = prio;
@@ -364,9 +428,16 @@ void temp_code(dungeon_t *d, int s)
   {
     heap_insert(&test, &mons[i]);
   }
-  monster_type_t *temp = (monster_type_t *) heap_remove_min(&test);
-  temp->next_turn = temp->next_turn + 1000 / temp->speed;
-  heap_insert(&test, &temp);
+  
+  //loops galore here
+  int game_over = 0;
+  while (game_over == 0)
+  {
+    monster_type_t *temp = (monster_type_t *) heap_remove_min(&test);
+    temp->next_turn = temp->next_turn + 1000 / temp->speed;
+    
+    heap_insert(&test, &temp);
+  }
   heap_delete(&test);
 
   pair_t p;
