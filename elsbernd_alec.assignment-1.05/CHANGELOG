@@ -1,0 +1,22 @@
+3/2/2021: 12:53: Started project
+3/3/2021: 12:21: Added a struct and some code
+3/3/2021: 13:32: Moved code around
+3/3/2021: 13:54: Setting monster position
+3/3/2021: 14:10: Moved code from temp to rlg327
+3/3/2021: 16:16: Type now updates
+3/3/2021: 16:28: Added -nummon flag
+3/3/2021: 17:13: Added code to stop monsters from spawing on top of each other
+3/4/2021: 10:53: Added priority queue
+3/4/2021: 11:47: Fixed compiler errors
+3/4/2021: 12:27: Added monsters to map
+3/4/2021: 12:55: Added monsters
+3/4/2021: 14:53: Fixed adding extra floors
+3/4/2021: 15:08: Fixed bugs
+3/4/2021: 15:27: Added extra parameters to monster struct
+3/4/2021: 15:58: Created only erratic behavior
+3/4/2021: 16:02: Added more movement
+3/4/2021: 16:18: Added game_over condition
+3/4/2021: 17:24: Added more movement
+3/4/2021: 17:24: Added more movement
+3/4/2021: 22:41: Added more stuff and made it compilable
+3/4/2021: 22:45: Added more movement

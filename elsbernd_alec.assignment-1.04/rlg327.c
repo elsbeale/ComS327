@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/time.h>
+#include <unistd.h>
 #include <stdlib.h>
 
 #include "dungeon.h"
@@ -437,8 +438,12 @@ void temp_code(dungeon_t *d, int s)
   while (game_over == 0)
   {
     monster_type_t *temp = (monster_type_t *) heap_remove_min(&mon_heap); //removing the head of the queue
-    temp->next_turn = temp->next_turn + 1000 / temp->speed; //setting next_turn
-    
+    if(temp->speed < 5 || temp == NULL){
+      temp->speed = 5;
+    }
+    if (temp->speed >20){
+      temp->speed = 20;
+    }
     if (temp->erra == 1) //erratic
     {
       if (temp->tunnel == 0 && temp->tele == 0 && temp->intelli == 0) //if monster is erratic and nothing else
@@ -1097,7 +1102,7 @@ void temp_code(dungeon_t *d, int s)
 
 
 
-    if (temp->position[dim_x] == d->pc.position[dim_x] && temp->position[dim_y] == d->pc.position[dim_y])
+    if (temp->position[dim_x] == d->pc.position[dim_x] && temp->position[dim_y] == d->pc.position[dim_y] && temp->symbol != '@')
     {
       game_over = 1;
     }
@@ -1105,9 +1110,6 @@ void temp_code(dungeon_t *d, int s)
 
     heap_insert(&mon_heap, &temp);
     
-  }
-  heap_delete(&mon_heap);
-
   pair_t p;
   int i;
   int flag;
@@ -1156,6 +1158,10 @@ void temp_code(dungeon_t *d, int s)
       }
       putchar('\n');
    }
+  usleep(100000);
+  }
+  
+  heap_delete(&mon_heap);
 }
 
 

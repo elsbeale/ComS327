@@ -1,0 +1,8 @@
+Alec Elsbernd elsbeale@iastate.edu
+Noah Tang ntang1@iastate.edu
+Brett Bethke bwbethke@iastate.edu
+
+This is an add onto the proffessors code that allows the pc and monsters to move.
+Monsters will try to find their way to the pc given a number of characteristics that each posess.
+These characteristics are: Intelligence, Telepathy, Tunneling ability, and Erratic behavior. 
+Based on which characteristics a monster has, it will approach movement in different ways. 
