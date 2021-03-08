@@ -388,7 +388,19 @@ void temp_code(dungeon_t *d, int s)
     }
     mons[i].next_turn = 0; //initializing next_turn to 0
     mons[i].priority = prio; //setting the priority for the monsters
-    mons[i].speed = (rand() % (20 - 5 + 1)) + 5; //should get a random speed between 5 and 20
+
+    int speed[16];
+    int spe = 5;
+    for (int z = 0; z < 16; z++)
+    {
+      speed[z] = spe;
+      spe++;
+    }
+
+    int random_speed = rand() % 16;
+
+
+    mons[i].speed = speed[random_speed]; //should get a random speed between 5 and 20
 
     //position of monster
     int mon_pos_y;
