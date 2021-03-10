@@ -391,7 +391,7 @@ void temp_code(dungeon_t *d, int s)
 
     int speed[16];
     int spe = 5;
-    for (int z = 0; z < 16; z++)
+    for (int z = 0; z < 15; z++)
     {
       speed[z] = spe;
       spe++;

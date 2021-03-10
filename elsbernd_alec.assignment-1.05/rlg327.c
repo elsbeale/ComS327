@@ -236,13 +236,13 @@ int main(int argc, char *argv[])
   config_pc(&d);
   gen_monsters(&d);
 
+  render_dungeon(&d);
+  refresh();
+  
   while (pc_is_alive(&d) && dungeon_has_npcs(&d)) {
   render_dungeon(&d);
   do_moves(&d);
-  if (delay) {
-  usleep(delay);
-  }
-  refresh();	    
+  refresh();
   }
 
   render_dungeon(&d);
@@ -281,6 +281,7 @@ int main(int argc, char *argv[])
   pc_delete(d.pc.pc);
 
   delete_dungeon(&d);
+  endwin();
 
   return 0;
 }

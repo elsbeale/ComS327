@@ -304,12 +304,12 @@ path.h,93
 typedef struct dungeon dungeon_t;6,63
 
 pc.c,157
-void pc_delete(11,135
-uint32_t pc_is_alive(18,195
-void place_pc(23,257
-void config_pc(33,684
-uint32_t pc_next_pos(53,1102
-uint32_t pc_in_room(173,5898
+void pc_delete(12,155
+uint32_t pc_is_alive(19,215
+void place_pc(24,277
+void config_pc(34,704
+uint32_t pc_next_pos(54,1122
+uint32_t pc_in_room(145,2612
 
 pc.h,99
 # define PC_H2,13
