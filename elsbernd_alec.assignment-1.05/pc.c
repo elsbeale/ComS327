@@ -73,46 +73,102 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       //
     case 55:
     case 121:
-      dir[dim_y] = -1;
-      dir[dim_x] = -1;
+      if (d->map[dir[dim_y - 1]][dir[dim_x - 1]] == ter_wall || d->map[dir[dim_y - 1]][dir[dim_x - 1]] == ter_wall_immutable)
+      {
+        //print an error statement that says "there is a wall here"
+      }
+      else
+      {
+        dir[dim_y] = -1;
+        dir[dim_x] = -1;
+      }
       break;
       //up
     case 56:
     case 107:
-      dir[dim_y] = -1;
+      if (d->map[dir[dim_y - 1]][dir[dim_x]] == ter_wall || d->map[dir[dim_y - 1]][dir[dim_x]] == ter_wall_immutable)
+      {
+        //print an error statement that says "there is a wall here"
+      }
+      else
+      {
+        dir[dim_y] = -1;
+      }
       break;
       //up right
     case 57:
     case 117:
-      dir[dim_y] = -1;
-      dir[dim_x] = 1;
+      if (d->map[dir[dim_y - 1]][dir[dim_x + 1]] == ter_wall || d->map[dir[dim_y - 1]][dir[dim_x + 1]] == ter_wall_immutable)
+      {
+        //print an error statement that says "there is a wall here"
+      }
+      else
+      {
+        dir[dim_y] = -1;
+        dir[dim_x] = 1;
+      }
       break;
       //right 
     case 54:
     case 108:
-      dir[dim_x] = 1;
+      if (d->map[dir[dim_y]][dir[dim_x + 1]] == ter_wall || d->map[dir[dim_y]][dir[dim_x + 1]] == ter_wall_immutable)
+      {
+        //print an error statement that says "there is a wall here"
+      }
+      else
+      {
+        dir[dim_x] = 1;
+      }
       break;
       //down right
     case 51:
     case 110:
-      dir[dim_y] = 1;
-      dir[dim_x] = 1;
+      if (d->map[dir[dim_y + 1]][dir[dim_x + 1]] == ter_wall || d->map[dir[dim_y + 1]][dir[dim_x + 1]] == ter_wall_immutable)
+      {
+        //print an error statement that says "there is a wall here"
+      }
+      else
+      {
+        dir[dim_y] = 1;
+        dir[dim_x] = 1;
+      }
       break;
       //down
     case 50:
     case 106:
-      dir[dim_y] = 1;
+      if (d->map[dir[dim_y + 1]][dir[dim_x]] == ter_wall || d->map[dir[dim_y + 1]][dir[dim_x]] == ter_wall_immutable)
+      {
+        //print an error statement that says "there is a wall here"
+      }
+      else
+      {
+        dir[dim_y] = 1;
+      }
       break;
       //down left
     case 49:
     case 98:
-      dir[dim_y] = 1;
-      dir[dim_x] = -1;
+      if (d->map[dir[dim_y + 1]][dir[dim_x - 1]] == ter_wall || d->map[dir[dim_y + 1]][dir[dim_x - 1]] == ter_wall_immutable)
+      {
+        //print an error statement that says "there is a wall here"
+      }
+      else
+      {
+        dir[dim_y] = 1;
+        dir[dim_x] = -1;
+      }
       break;
       //left
     case 52:
     case 104:
-      dir[dim_x] = -1;
+      if (d->map[dir[dim_y]][dir[dim_x - 1]] == ter_wall || d->map[dir[dim_y]][dir[dim_x - 1]] == ter_wall_immutable)
+      {
+        //print an error statement that says "there is a wall here"
+      }
+      else
+      {
+        dir[dim_x] = -1;
+      }
       break;
       //downstairs or rest if not on stairs
     case 46:
