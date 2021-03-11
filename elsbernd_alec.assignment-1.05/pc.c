@@ -52,23 +52,30 @@ void config_pc(dungeon_t *d)
   dijkstra_tunnel(d);
 }
 
+
+
 uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
 
   int input = 0;
   int flag = 1;
   int y_position = 1; 
   int north, east, tmp_x, tmp_y;
-  
-  character_t monsters[d->num_monsters];
+  int arr_pos = 0;
+  int arr_start = 0;
+  struct character_t monsters[d->num_monsters];
+  //character_t *monsters;
+  //monsters = malloc(sizeof (*monsters));
+  //memset(monsters, 0, sizeof (*monsters));
   int mon_count = 0;
   //should find all monsters in the 2d character array and add them to the monsters array
   for (int i = 0; i < DUNGEON_Y; i++)
   {
     for (int j = 0; j < DUNGEON_X; j++)
     {
-      // if (d->character[i][j]->alive)
+      if (d->character[i][j]->alive && d->character[i][j] != NULL)
       {
-	// monsters[mon_count] = d->character[i][j];
+	      monsters[mon_count] = d->character[i][j]; //not sure which one to use
+        //&monsters[mon_count] = d->character[i][j];
         mon_count++;
       }
     }
@@ -234,12 +241,12 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       //m lists monsters
     case 109: //NEEDS WORK. need to check if number of monsters > 21. if so stop printing.
       clear();
-      if (d->num_monsters < 21)
+      if (arr_pos + 21 > d->num_monsters)
       {
-        for (int i = 0; i < d->num_monsters; i++)
+        for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
         {
-          tmp_x = monsters[i].position[dim_x] - d->pc.position[dim_x];
-          tmp_y = monsters[i].position[dim_y] - d->pc.position[dim_y];
+          tmp_x = monsters[arr_pos].position[dim_x] - d->pc.position[dim_x];
+          tmp_y = monsters[arr_pos].position[dim_y] - d->pc.position[dim_y];
           if (tmp_y > 0)
           {
             //the monster is below the pc. monster is south by tmp_y distance
@@ -264,33 +271,32 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
           }
           if (!north && !east)
           {
-            mvprintw(y_position,0, "%d, %d south and %d west", monsters[i].symbol, tmp_y, tmp_x);
+            mvprintw(y_position,0, "%d, %d south and %d west", monsters[arr_pos].symbol, tmp_y, tmp_x);
             y_position++;
           }
           else if (!north && east)
           {
-            mvprintw(y_position,0, "%d, %d south and %d east", monsters[i].symbol, tmp_y, tmp_x);
+            mvprintw(y_position,0, "%d, %d south and %d east", monsters[arr_pos].symbol, tmp_y, tmp_x);
             y_position++;
           }
           else if (north && !east)
           {
-            mvprintw(y_position,0, "%d, %d north and %d west", monsters[i].symbol, tmp_y, tmp_x);
+            mvprintw(y_position,0, "%d, %d north and %d west", monsters[arr_pos].symbol, tmp_y, tmp_x);
             y_position++;
           }
           else
           {
-            mvprintw(y_position,0, "%d, %d north and %d east", monsters[i].symbol, tmp_y, tmp_x);
+            mvprintw(y_position,0, "%d, %d north and %d east", monsters[arr_pos].symbol, tmp_y, tmp_x);
             y_position++;
           }
         }
       }
-      else
+      else //if there are more than 21 monsters
       {
-        int arr_count = 0;
-        while (arr_count < 20)
+        for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
         {
-          tmp_x = monsters[arr_count].position[dim_x] - d->pc.position[dim_x];
-          tmp_y = monsters[arr_count].position[dim_y] - d->pc.position[dim_y];
+          tmp_x = monsters[arr_pos].position[dim_x] - d->pc.position[dim_x];
+          tmp_y = monsters[arr_pos].position[dim_y] - d->pc.position[dim_y];
           if (tmp_y > 0)
           {
             //the monster is below the pc. monster is south by tmp_y distance
@@ -315,34 +321,45 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
           }
           if (!north && !east)
           {
-            mvprintw(y_position,0, "%d, %d south and %d west", monsters[arr_count].symbol, tmp_y, tmp_x);
+            mvprintw(y_position,0, "%d, %d south and %d west", monsters[arr_pos].symbol, tmp_y, tmp_x);
             y_position++;
           }
           else if (!north && east)
           {
-            mvprintw(y_position,0, "%d, %d south and %d east", monsters[arr_count].symbol, tmp_y, tmp_x);
+            mvprintw(y_position,0, "%d, %d south and %d east", monsters[arr_pos].symbol, tmp_y, tmp_x);
             y_position++;
           }
           else if (north && !east)
           {
-            mvprintw(y_position,0, "%d, %d north and %d west", monsters[arr_count].symbol, tmp_y, tmp_x);
+            mvprintw(y_position,0, "%d, %d north and %d west", monsters[arr_pos].symbol, tmp_y, tmp_x);
             y_position++;
           }
           else
           {
-            mvprintw(y_position,0, "%d, %d north and %d east", monsters[arr_count].symbol, tmp_y, tmp_x);
+            mvprintw(y_position,0, "%d, %d north and %d east", monsters[arr_pos].symbol, tmp_y, tmp_x);
             y_position++;
           }
-          arr_count++;
         }
       }
       refresh();
       break;
       // scroll up list if list is up
     case 259:
+      if (arr_start - 1 >= 0)
+      {
+        arr_start--;
+      }
+      clear();
+      refresh();
       break;
       //scroll down list is if list is up
     case 258:
+      if (arr_start + 1 <= d->num_monsters)
+      {
+        arr_start++;
+      }
+      clear();
+      refresh();
       break;
       // need to add ecaape key still
     case 27:
@@ -360,11 +377,13 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
 
 uint32_t pc_in_room(dungeon_t *d, uint32_t room)
 {
-  if ((room < d->num_rooms)
-      &&(d->pc.position[dim_x] >= d->rooms[room].position[dim_x])&&
-      (d->pc.position[dim_x] < (d->rooms[room].position[dim_x] + d->rooms[room].size[dim_x]))&&
+  if ((room < d->num_rooms)                                    &&
+      (d->pc.position[dim_x] >= d->rooms[room].position[dim_x])&&
+      (d->pc.position[dim_x] < (d->rooms[room].position[dim_x] 
+                              + d->rooms[room].size[dim_x]))   &&
       (d->pc.position[dim_y] >= d->rooms[room].position[dim_y])&&
-      (d->pc.position[dim_y] < (d->rooms[room].position[dim_y] + d->rooms[room].size[dim_y])))
+      (d->pc.position[dim_y] < (d->rooms[room].position[dim_y] 
+                              + d->rooms[room].size[dim_y])))
     {
     return 1;
   }
