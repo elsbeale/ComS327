@@ -166,7 +166,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
     case 46:
       dungeon_t new_d;
       d = new_d;
-      if (d->map[dim_y][dim_x] == ter_stairs_down)
+      if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]] == ter_stairs_down)
       {
         //generate a new dungeon, pc position, and monsters
         init_dungeon(&d);
@@ -190,7 +190,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
     case 44:
       dungeon_t new_d;
       d = new_d;
-      if (d->map[dim_y][dim_x] == ter_stairs_up)
+      if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]] == ter_stairs_up)
       {
         //generate a new dungeon, pc position, and monsters
         init_dungeon(&d);
