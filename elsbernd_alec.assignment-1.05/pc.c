@@ -164,17 +164,50 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       break;
       //downstairs or rest if not on stairs
     case 46:
+      dungeon_t new_d;
+      d = new_d;
       if (d->map[dim_y][dim_x] == ter_stairs_down)
       {
         //generate a new dungeon, pc position, and monsters
-        
+        init_dungeon(&d);
+        gen_dungeon(&d);
+        config_pc(&d);
+        gen_monsters(&d);
+        render_dungeon(&d);
+
+        refresh();
+
+        while (pc_is_alive(&d) && dungeon_has_npcs(&d)) {
+          render_dungeon(&d);
+          refresh();
+          do_moves(&d);
+        }
+
+        render_dungeon(&d);
       }
       break;
       //upstairs
     case 44:
+      dungeon_t new_d;
+      d = new_d;
       if (d->map[dim_y][dim_x] == ter_stairs_up)
       {
         //generate a new dungeon, pc position, and monsters
+        init_dungeon(&d);
+        gen_dungeon(&d);
+        config_pc(&d);
+        gen_monsters(&d);
+        render_dungeon(&d);
+
+        refresh();
+
+        while (pc_is_alive(&d) && dungeon_has_npcs(&d)) {
+          render_dungeon(&d);
+          refresh();
+          do_moves(&d);
+        }
+
+        render_dungeon(&d);
       }
       break;
       //rest
