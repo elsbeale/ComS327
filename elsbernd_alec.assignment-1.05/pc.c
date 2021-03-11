@@ -62,10 +62,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
   int north, east, tmp_x, tmp_y;
   int arr_pos = 0;
   int arr_start = 0;
-  struct character_t monsters[d->num_monsters];
+  character_t monsters[d->num_monsters];
   //character_t *monsters;
-  //monsters = malloc(sizeof (*monsters));
-  //memset(monsters, 0, sizeof (*monsters));
+  // monsters = malloc(sizeof (*monsters));
+  // memset(monsters, 0, sizeof (*monsters));
   int mon_count = 0;
   //should find all monsters in the 2d character array and add them to the monsters array
   for (int i = 0; i < DUNGEON_Y; i++)
@@ -74,8 +74,8 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
     {
       if (d->character[i][j]->alive && d->character[i][j] != NULL)
       {
-	      monsters[mon_count] = d->character[i][j]; //not sure which one to use
-        //&monsters[mon_count] = d->character[i][j];
+	monsters[mon_count] = d->character[i][j]; //not sure which one to use
+	      // monsters[mon_count] = d->character[i][j];
         mon_count++;
       }
     }

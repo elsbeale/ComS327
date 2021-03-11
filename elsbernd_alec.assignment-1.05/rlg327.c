@@ -271,17 +271,16 @@ int main(int argc, char *argv[])
     }
   }
 
-  mvprintw(0,0,"%s", pc_is_alive(&d) ? victory : tombstone);
-  mvprintw(0,22,"You defended your life in the face of %u deadly beasts.\n"
+  endwin();
+  printf("%s", pc_is_alive(&d) ? victory : tombstone);
+  printf("You defended your life in the face of %u deadly beasts.\n"
 	 "You avenged the cruel and untimely murders of %u "
 	 "peaceful dungeon residents.\n",
 	 d.pc.kills[kill_direct], d.pc.kills[kill_avenged]);
-  refresh();
   
   pc_delete(d.pc.pc);
 
   delete_dungeon(&d);
-  endwin();
 
   return 0;
 }
