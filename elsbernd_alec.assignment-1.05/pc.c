@@ -62,24 +62,24 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
   int north, east, tmp_x, tmp_y;
   int arr_pos = 0;
   int arr_start = 0;
-  struct character_t monsters[d->num_monsters];
-  //character_t *monsters;
-  //monsters = malloc(sizeof (*monsters));
-  //memset(monsters, 0, sizeof (*monsters));
-  int mon_count = 0;
+  // struct character_t monsters[d->num_monsters];
+  // character_t *monsters;
+  // monsters = malloc(sizeof (*monsters));
+  // memset(monsters, 0, sizeof (*monsters));
+  // int mon_count = 0;
   //should find all monsters in the 2d character array and add them to the monsters array
-  for (int i = 0; i < DUNGEON_Y; i++)
-  {
-    for (int j = 0; j < DUNGEON_X; j++)
-    {
-      if (d->character[i][j]->alive && d->character[i][j] != NULL)
-      {
-	      monsters[mon_count] = d->character[i][j]; //not sure which one to use
-        //&monsters[mon_count] = d->character[i][j];
-        mon_count++;
-      }
-    }
-  }
+  // for (int i = 0; i < DUNGEON_Y; i++)
+  // {
+  //   for (int j = 0; j < DUNGEON_X; j++)
+  //   {
+  //     if (d->character[i][j]->alive && d->character[i][j] != NULL)
+  //     {
+	//       monsters[mon_count] = d->character[i][j]; //not sure which one to use
+  //       //&monsters[mon_count] = d->character[i][j];
+  //       mon_count++;
+  //     }
+  //   }
+  // }
   
   while(flag){
     input = getch();
@@ -243,101 +243,117 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       clear();
       if (arr_pos + arr_start + 21 > d->num_monsters)
       {
-        for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
+        for (int i = 0; i < DUNGEON_Y; i++)
         {
-          tmp_x = monsters[arr_pos].position[dim_x] - d->pc.position[dim_x];
-          tmp_y = monsters[arr_pos].position[dim_y] - d->pc.position[dim_y];
-          if (tmp_y > 0)
+          for (int j = 0; j < DUNGEON_X; j++)
           {
-            //the monster is below the pc. monster is south by tmp_y distance
-            north = 0;
-          }
-          else
-          {
-            //monster is above the pc. monster is north by tmp_y distance
-            tmp_y = abs(tmp_y); //taking absolute value for printing purposes
-            north = 1;
-          }
-          if (tmp_x > 0)
-          {
-            //the monster is to the right of the pc. monster is east by tmp_x distance.
-            east = 1;
-          }
-          else
-          {
-            //the monster is to the left of the pc. monster is west by tmp_x distance.
-            tmp_x = abs(tmp_x); //taking absolute value for printing purposes
-            east = 0;
-          }
-          if (!north && !east)
-          {
-            mvprintw(y_position,0, "%d, %d south and %d west", monsters[arr_pos].symbol, tmp_y, tmp_x);
-            y_position++;
-          }
-          else if (!north && east)
-          {
-            mvprintw(y_position,0, "%d, %d south and %d east", monsters[arr_pos].symbol, tmp_y, tmp_x);
-            y_position++;
-          }
-          else if (north && !east)
-          {
-            mvprintw(y_position,0, "%d, %d north and %d west", monsters[arr_pos].symbol, tmp_y, tmp_x);
-            y_position++;
-          }
-          else
-          {
-            mvprintw(y_position,0, "%d, %d north and %d east", monsters[arr_pos].symbol, tmp_y, tmp_x);
-            y_position++;
+            if (d->character[i][j]->alive && d->character[i][j] != NULL)
+            {
+              for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
+              {
+                tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
+                tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
+                if (tmp_y > 0)
+                {
+                  //the monster is below the pc. monster is south by tmp_y distance
+                  north = 0;
+                }
+                else
+                {
+                  //monster is above the pc. monster is north by tmp_y distance
+                  tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+                  north = 1;
+                }
+                if (tmp_x > 0)
+                {
+                  //the monster is to the right of the pc. monster is east by tmp_x distance.
+                  east = 1;
+                }
+                else
+                {
+                  //the monster is to the left of the pc. monster is west by tmp_x distance.
+                  tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+                  east = 0;
+                }
+                if (!north && !east)
+                {
+                  mvprintw(y_position,0, "%d, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else if (!north && east)
+                {
+                  mvprintw(y_position,0, "%d, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else if (north && !east)
+                {
+                  mvprintw(y_position,0, "%d, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else
+                {
+                  mvprintw(y_position,0, "%d, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+              }
+            }
           }
         }
       }
       else //if there are more than 21 monsters
       {
-        for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
+        for (int i = 0; i < DUNGEON_Y; i++)
         {
-          tmp_x = monsters[arr_pos].position[dim_x] - d->pc.position[dim_x];
-          tmp_y = monsters[arr_pos].position[dim_y] - d->pc.position[dim_y];
-          if (tmp_y > 0)
+          for (int j = 0; j < DUNGEON_X; j++)
           {
-            //the monster is below the pc. monster is south by tmp_y distance
-            north = 0;
-          }
-          else
-          {
-            //monster is above the pc. monster is north by tmp_y distance
-            tmp_y = abs(tmp_y); //taking absolute value for printing purposes
-            north = 1;
-          }
-          if (tmp_x > 0)
-          {
-            //the monster is to the right of the pc. monster is east by tmp_x distance.
-            east = 1;
-          }
-          else
-          {
-            //the monster is to the left of the pc. monster is west by tmp_x distance.
-            tmp_x = abs(tmp_x); //taking absolute value for printing purposes
-            east = 0;
-          }
-          if (!north && !east)
-          {
-            mvprintw(y_position,0, "%d, %d south and %d west", monsters[arr_pos].symbol, tmp_y, tmp_x);
-            y_position++;
-          }
-          else if (!north && east)
-          {
-            mvprintw(y_position,0, "%d, %d south and %d east", monsters[arr_pos].symbol, tmp_y, tmp_x);
-            y_position++;
-          }
-          else if (north && !east)
-          {
-            mvprintw(y_position,0, "%d, %d north and %d west", monsters[arr_pos].symbol, tmp_y, tmp_x);
-            y_position++;
-          }
-          else
-          {
-            mvprintw(y_position,0, "%d, %d north and %d east", monsters[arr_pos].symbol, tmp_y, tmp_x);
-            y_position++;
+            for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
+            {
+              tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
+              tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
+              if (tmp_y > 0)
+              {
+                //the monster is below the pc. monster is south by tmp_y distance
+                north = 0;
+              }
+              else
+              {
+                //monster is above the pc. monster is north by tmp_y distance
+                tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+                north = 1;
+              }
+              if (tmp_x > 0)
+              {
+                //the monster is to the right of the pc. monster is east by tmp_x distance.
+                east = 1;
+              }
+              else
+              {
+                //the monster is to the left of the pc. monster is west by tmp_x distance.
+                tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+                east = 0;
+              }
+              if (!north && !east)
+              {
+                mvprintw(y_position,0, "%d, %d south and %d west", d->character[i][j].symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else if (!north && east)
+              {
+                mvprintw(y_position,0, "%d, %d south and %d east", d->character[i][j].symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else if (north && !east)
+              {
+                mvprintw(y_position,0, "%d, %d north and %d west", d->character[i][j].symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else
+              {
+                mvprintw(y_position,0, "%d, %d north and %d east", d->character[i][j].symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+            }
+
           }
         }
       }
