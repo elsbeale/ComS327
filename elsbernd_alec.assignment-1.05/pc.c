@@ -93,9 +93,12 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
         dir[dim_y] = -1;
         dir[dim_x] = -1;
 	flag = 0;
-	break;
       }
-       
+      else
+      {
+        mvprintw(0,0, "There is a wall in the way");
+      }
+  break;     
       //up
     case 56:
     case 107:
@@ -103,6 +106,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = -1;
 	flag = 0;
+      }
+      else
+      {
+        mvprintw(0,0, "There is a wall in the way");
       }
       break;
       //up right
@@ -114,6 +121,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
         dir[dim_x] = 1;
 	flag = 0;
       }
+      else
+      {
+        mvprintw(0,0, "There is a wall in the way");
+      }
       break;
       //right 
     case 54:
@@ -122,6 +133,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_x] = 1;
 	flag = 0;
+      }
+      else
+      {
+        mvprintw(0,0, "There is a wall in the way");
       }
       break;
       //down right
@@ -133,6 +148,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
         dir[dim_x] = 1;
 	flag = 0;
       }
+      else
+      {
+        mvprintw(0,0, "There is a wall in the way");
+      }
       break;
       //down
     case 50:
@@ -142,6 +161,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
 	 dir[dim_y] = 1;
 	 flag = 0;
        } 
+       else
+       {
+         mvprintw(0,0, "There is a wall in the way");
+       }
       break;
       //down left
     case 49:
@@ -152,6 +175,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
         dir[dim_x] = -1;
 	flag = 0;
       }
+      else
+      {
+        mvprintw(0,0, "There is a wall in the way");
+      }
       break;
       //left
     case 52:
@@ -160,6 +187,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_x] = -1;
 	flag = 0;
+      }
+      else
+      {
+        mvprintw(0,0, "There is a wall in the way");
       }
       break;
       //downstairs or rest if not on stairs
