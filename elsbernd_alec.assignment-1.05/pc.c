@@ -241,7 +241,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       //m lists monsters
     case 109: //NEEDS WORK. need to check if number of monsters > 21. if so stop printing.
       clear();
-      if (arr_pos + 21 > d->num_monsters)
+      if (arr_pos + arr_start + 21 > d->num_monsters)
       {
         for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
         {
