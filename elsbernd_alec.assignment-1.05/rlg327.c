@@ -241,8 +241,8 @@ int main(int argc, char *argv[])
   
   while (pc_is_alive(&d) && dungeon_has_npcs(&d)) {
   render_dungeon(&d);
-  do_moves(&d);
   refresh();
+  do_moves(&d);
   }
 
   render_dungeon(&d);

@@ -309,7 +309,7 @@ uint32_t pc_is_alive(19,215
 void place_pc(24,277
 void config_pc(34,704
 uint32_t pc_next_pos(54,1122
-uint32_t pc_in_room(244,7353
+uint32_t pc_in_room(227,7158
 
 pc.h,99
 # define PC_H2,13

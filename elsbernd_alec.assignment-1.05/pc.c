@@ -54,20 +54,20 @@ void config_pc(dungeon_t *d)
 uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
 
   int input = 0;
-  while(!input){
+  int flag = 1;
+  
+  while(flag){
     input = getch();
     dir[dim_y] = 0;
     dir[dim_x] = 0;
 
-    clear();
-    render_dungeon(d);
-    refresh();
     
     mvprintw(0,0,"%d",input);
     switch(input){
       //Q
     case 113:
       d->pc.alive = 0;
+      flag =  0;
       break;
       //upper left
       //
@@ -77,20 +77,17 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = -1;
         dir[dim_x] = -1;
+	flag = 0;
+	break;
       }
-       else{
-	 input = 0;
-	 break;
-       }
+       
       //up
     case 56:
     case 107:
       if (d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_floor_room || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_floor_hall || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_stairs_up || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_stairs_down)
       {
         dir[dim_y] = -1;
-      }
-      else{
-	input = 0;
+	flag = 0;
       }
       break;
       //up right
@@ -100,10 +97,8 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = -1;
         dir[dim_x] = 1;
+	flag = 0;
       }
-       else{
-	 input = 0;
-       }
       break;
       //right 
     case 54:
@@ -111,9 +106,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
        if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_floor_room || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_floor_hall || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_stairs_up || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_stairs_down)
       {
         dir[dim_x] = 1;
-      }
-      else{
-	input = 0;
+	flag = 0;
       }
       break;
       //down right
@@ -123,9 +116,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = 1;
         dir[dim_x] = 1;
-      }
-      else {
-	input = 0;
+	flag = 0;
       }
       break;
       //down
@@ -133,12 +124,9 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
     case 106:
        if (d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_floor_room || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_floor_hall || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_stairs_up || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_stairs_down)
        {
-        dir[dim_y] = 1;
-       }
-       else{
-	 input = 0;
-       }
-	 
+	 dir[dim_y] = 1;
+	 flag = 0;
+       } 
       break;
       //down left
     case 49:
@@ -147,9 +135,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = 1;
         dir[dim_x] = -1;
-      }
-      else{
-	input = 0;
+	flag = 0;
       }
       break;
       //left
@@ -158,9 +144,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_floor_room || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_floor_hall || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_stairs_up || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_stairs_down)
       {
         dir[dim_x] = -1;
-      }
-      else{
-	input =  0;
+	flag = 0;
       }
       break;
       //downstairs or rest if not on stairs
@@ -180,6 +164,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       //rest
     case 32:
     case 53:
+      flag = 0;
       break;
       //m lists monsters
     case 109:
@@ -222,7 +207,6 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
             }
 
           }
-
         }
       }
       break;
@@ -234,8 +218,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       break;
       // need to add ecaape key still
     default:
-      input = 0;
-      break;
+      flag = 1;
     }
   }
   return 0;
