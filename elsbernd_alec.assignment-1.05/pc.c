@@ -243,13 +243,13 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       clear();
       if (arr_pos + arr_start + 21 > d->num_monsters)
       {
-        for (int i = 0; i < DUNGEON_Y; i++)
+        for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
         {
-          for (int j = 0; j < DUNGEON_X; j++)
+          for (int i = 0; i < DUNGEON_Y; i++)
           {
-            if (d->character[i][j]->alive && d->character[i][j] != NULL)
+            for (int j = 0; j < DUNGEON_X; j++)
             {
-              for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
+              if (d->character[i][j]->alive && d->character[i][j] != NULL)
               {
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
@@ -295,6 +295,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                   mvprintw(y_position,0, "%d, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
                   y_position++;
                 }
+              
               }
             }
           }
@@ -302,13 +303,13 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       }
       else //if there are more than 21 monsters
       {
-        for (int i = 0; i < DUNGEON_Y; i++)
+        for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
         {
-          for (int j = 0; j < DUNGEON_X; j++)
+          for (int i = 0; i < DUNGEON_Y; i++)
           {
-            if (d->character[i][j]->alive && d->character[i][j] != NULL)
+            for (int j = 0; j < DUNGEON_X; j++)
             {
-              for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
+              if (d->character[i][j]->alive && d->character[i][j] != NULL)
               {
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
