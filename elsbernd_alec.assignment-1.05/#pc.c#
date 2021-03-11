@@ -66,7 +66,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
   {
     for (int j = 0; j < DUNGEON_X; j++)
     {
-      // if (d->character[i][j]->alive)
+      if (d->character[i][j]->alive)
       {
 	// monsters[mon_count] = d->character[i][j];
         mon_count++;
@@ -201,8 +201,6 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]] == ter_stairs_down)
       {
         //generate a new dungeon, pc position, and monsters
-	pc_delete(d->pc.pc);
-	delete_dungeon(d);
         init_dungeon(d);
         gen_dungeon(d);
 	config_pc(d);
@@ -216,8 +214,6 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]] == ter_stairs_up)
       {
         //generate a new dungeon, pc position, and monsters
-	pc_delete(d->pc.pc);
-	delete_dungeon(d);
         init_dungeon(d);
         gen_dungeon(d);
 	config_pc(d);
@@ -360,13 +356,5 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
 
 uint32_t pc_in_room(dungeon_t *d, uint32_t room)
 {
-  if ((room < d->num_rooms)
-      &&(d->pc.position[dim_x] >= d->rooms[room].position[dim_x])&&
-      (d->pc.position[dim_x] < (d->rooms[room].position[dim_x] + d->rooms[room].size[dim_x]))&&
-      (d->pc.position[dim_y] >= d->rooms[room].position[dim_y])&&
-      (d->pc.position[dim_y] < (d->rooms[room].position[dim_y] + d->rooms[room].size[dim_y])))
-    {
-    return 1;
-  }
-  return 0;
-}
+  if((room < d->num_rooms)
+     (d->pc.position[dim
