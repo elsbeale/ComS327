@@ -320,6 +320,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
             mvprintw(y_position,0, "%d, %d north and %d east", monsters[arr_count].symbol, tmp_y, tmp_x);
             y_position++;
           }
+          arr_count++;
         }
       }
       refresh();
