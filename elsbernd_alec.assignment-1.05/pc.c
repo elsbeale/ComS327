@@ -55,6 +55,21 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
 
   int input = 0;
   int flag = 1;
+
+  character_t monsters[d->max_monsters];
+  int mon_count = 0;
+  //should find all monsters in the 2d character array and add them to the monsters array
+  for (int i = 0; i < DUNGEON_Y; i++)
+  {
+    for (int j = 0; j < DUNGEON_X; j++)
+    {
+      if (d->character[i][j]->alive)
+      {
+        monsters[mon_count] = d->character[i][j];
+        mon_count++;
+      }
+    }
+  }
   
   while(flag){
     input = getch();
@@ -167,48 +182,59 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       flag = 0;
       break;
       //m lists monsters
-    case 109:
-      for (int i = 0; i < DUNGEON_Y; i++)
+    case 109: //NEEDS WORK. need to check if number of monsters > 21. if so stop printing.
+      int y_position = 1; 
+      int north;
+      int east;
+      clear();
+      for (int i = 0; i < d->max_monsters; i++)
       {
-        for (int j = 0; j < DUNGEON_X; j++)
-        { //STILL NEEDS WORK, not sure what to compare it to to check if there is a monster there
-          if (d->character[i][j]->alive) //need to check if there is a monster at the spot
-          {
-            int tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
-            int tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
-            if (tmp_x > 0)
-            {
-              //the monster is to the right of the pc. monster is east by tmp_x distance.
-
-            }
-            else if (tmp_x < 0)
-            {
-              //the monster is to the left of the pc. monster is west by tmp_x distance.
-              tmp_x = abs(tmp_x); //taking absolute value for printing purposes
-            }
-            else
-            {
-              //the monster is on the same column as the pc
-              //monster is 0 distance east of the pc
-            }
-            if (tmp_y > 0)
-            {
-              //the monster is below the pc. monster is south by tmp_y distance
-            }
-            else if (tmp_y < 0)
-            {
-              //monster is above the pc. monster is north by tmp_y distance
-              tmp_y = abs(tmp_y); //taking absolute value for printing purposes
-            }
-            else
-            {
-              //the monster is on the same row as the pc
-              //monster is 0 distance north of the pc
-            }
-
-          }
+        int tmp_x = monsters[i].position[dim_x] - d->pc.position[dim_x];
+        int tmp_y = monsters[i].position[dim_y] - d->pc.position[dim_y];
+        if (tmp_y > 0)
+        {
+          //the monster is below the pc. monster is south by tmp_y distance
+          north = 0;
+        }
+        else
+        {
+          //monster is above the pc. monster is north by tmp_y distance
+          tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+          north = 1;
+        }
+        if (tmp_x > 0)
+        {
+          //the monster is to the right of the pc. monster is east by tmp_x distance.
+          east = 1;
+        }
+        else
+        {
+          //the monster is to the left of the pc. monster is west by tmp_x distance.
+          tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+          east = 0;
+        }
+        if (!north && !east)
+        {
+          mvprintw(y_position,0, "%d, %d south and %d west", monsters[i].symbol, tmp_y, tmp_x);
+          y_position++;
+        }
+        else if (!north && east)
+        {
+          mvprintw(y_position,0, "%d, %d south and %d east", monsters[i].symbol, tmp_y, tmp_x);
+          y_position++;
+        }
+        else if (north && !east)
+        {
+          mvprintw(y_position,0, "%d, %d north and %d west", monsters[i].symbol, tmp_y, tmp_x);
+          y_position++;
+        }
+        else
+        {
+          mvprintw(y_position,0, "%d, %d north and %d east", monsters[i].symbol, tmp_y, tmp_x);
+          y_position++;
         }
       }
+      refresh();
       break;
       // scroll up list if list is up
     case 259:
