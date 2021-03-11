@@ -363,6 +363,12 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
     case 258:
       break;
       // need to add ecaape key still
+    case 27:
+      clear();
+      render_dungeon(&d);
+      refresh();
+      break;
+
     default:
       flag = 1;
     }
