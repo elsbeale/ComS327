@@ -62,24 +62,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
   int north, east, tmp_x, tmp_y;
   int arr_pos = 0;
   int arr_start =0;
-  //character_t monsters[d->num_monsters];
-  //character_t *monsters;
-  // monsters = malloc(sizeof (*monsters));
-  // memset(monsters, 0, sizeof (*monsters));
-  // int mon_count = 0;
-  //should find all monsters in the 2d character array and add them to the monsters array
-  // for (int i = 0; i < DUNGEON_Y; i++)
-  // {
-  //for (int j = 0; j < DUNGEON_X; j++)
-  // {
-  //  if (d->character[i][j]->alive && d->character[i][j] != NULL)
-  //  {
-  //	monsters[mon_count] = d->character[i][j]; //not sure which one to use
-  //	      // monsters[mon_count] = d->character[i][j];
-  //    mon_count++;
-  //  }
-  //  }
-// }
+  
   
   while(flag){
     input = getch();
@@ -87,7 +70,10 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
     dir[dim_x] = 0;
 
     
+    mvprintw(0,0,"\n",input);
     mvprintw(0,0,"%d",input);
+    refresh();
+    
     switch(input){
       //Q
     case 113:
@@ -244,13 +230,13 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       if (arr_pos + arr_start + 21 > d->num_monsters)
       {
         for (int i = 0; i < DUNGEON_Y; i++)
-        {
-          for (int j = 0; j < DUNGEON_X; j++)
-          {
-            if (d->character[i][j] != NULL)
-            {
-              for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
-              {
+	  {
+	    for (int j = 0; j < DUNGEON_X; j++)
+	      {
+		if (d->character[i][j] != NULL)
+		  {
+		    for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
+		      {
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
                 if (tmp_y > 0)
@@ -296,20 +282,19 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                   mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
                   y_position++;
                 }
-              
+              }
             }
-          }
         }
       }
       else //if there are more than 21 monsters
       {
-        for (int i = 0; i < DUNGEON_Y; i++)
+        for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
         {
-          for (int j = 0; j < DUNGEON_X; j++)
+          for (int i = 0; i < DUNGEON_Y; i++)
           {
-            if (d->character[i][j]->alive && d->character[i][j] != NULL)
+            for (int j = 0; j < DUNGEON_X; j++)
             {
-              for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
+              if (d->character[i][j]->alive && d->character[i][j] != NULL)
               {
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
