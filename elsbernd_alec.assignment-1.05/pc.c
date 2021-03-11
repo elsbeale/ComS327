@@ -230,13 +230,13 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       clear();
       if (arr_pos + skip + 21 > d->num_monsters)
       {
-        for (int i = 0; i < DUNGEON_Y; i++)
+        for (arr_pos = skip; arr_pos < d->num_monsters; arr_pos++)
 	      {
-	        for (int j = 0; j < DUNGEON_X; j++)
+	        for (int i = 0; i < DUNGEON_Y; i++)
 	        {
-		        if (d->character[i][j] != NULL)
+		        for (int j = 0; j < DUNGEON_X; j++)
 		        {
-		          for (arr_pos = skip; arr_pos < d->num_monsters; arr_pos++)
+		          if (d->character[i][j] != NULL)
 		          {
                 if (skipped < skip)
                 {
