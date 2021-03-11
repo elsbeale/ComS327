@@ -306,54 +306,56 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
         {
           for (int j = 0; j < DUNGEON_X; j++)
           {
-            for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
+            if (d->character[i][j]->alive && d->character[i][j] != NULL)
             {
-              tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
-              tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
-              if (tmp_y > 0)
+              for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
               {
-                //the monster is below the pc. monster is south by tmp_y distance
-                north = 0;
-              }
-              else
-              {
-                //monster is above the pc. monster is north by tmp_y distance
-                tmp_y = abs(tmp_y); //taking absolute value for printing purposes
-                north = 1;
-              }
-              if (tmp_x > 0)
-              {
-                //the monster is to the right of the pc. monster is east by tmp_x distance.
-                east = 1;
-              }
-              else
-              {
-                //the monster is to the left of the pc. monster is west by tmp_x distance.
-                tmp_x = abs(tmp_x); //taking absolute value for printing purposes
-                east = 0;
-              }
-              if (!north && !east)
-              {
-                mvprintw(y_position,0, "%d, %d south and %d west", d->character[i][j].symbol, tmp_y, tmp_x);
-                y_position++;
-              }
-              else if (!north && east)
-              {
-                mvprintw(y_position,0, "%d, %d south and %d east", d->character[i][j].symbol, tmp_y, tmp_x);
-                y_position++;
-              }
-              else if (north && !east)
-              {
-                mvprintw(y_position,0, "%d, %d north and %d west", d->character[i][j].symbol, tmp_y, tmp_x);
-                y_position++;
-              }
-              else
-              {
-                mvprintw(y_position,0, "%d, %d north and %d east", d->character[i][j].symbol, tmp_y, tmp_x);
-                y_position++;
+                tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
+                tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
+                if (tmp_y > 0)
+                {
+                  //the monster is below the pc. monster is south by tmp_y distance
+                  north = 0;
+                }
+                else
+                {
+                  //monster is above the pc. monster is north by tmp_y distance
+                  tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+                  north = 1;
+                }
+                if (tmp_x > 0)
+                {
+                  //the monster is to the right of the pc. monster is east by tmp_x distance.
+                  east = 1;
+                }
+                else
+                {
+                  //the monster is to the left of the pc. monster is west by tmp_x distance.
+                  tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+                  east = 0;
+                }
+                if (!north && !east)
+                {
+                  mvprintw(y_position,0, "%d, %d south and %d west", d->character[i][j].symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else if (!north && east)
+                {
+                  mvprintw(y_position,0, "%d, %d south and %d east", d->character[i][j].symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else if (north && !east)
+                {
+                  mvprintw(y_position,0, "%d, %d north and %d west", d->character[i][j].symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else
+                {
+                  mvprintw(y_position,0, "%d, %d north and %d east", d->character[i][j].symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
               }
             }
-
           }
         }
       }
