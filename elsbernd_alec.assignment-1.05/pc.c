@@ -73,113 +73,106 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       //
     case 55:
     case 121:
-      if (d->map[dir[dim_y - 1]][dir[dim_x - 1]] == ter_wall || d->map[dir[dim_y - 1]][dir[dim_x - 1]] == ter_wall_immutable)
-      {
-        //print an error statement that says "there is a wall here"
-      }
-      else
+       if (d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]-1] == ter_floor_room || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]-1] == ter_floor_hall || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]-1] == ter_stairs_up || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]-1] == ter_stairs_down)
       {
         dir[dim_y] = -1;
         dir[dim_x] = -1;
       }
-      break;
+       else{
+	 input = 0;
+	 break;
+       }
       //up
     case 56:
     case 107:
-      if (d->map[dir[dim_y - 1]][dir[dim_x]] == ter_wall || d->map[dir[dim_y - 1]][dir[dim_x]] == ter_wall_immutable)
-      {
-        //print an error statement that says "there is a wall here"
-      }
-      else
+      if (d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_floor_room || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_floor_hall || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_stairs_up || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_stairs_down)
       {
         dir[dim_y] = -1;
+      }
+      else{
+	input = 0;
       }
       break;
       //up right
     case 57:
     case 117:
-      if (d->map[dir[dim_y - 1]][dir[dim_x + 1]] == ter_wall || d->map[dir[dim_y - 1]][dir[dim_x + 1]] == ter_wall_immutable)
-      {
-        //print an error statement that says "there is a wall here"
-      }
-      else
+       if (d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]+1] == ter_floor_room || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]+1] == ter_floor_hall || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]+1] == ter_stairs_up || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]+1] == ter_stairs_down)
       {
         dir[dim_y] = -1;
         dir[dim_x] = 1;
       }
+       else{
+	 input = 0;
+       }
       break;
       //right 
     case 54:
     case 108:
-      if (d->map[dir[dim_y]][dir[dim_x + 1]] == ter_wall || d->map[dir[dim_y]][dir[dim_x + 1]] == ter_wall_immutable)
-      {
-        //print an error statement that says "there is a wall here"
-      }
-      else
+       if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_floor_room || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_floor_hall || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_stairs_up || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_stairs_down)
       {
         dir[dim_x] = 1;
+      }
+      else{
+	input = 0;
       }
       break;
       //down right
     case 51:
     case 110:
-      if (d->map[dir[dim_y + 1]][dir[dim_x + 1]] == ter_wall || d->map[dir[dim_y + 1]][dir[dim_x + 1]] == ter_wall_immutable)
-      {
-        //print an error statement that says "there is a wall here"
-      }
-      else
+      if (d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]+1] == ter_floor_room || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]+1] == ter_floor_hall || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]+1] == ter_stairs_up || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]+1] == ter_stairs_down)
       {
         dir[dim_y] = 1;
         dir[dim_x] = 1;
+      }
+      else {
+	input = 0;
       }
       break;
       //down
     case 50:
     case 106:
-      if (d->map[dir[dim_y + 1]][dir[dim_x]] == ter_wall || d->map[dir[dim_y + 1]][dir[dim_x]] == ter_wall_immutable)
-      {
-        //print an error statement that says "there is a wall here"
-      }
-      else
-      {
+       if (d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_floor_room || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_floor_hall || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_stairs_up || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_stairs_down)
+       {
         dir[dim_y] = 1;
-      }
+       }
+       else{
+	 input = 0;
+       }
+	 
       break;
       //down left
     case 49:
     case 98:
-      if (d->map[dir[dim_y + 1]][dir[dim_x - 1]] == ter_wall || d->map[dir[dim_y + 1]][dir[dim_x - 1]] == ter_wall_immutable)
-      {
-        //print an error statement that says "there is a wall here"
-      }
-      else
+      if (d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]-1] == ter_floor_room || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]-1] == ter_floor_hall || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]-1] == ter_stairs_up || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]-1] == ter_stairs_down)
       {
         dir[dim_y] = 1;
         dir[dim_x] = -1;
+      }
+      else{
+	input = 0;
       }
       break;
       //left
     case 52:
     case 104:
-      if (d->map[dir[dim_y]][dir[dim_x - 1]] == ter_wall || d->map[dir[dim_y]][dir[dim_x - 1]] == ter_wall_immutable)
-      {
-        //print an error statement that says "there is a wall here"
-      }
-      else
+      if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_floor_room || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_floor_hall || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_stairs_up || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_stairs_down)
       {
         dir[dim_x] = -1;
+      }
+      else{
+	input =  0;
       }
       break;
       //downstairs or rest if not on stairs
     case 46:
-      if (d->map[dir[dim_y]][dir[dim_x]] == ter_stairs_down)
+      if (d->map[dim_y][dim_x] == ter_stairs_down)
       {
         //generate a new dungeon, pc position, and monsters
       }
       break;
       //upstairs
     case 44:
-      if (d->map[dir[dim_y]][dir[dim_x]] == ter_stairs_up)
+      if (d->map[dim_y][dim_x] == ter_stairs_up)
       {
         //generate a new dungeon, pc position, and monsters
       }
