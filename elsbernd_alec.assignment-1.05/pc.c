@@ -61,7 +61,8 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
   int y_position = 1; 
   int north, east, tmp_x, tmp_y;
   int arr_pos = 0;
-  int arr_start =0;
+  int skip = 0;
+  int skipped = 0;
   
   
   while(flag){
@@ -227,16 +228,21 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       //m lists monsters
     case 109: //NEEDS WORK. need to check if number of monsters > 21. if so stop printing.
       clear();
-      if (arr_pos + arr_start + 21 > d->num_monsters)
+      if (arr_pos + skip + 21 > d->num_monsters)
       {
         for (int i = 0; i < DUNGEON_Y; i++)
-	  {
-	    for (int j = 0; j < DUNGEON_X; j++)
 	      {
-		if (d->character[i][j] != NULL)
-		  {
-		    for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
-		      {
+	        for (int j = 0; j < DUNGEON_X; j++)
+	        {
+		        if (d->character[i][j] != NULL)
+		        {
+		          for (arr_pos = skip; arr_pos < d->num_monsters; arr_pos++)
+		          {
+                if (skipped < skip)
+                {
+                  skipped++;
+                  continue;
+                }
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
                 if (tmp_y > 0)
@@ -261,7 +267,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                   tmp_x = abs(tmp_x); //taking absolute value for printing purposes
                   east = 0;
                 }
-	      }
+	            
                 if (!north && !east)
                 {
                   mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
@@ -284,11 +290,12 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                 }
               }
             }
+          }
         }
       }
       else //if there are more than 21 monsters
       {
-        for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
+        for (arr_pos = skip; arr_pos < 21 + skip; arr_pos++)
         {
           for (int i = 0; i < DUNGEON_Y; i++)
           {
@@ -296,6 +303,11 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
             {
               if (d->character[i][j]->alive && d->character[i][j] != NULL)
               {
+                if (skipped < skip)
+                {
+                  skipped++;
+                  continue;
+                }
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
                 if (tmp_y > 0)
@@ -349,18 +361,18 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       break;
       // scroll up list if list is up
     case 259:
-      if (arr_start - 1 >= 0)
+      if (skip - 1 >= 0)
       {
-        arr_start--;
+        skip--;
       }
       clear();
       refresh();
       break;
       //scroll down list is if list is up
     case 258:
-      if (arr_start + 1 <= d->num_monsters)
+      if (skip + 1 <= d->num_monsters)
       {
-        arr_start++;
+        skip++;
       }
       clear();
       refresh();
