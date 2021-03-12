@@ -57,9 +57,7 @@ void config_pc(dungeon_t *d)
 uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
 
   int input = 0;
-  int input2 = 0;
   int flag = 1;
-  int flag2 = 1;
   int y_position = 1; 
   int north, east, tmp_x, tmp_y;
   int skip = 0;
@@ -74,7 +72,6 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
     
     mvprintw(0,0,"\n",input);
     mvprintw(0,0,"%d",input);
-    refresh();
     
     switch(input){
       //Q
@@ -200,7 +197,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
         delete_dungeon(d);
         init_dungeon(d);
         gen_dungeon(d);
-	      config_pc(d);
+	config_pc(d);
         gen_monsters(d);
         render_dungeon(d);
       }
@@ -228,35 +225,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       break;
       //m lists monsters
     case 109: //NEEDS WORK. need to check if number of monsters > 21. if so stop printing.
-      while(flag2)
-      {
-        input2 = getch();
-        switch(input2)
-        {
-          //up
-          case 259:
-            if (skip - 1 >= 0)
-            {
-              skip--;
-            }
-            break;
-          //down
-          case 258:
-            if(skip + 1 <= d->num_monsters){
-              skip++;
-            }
-          //exit
-          case 27:
-            clear();
-            render_dungeon(d);
-            refresh();
-            flag2 = 0;
-            break;
-          //exit
-          default:
-            break;
-        }
-        clear();
+	clear();
         if (skip + 21 > d->num_monsters)
         {
           for (int i = 0; i < DUNGEON_Y; i++)
@@ -319,6 +288,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
             }
           }
         }
+	
         else //if there are more than 21 monsters
         {
           for (int i = 0; i < DUNGEON_Y; i++)
@@ -358,31 +328,50 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                 }
                 if (!north && !east)
                 {
-                  mvprintw(y_position,0, "%d, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
                   y_position++;
                 }
                 else if (!north && east)
                 {
-                  mvprintw(y_position,0, "%d, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  mvprintw(y_position,0, "%c, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
                   y_position++;
                 }
                 else if (north && !east)
                 {
-                  mvprintw(y_position,0, "%d, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  mvprintw(y_position,0, "%c, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
                   y_position++;
                 }
                 else
                 {
-                  mvprintw(y_position,0, "%d, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
                   y_position++;
 		            }
               }
-            }
-          } 
-        }
+            }	    
+          }
+	refresh();
       }
       refresh();
       break;
+      
+          //up
+          case 259:
+            if (skip - 1 >= 0)
+            {
+              skip--;
+            }
+            break;
+          //down
+          case 258:
+            if(skip + 1 <= d->num_monsters){
+              skip++;
+            }
+          //exit
+          case 27:
+	    clear();
+	    render_dungeon(d);
+	    refresh();
+            break;
     default:
       flag = 1;
     }
