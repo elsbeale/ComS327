@@ -62,8 +62,8 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
   int flag2 = 1;
   int y_position = 1; 
   int north, east, tmp_x, tmp_y;
-  int arr_pos = 0;
-  int arr_start =0;
+  int skip = 0;
+  int skipped = 0;
   
   
   while(flag){
@@ -90,20 +90,20 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = -1;
         dir[dim_x] = -1;
-	flag = 0;
+	      flag = 0;
       }
       else
       {
         mvprintw(0,0, "There is a wall in the way");
       }
-  break;     
+      break;     
       //up
     case 56:
     case 107:
       if (d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_floor_room || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_floor_hall || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_stairs_up || d->map[d->pc.position[dim_y]-1][d->pc.position[dim_x]] == ter_stairs_down)
       {
         dir[dim_y] = -1;
-	flag = 0;
+	      flag = 0;
       }
       else
       {
@@ -117,7 +117,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = -1;
         dir[dim_x] = 1;
-	flag = 0;
+	      flag = 0;
       }
       else
       {
@@ -130,7 +130,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
        if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_floor_room || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_floor_hall || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_stairs_up || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]+1] == ter_stairs_down)
       {
         dir[dim_x] = 1;
-	flag = 0;
+	      flag = 0;
       }
       else
       {
@@ -144,7 +144,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = 1;
         dir[dim_x] = 1;
-	flag = 0;
+	      flag = 0;
       }
       else
       {
@@ -154,15 +154,15 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       //down
     case 50:
     case 106:
-       if (d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_floor_room || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_floor_hall || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_stairs_up || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_stairs_down)
-       {
-	 dir[dim_y] = 1;
-	 flag = 0;
-       } 
-       else
-       {
-         mvprintw(0,0, "There is a wall in the way");
-       }
+      if (d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_floor_room || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_floor_hall || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_stairs_up || d->map[d->pc.position[dim_y]+1][d->pc.position[dim_x]] == ter_stairs_down)
+      {
+        dir[dim_y] = 1;
+	      flag = 0;
+      } 
+      else
+      {
+        mvprintw(0,0, "There is a wall in the way");
+      }
       break;
       //down left
     case 49:
@@ -171,7 +171,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       {
         dir[dim_y] = 1;
         dir[dim_x] = -1;
-	flag = 0;
+	      flag = 0;
       }
       else
       {
@@ -184,7 +184,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_floor_room || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_floor_hall || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_stairs_up || d->map[d->pc.position[dim_y]][d->pc.position[dim_x]-1] == ter_stairs_down)
       {
         dir[dim_x] = -1;
-	flag = 0;
+	      flag = 0;
       }
       else
       {
@@ -196,11 +196,11 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]] == ter_stairs_down)
       {
         //generate a new dungeon, pc position, and monsters
-	pc_delete(d->pc.pc);
-	delete_dungeon(d);
+        pc_delete(d->pc.pc);
+        delete_dungeon(d);
         init_dungeon(d);
         gen_dungeon(d);
-	config_pc(d);
+	      config_pc(d);
         gen_monsters(d);
         render_dungeon(d);
       }
@@ -211,13 +211,13 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       if (d->map[d->pc.position[dim_y]][d->pc.position[dim_x]] == ter_stairs_up)
       {
         //generate a new dungeon, pc position, and monsters
-	pc_delete(d->pc.pc);
-	delete_dungeon(d);
+        pc_delete(d->pc.pc);
+        delete_dungeon(d);
         init_dungeon(d);
         gen_dungeon(d);
-	config_pc(d);
-	gen_monsters(d);
-	render_dungeon(d);
+        config_pc(d);
+        gen_monsters(d);
+        render_dungeon(d);
         refresh();
       }
       break;
@@ -228,43 +228,48 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       break;
       //m lists monsters
     case 109: //NEEDS WORK. need to check if number of monsters > 21. if so stop printing.
-      while(flag2){
-	input2 = getch();
-	switch(input2){
-	  //up
-	case 259:
-	  if(arr_pos < d->num_monsters){
-	     arr_pos++;
-	  }
-	  break;
-	  //down
-	case 258:
-	  if(arr_pos > 0){
-	    arr_pos--;
-	  }
-	  //exit
-	  case 27:
-	    clear();
-	    render_dungeon(d);
-	    refresh();
-	    flag2 = 0;
-	  break;
-	  //exit
-	default:
-	  break;
-	}
-	  
-      clear();
-      if (arr_pos + arr_start + 21 > d->num_monsters)
+      while(flag2)
       {
-        for (int i = 0; i < DUNGEON_Y; i++)
-	  {
-	    for (int j = 0; j < DUNGEON_X; j++)
-	      {
-		if (d->character[i][j] != NULL)
-		  {
-		    for (arr_pos = arr_start; arr_pos < d->num_monsters; arr_pos++)
-		      {
+        input2 = getch();
+        switch(input2)
+        {
+          //up
+          case 259:
+            if (skip - 1 >= 0)
+            {
+              skip--;
+            }
+            break;
+          //down
+          case 258:
+            if(skip + 1 <= d->num_monsters){
+              skip++;
+            }
+          //exit
+          case 27:
+            clear();
+            render_dungeon(d);
+            refresh();
+            flag2 = 0;
+            break;
+          //exit
+          default:
+            break;
+        }
+        clear();
+        if (skip + 21 > d->num_monsters)
+        {
+          for (int i = 0; i < DUNGEON_Y; i++)
+	        {
+	          for (int j = 0; j < DUNGEON_X; j++)
+	          {
+		          if (d->character[i][j] != NULL)
+		          {
+                if (skipped < skip)
+                {
+                  skipped++;
+                  continue;
+                }
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
                 if (tmp_y > 0)
@@ -289,7 +294,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                   tmp_x = abs(tmp_x); //taking absolute value for printing purposes
                   east = 0;
                 }
-	      }
+
                 if (!north && !east)
                 {
                   mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
@@ -312,18 +317,21 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                 }
               }
             }
+          }
         }
-      }
-      else //if there are more than 21 monsters
-      {
-        for (arr_pos = arr_start; arr_pos < 21 + arr_start; arr_pos++)
+        else //if there are more than 21 monsters
         {
           for (int i = 0; i < DUNGEON_Y; i++)
           {
             for (int j = 0; j < DUNGEON_X; j++)
             {
-              if (d->character[i][j]->alive && d->character[i][j] != NULL)
+              if (d->character[i][j] != NULL)
               {
+                if (skipped < skip)
+                {
+                  skipped++;
+                  continue;
+                }
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
                 if (tmp_y > 0)
@@ -367,19 +375,18 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                 {
                   mvprintw(y_position,0, "%d, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
                   y_position++;
-		}
+		            }
               }
             }
-          }
+          } 
         }
-      }
       }
       refresh();
       break;
     default:
       flag = 1;
     }
-    }
+  }
   return 0;
 }
 
