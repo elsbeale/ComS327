@@ -488,7 +488,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
           }	    
         }
         refresh();
-      }
+      ]
       break;
     //down
     case 258:
@@ -496,7 +496,6 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
         skip++;
       }
       clear();
-      line_count = 0;
       y_position =0;
       if (skip + 21 > d->num_monsters)
       {
@@ -626,7 +625,6 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
           }
 	}
       }
-      refresh();
       break;
     //exit
     case 27:
