@@ -285,6 +285,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
             }
           }
         }
+        refresh();
       }
 
       else //if there are more than 21 monsters
@@ -421,6 +422,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
             }
           }
         }
+        refresh();
       }
 
       else //if there are more than 21 monsters
@@ -489,6 +491,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
         }
         refresh();
       }
+      refresh();
       break;
     //down
     case 258:
@@ -559,6 +562,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
             }
           }
         }
+        refresh()
       }
 
       else //if there are more than 21 monsters
@@ -624,7 +628,8 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
               }
             }
           }
-	}
+	      }
+        refresh();  
       }
       refresh();
       break;
