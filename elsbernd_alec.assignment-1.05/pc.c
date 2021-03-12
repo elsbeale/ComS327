@@ -228,6 +228,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
     case 109: //NEEDS WORK. need to check if number of monsters > 21. if so stop printing.
 	    clear();
       line_count = 0;
+      y_position =0;
       if (21 > d->num_monsters)
       {
         for (int i = 0; i < DUNGEON_Y; i++)
@@ -358,6 +359,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       }
       clear();
       line_count = 0;
+      y_position =0;
       if (skip + 21 > d->num_monsters)
       {
         for (int i = 0; i < DUNGEON_Y; i++)
@@ -495,6 +497,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       }
       clear();
       line_count = 0;
+      y_position =0;
       if (skip + 21 > d->num_monsters)
       {
         for (int i = 0; i < DUNGEON_Y; i++)
@@ -620,10 +623,11 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                 line_count++;
               }
             }
-          }	    
-        }
-        refresh();
+          }
+	}
       }
+      refresh();
+      break;
     //exit
     case 27:
 	    clear();
