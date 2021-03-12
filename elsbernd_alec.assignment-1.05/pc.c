@@ -62,6 +62,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
   int north, east, tmp_x, tmp_y;
   int skip = 0;
   int skipped = 0;
+  int line_count = 0;
   
   
   while(flag){
@@ -225,83 +226,76 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
       break;
       //m lists monsters
     case 109: //NEEDS WORK. need to check if number of monsters > 21. if so stop printing.
-	clear();
-        if (skip + 21 > d->num_monsters)
+	    clear();
+      line_count = 0;
+      if (21 > d->num_monsters)
+      {
+        for (int i = 0; i < DUNGEON_Y; i++)
         {
-          for (int i = 0; i < DUNGEON_Y; i++)
-	        {
-	          for (int j = 0; j < DUNGEON_X; j++)
-	          {
-		          if (d->character[i][j] != NULL)
-		          {
-                if (skipped < skip)
-                {
-                  skipped++;
-                  continue;
-                }
-                tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
-                tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
-                if (tmp_y > 0)
-                {
-                  //the monster is below the pc. monster is south by tmp_y distance
-                  north = 0;
-                }
-                else
-                {
-                  //monster is above the pc. monster is north by tmp_y distance
-                  tmp_y = abs(tmp_y); //taking absolute value for printing purposes
-                  north = 1;
-                }
-                if (tmp_x > 0)
-                {
-                  //the monster is to the right of the pc. monster is east by tmp_x distance.
-                  east = 1;
-                }
-                else
-                {
-                  //the monster is to the left of the pc. monster is west by tmp_x distance.
-                  tmp_x = abs(tmp_x); //taking absolute value for printing purposes
-                  east = 0;
-                }
+          for (int j = 0; j < DUNGEON_X; j++)
+          {
+            if (d->character[i][j] != NULL)
+            {
+              tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
+              tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
+              if (tmp_y > 0)
+              {
+                //the monster is below the pc. monster is south by tmp_y distance
+                north = 0;
+              }
+              else
+              {
+                //monster is above the pc. monster is north by tmp_y distance
+                tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+                north = 1;
+              }
+              if (tmp_x > 0)
+              {
+                //the monster is to the right of the pc. monster is east by tmp_x distance.
+                east = 1;
+              }
+              else
+              {
+                //the monster is to the left of the pc. monster is west by tmp_x distance.
+                tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+                east = 0;
+              }
 
-                if (!north && !east)
-                {
-                  mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
-                  y_position++;
-                }
-                else if (!north && east)
-                {
-                  mvprintw(y_position,0, "%c, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
-                  y_position++;
-                }
-                else if (north && !east)
-                {
-                  mvprintw(y_position,0, "%c, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
-                  y_position++;
-                }
-                else
-                {
-                  mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
-                  y_position++;
-                }
+              if (!north && !east)
+              {
+                mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else if (!north && east)
+              {
+                mvprintw(y_position,0, "%c, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else if (north && !east)
+              {
+                mvprintw(y_position,0, "%c, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else
+              {
+                mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
               }
             }
           }
         }
-	
-        else //if there are more than 21 monsters
+      }
+
+      else //if there are more than 21 monsters
+      {
+        for (int i = 0; i < DUNGEON_Y; i++)
         {
-          for (int i = 0; i < DUNGEON_Y; i++)
+          for (int j = 0; j < DUNGEON_X; j++)
           {
-            for (int j = 0; j < DUNGEON_X; j++)
+            if (d->character[i][j] != NULL)
             {
-              if (d->character[i][j] != NULL)
+              if (line_count < 20)
               {
-                if (skipped < skip)
-                {
-                  skipped++;
-                  continue;
-                }
                 tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
                 tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
                 if (tmp_y > 0)
@@ -345,33 +339,297 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir){
                 {
                   mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
                   y_position++;
-		            }
+                }
+                line_count++;
               }
-            }	    
-          }
-	refresh();
+            }
+          }	    
+        }
+        refresh();
       }
       refresh();
       break;
       
           //up
-          case 259:
-            if (skip - 1 >= 0)
+    case 259:
+      if (skip - 1 >= 0)
+      {
+        skip--;
+      }
+      clear();
+      line_count = 0;
+      if (skip + 21 > d->num_monsters)
+      {
+        for (int i = 0; i < DUNGEON_Y; i++)
+        {
+          for (int j = 0; j < DUNGEON_X; j++)
+          {
+            if (d->character[i][j] != NULL)
             {
-              skip--;
+              if (skipped < skip)
+              {
+                skipped++;
+                continue;
+              }
+              tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
+              tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
+              if (tmp_y > 0)
+              {
+                //the monster is below the pc. monster is south by tmp_y distance
+                north = 0;
+              }
+              else
+              {
+                //monster is above the pc. monster is north by tmp_y distance
+                tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+                north = 1;
+              }
+              if (tmp_x > 0)
+              {
+                //the monster is to the right of the pc. monster is east by tmp_x distance.
+                east = 1;
+              }
+              else
+              {
+                //the monster is to the left of the pc. monster is west by tmp_x distance.
+                tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+                east = 0;
+              }
+
+              if (!north && !east)
+              {
+                mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else if (!north && east)
+              {
+                mvprintw(y_position,0, "%c, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else if (north && !east)
+              {
+                mvprintw(y_position,0, "%c, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else
+              {
+                mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
             }
-            break;
-          //down
-          case 258:
-            if(skip + 1 <= d->num_monsters){
-              skip++;
+          }
+        }
+      }
+
+      else //if there are more than 21 monsters
+      {
+        for (int i = 0; i < DUNGEON_Y; i++)
+        {
+          for (int j = 0; j < DUNGEON_X; j++)
+          {
+            if (d->character[i][j] != NULL)
+            {
+              if (skipped < skip)
+              {
+                skipped++;
+                continue;
+              }
+              if (line_count < 20)
+              {
+                tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
+                tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
+                if (tmp_y > 0)
+                {
+                  //the monster is below the pc. monster is south by tmp_y distance
+                  north = 0;
+                }
+                else
+                {
+                  //monster is above the pc. monster is north by tmp_y distance
+                  tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+                  north = 1;
+                }
+                if (tmp_x > 0)
+                {
+                  //the monster is to the right of the pc. monster is east by tmp_x distance.
+                  east = 1;
+                }
+                else
+                {
+                  //the monster is to the left of the pc. monster is west by tmp_x distance.
+                  tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+                  east = 0;
+                }
+                if (!north && !east)
+                {
+                  mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else if (!north && east)
+                {
+                  mvprintw(y_position,0, "%c, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else if (north && !east)
+                {
+                  mvprintw(y_position,0, "%c, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else
+                {
+                  mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                line_count++;
+              }
             }
-          //exit
-          case 27:
+          }	    
+        }
+        refresh();
+      }
+      break;
+    //down
+    case 258:
+      if(skip + 1 <= d->num_monsters){
+        skip++;
+      }
+      clear();
+      line_count = 0;
+      if (skip + 21 > d->num_monsters)
+      {
+        for (int i = 0; i < DUNGEON_Y; i++)
+        {
+          for (int j = 0; j < DUNGEON_X; j++)
+          {
+            if (d->character[i][j] != NULL)
+            {
+              if (skipped < skip)
+              {
+                skipped++;
+                continue;
+              }
+              tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
+              tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
+              if (tmp_y > 0)
+              {
+                //the monster is below the pc. monster is south by tmp_y distance
+                north = 0;
+              }
+              else
+              {
+                //monster is above the pc. monster is north by tmp_y distance
+                tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+                north = 1;
+              }
+              if (tmp_x > 0)
+              {
+                //the monster is to the right of the pc. monster is east by tmp_x distance.
+                east = 1;
+              }
+              else
+              {
+                //the monster is to the left of the pc. monster is west by tmp_x distance.
+                tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+                east = 0;
+              }
+
+              if (!north && !east)
+              {
+                mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else if (!north && east)
+              {
+                mvprintw(y_position,0, "%c, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else if (north && !east)
+              {
+                mvprintw(y_position,0, "%c, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+              else
+              {
+                mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                y_position++;
+              }
+            }
+          }
+        }
+      }
+
+      else //if there are more than 21 monsters
+      {
+        for (int i = 0; i < DUNGEON_Y; i++)
+        {
+          for (int j = 0; j < DUNGEON_X; j++)
+          {
+            if (d->character[i][j] != NULL)
+            {
+              if (skipped < skip)
+              {
+                skipped++;
+                continue;
+              }
+              if (line_count < 20)
+              {
+                tmp_x = d->character[i][j]->position[dim_x] - d->pc.position[dim_x];
+                tmp_y = d->character[i][j]->position[dim_y] - d->pc.position[dim_y];
+                if (tmp_y > 0)
+                {
+                  //the monster is below the pc. monster is south by tmp_y distance
+                  north = 0;
+                }
+                else
+                {
+                  //monster is above the pc. monster is north by tmp_y distance
+                  tmp_y = abs(tmp_y); //taking absolute value for printing purposes
+                  north = 1;
+                }
+                if (tmp_x > 0)
+                {
+                  //the monster is to the right of the pc. monster is east by tmp_x distance.
+                  east = 1;
+                }
+                else
+                {
+                  //the monster is to the left of the pc. monster is west by tmp_x distance.
+                  tmp_x = abs(tmp_x); //taking absolute value for printing purposes
+                  east = 0;
+                }
+                if (!north && !east)
+                {
+                  mvprintw(y_position,0, "%c, %d south and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else if (!north && east)
+                {
+                  mvprintw(y_position,0, "%c, %d south and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else if (north && !east)
+                {
+                  mvprintw(y_position,0, "%c, %d north and %d west", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                else
+                {
+                  mvprintw(y_position,0, "%c, %d north and %d east", d->character[i][j]->symbol, tmp_y, tmp_x);
+                  y_position++;
+                }
+                line_count++;
+              }
+            }
+          }	    
+        }
+        refresh();
+      }
+    //exit
+    case 27:
 	    clear();
 	    render_dungeon(d);
 	    refresh();
-            break;
+      break;
     default:
       flag = 1;
     }
