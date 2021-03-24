@@ -504,6 +504,7 @@ void io_handle_input(dungeon_t *d)
 {
   uint32_t fail_code;
   int key;
+  pair_t tele_pos;
 
   do {
     switch (key = getch()) {
@@ -589,11 +590,11 @@ void io_handle_input(dungeon_t *d)
       break;
     case 'g':
       //teleporting target
-      pair_t tele_pos;
+      
       tele_pos[dim_y] = d->pc.position[dim_y];
       tele_pos[dim_x] = d->pc.position[dim_x];
 
-      switch (key = getch())
+      switch (key = getch()) {
       //upper left
       case '7':
       case 'y':
@@ -671,6 +672,7 @@ void io_handle_input(dungeon_t *d)
         io_teleport_pc(d);
         fail_code = 0;
         break;
+      }
     case 'm':
       io_list_monsters(d);
       fail_code = 1;
