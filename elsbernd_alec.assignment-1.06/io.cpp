@@ -340,6 +340,24 @@ uint32_t io_teleport_pc(dungeon_t *d)
 
   return 0;
 }
+
+uint32_t io_teleport_pc_targeted(dungeon_t *d, pair_t target)
+{
+  d->character[d->pc.position[dim_y]][d->pc.position[dim_x]] = NULL;
+  d->character[target[dim_y]][target[dim_x]] = &d->pc;
+
+  d->pc.position[dim_y] = target[dim_y];
+  d->pc.position[dim_x] = target[dim_x];
+
+  if (mappair(target) < ter_floor) {
+    mappair(target) = ter_floor;
+  }
+
+  dijkstra(d);
+  dijkstra_tunnel(d);
+
+  return 0;
+}
 /* Adjectives to describe our monsters */
 static const char *adjectives[] = {
   "A menacing ",
@@ -568,10 +586,88 @@ void io_handle_input(dungeon_t *d)
       fail_code = 1;
       break;
     case 'g':
-      /* Teleport the PC to a random place in the dungeon.              */
-      io_teleport_pc(d);
-      fail_code = 0;
-      break;
+      pair_t tele_pos;
+      tele_pos[dim_y] = d->pc.position[dim_y];
+      tele_pos[dim_x] = d->pc.position[dim_x];
+
+      switch (key = getch())
+      //upper left
+      case '7':
+      case 'y':
+        if (d->map[tele_pos[dim_y - 1]][tele_pos[dim_x - 1]] != ter_wall_immutable)
+        {
+          tele_pos[dim_y]--;
+          tele_pos[dim_x]--;
+        }
+        break;
+      //up
+      case '8':
+      case 'k':
+        if (d->map[tele_pos[dim_y - 1]][tele_pos[dim_x]] != ter_wall_immutable)
+        {
+          tele_pos[dim_y]--;
+        }
+        break;
+      //upper right
+      case '9':
+      case 'u':
+        if (d->map[tele_pos[dim_y - 1]][tele_pos[dim_x + 1]] != ter_wall_immutable)
+        {
+          tele_pos[dim_y]--;
+          tele_pos[dim_x]++;
+        }
+        break;
+      //right
+      case '6':
+      case 'l':
+        if (d->map[tele_pos[dim_y]][tele_pos[dim_x + 1]] != ter_wall_immutable)
+        {
+          tele_pos[dim_x]++;
+        }
+        break;
+      //lower right
+      case '3':
+      case 'n':
+        if (d->map[tele_pos[dim_y + 1]][tele_pos[dim_x + 1]] != ter_wall_immutable)
+        {
+          tele_pos[dim_y]++;
+          tele_pos[dim_x]++;
+        }
+        break;
+      //down
+      case '2':
+      case 'j':
+        if (d->map[tele_pos[dim_y + 1]][tele_pos[dim_x]] != ter_wall_immutable)
+        {
+          tele_pos[dim_y]++;
+        }
+        break;
+      //lower left
+      case '1':
+      case 'b':
+        if (d->map[tele_pos[dim_y + 1]][tele_pos[dim_x - 1]] != ter_wall_immutable)
+        {
+          tele_pos[dim_y]++;
+          tele_pos[dim_x]--;
+        }
+        break;
+      //left
+      case '4':
+      case 'h':
+        if (d->map[tele_pos[dim_y]][tele_pos[dim_x - 1]] != ter_wall_immutable)
+        {
+          tele_pos[dim_x]--;
+        }
+        break;
+      case 'g':
+        io_teleport_pc_targeted(d, tele_pos);
+        fail_code = 0;
+        break;
+      case 'r':
+        /* Teleport the PC to a random place in the dungeon.              */
+        io_teleport_pc(d);
+        fail_code = 0;
+        break;
     case 'm':
       io_list_monsters(d);
       fail_code = 1;
