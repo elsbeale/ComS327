@@ -4,11 +4,11 @@
 # include <stdint.h>
 
 # include "dims.h"
-# include "character.h"
+
 
 typedef struct dungeon dungeon_t;
 
-typedef class pc: public character {
+typedef class pc{
 } pc_t;
 
 void pc_delete(pc_t *pc);

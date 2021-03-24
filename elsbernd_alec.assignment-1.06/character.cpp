@@ -17,7 +17,7 @@ void character_delete(void *v)
 
     if (c->npc) {
       npc_delete(c->npc);
-      free(c);
+      
     }
   }
 }
