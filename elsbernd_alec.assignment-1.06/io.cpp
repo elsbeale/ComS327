@@ -603,6 +603,7 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]--;
           tele_pos[dim_x]--;
         }
+        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
         break;
       //up
       case '8':
@@ -611,6 +612,7 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_y]--;
         }
+        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
         break;
       //upper right
       case '9':
@@ -618,8 +620,9 @@ void io_handle_input(dungeon_t *d)
         if (d->map[tele_pos[dim_y - 1]][tele_pos[dim_x + 1]] != ter_wall_immutable)
         {
           tele_pos[dim_y]--;
-          tele_pos[dim_x]++;
+          tele_pos[dim_x]++;  
         }
+        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
         break;
       //right
       case '6':
@@ -628,6 +631,7 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_x]++;
         }
+        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
         break;
       //lower right
       case '3':
@@ -637,6 +641,7 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]++;
           tele_pos[dim_x]++;
         }
+        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
         break;
       //down
       case '2':
@@ -645,6 +650,7 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_y]++;
         }
+        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
         break;
       //lower left
       case '1':
@@ -654,6 +660,7 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]++;
           tele_pos[dim_x]--;
         }
+        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
         break;
       //left
       case '4':
@@ -662,6 +669,7 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_x]--;
         }
+        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
         break;
       case 'g':
         io_teleport_pc_targeted(d, tele_pos);
