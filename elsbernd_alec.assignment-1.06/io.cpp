@@ -341,6 +341,7 @@ uint32_t io_teleport_pc(dungeon_t *d)
   return 0;
 }
 
+//same as io_teleport_pc but with a specific target
 uint32_t io_teleport_pc_targeted(dungeon_t *d, pair_t target)
 {
   d->character[d->pc.position[dim_y]][d->pc.position[dim_x]] = NULL;
@@ -358,6 +359,7 @@ uint32_t io_teleport_pc_targeted(dungeon_t *d, pair_t target)
 
   return 0;
 }
+
 /* Adjectives to describe our monsters */
 static const char *adjectives[] = {
   "A menacing ",
@@ -586,6 +588,7 @@ void io_handle_input(dungeon_t *d)
       fail_code = 1;
       break;
     case 'g':
+      //teleporting target
       pair_t tele_pos;
       tele_pos[dim_y] = d->pc.position[dim_y];
       tele_pos[dim_x] = d->pc.position[dim_x];
