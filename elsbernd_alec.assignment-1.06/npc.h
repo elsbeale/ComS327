@@ -4,6 +4,7 @@
 # include <stdint.h>
 
 # include "dims.h"
+# include "character.h"
 
 # define NPC_SMART         0x00000001
 # define NPC_TELEPATH      0x00000002
@@ -45,7 +46,7 @@ typedef struct dungeon dungeon_t;
 typedef struct character character_t;
 typedef uint32_t npc_characteristics_t;
 
-typedef class npc {
+typedef class npc: public character {
  public:
   npc_characteristics_t characteristics;
   uint32_t have_seen_pc;
