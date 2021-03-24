@@ -13,14 +13,16 @@
 /* Same ugly hack we did in path.c */
 static dungeon_t *dungeon;
 
-typedef struct io_message {
+typedef class io_message {
   /* Will print " --more-- " at end of line when another message follows. *
    * Leave 10 extra spaces for that.                                      */
+public:
   char msg[71];
-  struct io_message *next;
+  struct  io_message *next;
 } io_message_t;
 
 static io_message_t *io_head, *io_tail;
+int fogView = 1;
 
 void io_init_terminal(void)
 {
@@ -199,41 +201,79 @@ static character_t *io_nearest_visible_monster(dungeon_t *d)
 
 void io_display(dungeon_t *d)
 {
-  uint32_t y, x;
+  int y, x;
   character_t *c;
-
+  
   clear();
-  for (y = 0; y < 21; y++) {
-    for (x = 0; x < 80; x++) {
-      if (d->character[y][x]) {
-        mvaddch(y + 1, x, d->character[y][x]->symbol);
-      } else {
-        switch (mapxy(x, y)) {
-        case ter_wall:
-        case ter_wall_immutable:
-          mvaddch(y + 1, x, ' ');
-          break;
-        case ter_floor:
-        case ter_floor_room:
-          mvaddch(y + 1, x, '.');
-          break;
-        case ter_floor_hall:
-          mvaddch(y + 1, x, '#');
-          break;
-        case ter_debug:
-          mvaddch(y + 1, x, '*');
-          break;
-        case ter_stairs_up:
-          mvaddch(y + 1, x, '<');
-          break;
-        case ter_stairs_down:
-          mvaddch(y + 1, x, '>');
-          break;
-        default:
+  if(fogView){
+    for (y = 0; y < 21; y++) {
+      for (x = 0; x < 80; x++) {
+	if (d->character[y][x] && x > d->pc.position[dim_x]-3 && x < d->pc.position[dim_x]+3 && y > d->pc.position[dim_y]-3 && y < d->pc.position[dim_y]+3){
+	  mvaddch(y + 1, x, d->character[y][x]->symbol);
+	} else {
+	  switch (fogmapxy(x, y)) {
+	  case ter_wall:
+	  case ter_wall_immutable:
+	    mvaddch(y + 1, x, ' ');
+	    break;
+	  case ter_floor:
+	  case ter_floor_room:
+	    mvaddch(y + 1, x, '.');
+	    break;
+	  case ter_floor_hall:
+	    mvaddch(y + 1, x, '#');
+	    break;
+	  case ter_debug:
+	    mvaddch(y + 1, x, '*');
+	    break;
+	  case ter_stairs_up:
+	    mvaddch(y + 1, x, '<');
+	    break;
+	  case ter_stairs_down:
+	    mvaddch(y + 1, x, '>');
+	    break;
+	  default:
  /* Use zero as an error symbol, since it stands out somewhat, and it's *
   * not otherwise used.                                                 */
-          mvaddch(y + 1, x, '0');
-        }
+	    mvaddch(y + 1, x, '0');
+	  }
+        }	
+      }
+    }
+  }
+  else{
+    for (y = 0; y < 21; y++) {
+      for (x = 0; x < 80; x++) {
+	if (d->character[y][x]){
+	  mvaddch(y + 1, x, d->character[y][x]->symbol);
+	} else {
+	  switch (mapxy(x, y)) {
+	  case ter_wall:
+	  case ter_wall_immutable:
+	    mvaddch(y + 1, x, ' ');
+	    break;
+	  case ter_floor:
+	  case ter_floor_room:
+	    mvaddch(y + 1, x, '.');
+	    break;
+	  case ter_floor_hall:
+	    mvaddch(y + 1, x, '#');
+	    break;
+	  case ter_debug:
+	    mvaddch(y + 1, x, '*');
+	    break;
+	  case ter_stairs_up:
+	    mvaddch(y + 1, x, '<');
+	    break;
+	  case ter_stairs_down:
+	    mvaddch(y + 1, x, '>');
+	    break;
+	  default:
+ /* Use zero as an error symbol, since it stands out somewhat, and it's *
+  * not otherwise used.                                                 */
+	    mvaddch(y + 1, x, '0');
+	  }
+        }	
       }
     }
   }
@@ -557,6 +597,16 @@ void io_handle_input(dungeon_t *d)
       io_queue_message("Have fun!  And happy printing!");
       fail_code = 0;
       break;
+    case 0146:
+      if(fogView){
+	fogView = 0;
+      }
+      else{
+	fogView = 1;
+      }
+      io_display(d);
+      break;
+      
     default:
       /* Also not in the spec.  It's not always easy to figure out what *
        * key code corresponds with a given keystroke.  Print out any    *

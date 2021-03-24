@@ -24,7 +24,9 @@
 #define DUNGEON_SAVE_VERSION   0U
 
 #define mappair(pair) (d->map[pair[dim_y]][pair[dim_x]])
+#define fogmappair(pair) (d->fogMap[pair[dim_y]][pair[dim_x]])
 #define mapxy(x, y) (d->map[y][x])
+#define fogmapxy(x, y) (d->fogMap[y][x])
 #define hardnesspair(pair) (d->hardness[pair[dim_y]][pair[dim_x]])
 #define hardnessxy(x, y) (d->hardness[y][x])
 #define charpair(pair) (d->character[pair[dim_y]][pair[dim_x]])
@@ -42,14 +44,17 @@ typedef enum __attribute__ ((__packed__)) terrain_type {
   ter_stairs_down
 } terrain_type_t;
 
-typedef struct room {
+typedef class room {
+ public:
   pair_t position;
   pair_t size;
 } room_t;
 
-typedef struct dungeon {
+typedef class dungeon {
+ public:
   uint32_t num_rooms;
   room_t *rooms;
+  terrain_type_t fogMap[DUNGEON_Y][DUNGEON_X];
   terrain_type_t map[DUNGEON_Y][DUNGEON_X];
   /* Since hardness is usually not used, it would be expensive to pull it *
    * into cache every time we need a map cell, so we store it in a        *

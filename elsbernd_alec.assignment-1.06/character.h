@@ -16,7 +16,8 @@ typedef enum kill_type {
   num_kill_types
 } kill_type_t;
 
-typedef struct character {
+typedef class character {
+ public:
   char symbol;
   pair_t position;
   int32_t speed;

@@ -1,5 +1,5 @@
 
-character.h,553
+character.h,552
 # define CHARACTER_H2,20
 typedef struct dungeon dungeon_t;8,84
 typedef struct npc npc_t;9,118
@@ -10,16 +10,16 @@ typedef enum kill_type 13,199
   kill_avenged,15,239
   num_kill_types16,255
 } kill_type_t;17,272
-typedef struct character 19,288
-  char symbol;20,315
-  pair_t position;21,330
-  int32_t speed;22,349
-  uint32_t alive;23,366
-  uint32_t sequence_number;31,931
-  npc_t *npc;npc32,959
-  pc_t *pc;pc33,973
-  uint32_t kills[kills34,985
-} character_t;35,1019
+typedef class character 19,288
+  char symbol;21,323
+  pair_t position;22,338
+  int32_t speed;23,357
+  uint32_t alive;24,374
+  uint32_t sequence_number;32,939
+  npc_t *npc;npc33,967
+  pc_t *pc;pc34,981
+  uint32_t kills[kills35,993
+} character_t;36,1027
 
 dims.h,146
 # define DIMS_H2,15
@@ -30,7 +30,7 @@ typedef enum dim 7,190
 } dim_t;11,238
 typedef int8_t pair_t[pair_t13,248
 
-dungeon.h,1616
+dungeon.h,1708
 # define DUNGEON_H2,18
 #define DUNGEON_X 8,101
 #define DUNGEON_Y 9,135
@@ -50,56 +50,59 @@ dungeon.h,1616
 #define DUNGEON_SAVE_SEMANTIC 23,621
 #define DUNGEON_SAVE_VERSION 24,667
 #define mappair(26,702
-#define mapxy(27,759
-#define hardnesspair(28,794
-#define hardnessxy(29,861
-#define charpair(30,906
-#define charxy(31,970
-typedef enum __attribute__ ((__packed__)) terrain_type 33,1013
-  ter_debug,34,1070
-  ter_wall,35,1083
-  ter_wall_immutable,36,1095
-  ter_floor,37,1117
-  ter_floor_room,38,1130
-  ter_floor_hall,39,1148
-  ter_stairs,40,1166
-  ter_stairs_up,41,1180
-  ter_stairs_down42,1197
-} terrain_type_t;43,1215
-typedef struct room 45,1234
-  pair_t position;46,1256
-  pair_t size;47,1275
-} room_t;48,1290
-typedef struct dungeon 50,1301
-  uint32_t num_rooms;51,1326
-  room_t *rooms;rooms52,1348
-  terrain_type_t map[map53,1365
-  uint8_t hardness[hardness62,2018
-  uint8_t pc_distance[pc_distance63,2060
-  uint8_t pc_tunnel[pc_tunnel64,2105
-  character_t *character[character65,2148
-  character_t pc;66,2196
-  heap_t events;67,2214
-  uint16_t num_monsters;68,2231
-  uint16_t max_monsters;69,2256
-  uint32_t character_sequence_number;70,2281
-  uint32_t time;76,2705
-  uint32_t is_new;77,2722
-  uint32_t quit;78,2741
-} dungeon_t;79,2758
+#define fogmappair(27,759
+#define mapxy(28,822
+#define fogmapxy(29,857
+#define hardnesspair(30,898
+#define hardnessxy(31,965
+#define charpair(32,1010
+#define charxy(33,1074
+typedef enum __attribute__ ((__packed__)) terrain_type 35,1117
+  ter_debug,36,1174
+  ter_wall,37,1187
+  ter_wall_immutable,38,1199
+  ter_floor,39,1221
+  ter_floor_room,40,1234
+  ter_floor_hall,41,1252
+  ter_stairs,42,1270
+  ter_stairs_up,43,1284
+  ter_stairs_down44,1301
+} terrain_type_t;45,1319
+typedef class room 47,1338
+  pair_t position;49,1368
+  pair_t size;50,1387
+} room_t;51,1402
+typedef class dungeon 53,1413
+  uint32_t num_rooms;55,1446
+  room_t *rooms;rooms56,1468
+  terrain_type_t fogMap[fogMap57,1485
+  terrain_type_t map[map58,1532
+  uint8_t hardness[hardness67,2185
+  uint8_t pc_distance[pc_distance68,2227
+  uint8_t pc_tunnel[pc_tunnel69,2272
+  character_t *character[character70,2315
+  character_t pc;71,2363
+  heap_t events;72,2381
+  uint16_t num_monsters;73,2398
+  uint16_t max_monsters;74,2423
+  uint32_t character_sequence_number;75,2448
+  uint32_t time;81,2872
+  uint32_t is_new;82,2889
+  uint32_t quit;83,2908
+} dungeon_t;84,2925
 
-event.h,307
+event.h,306
 # define EVENT_H2,16
 typedef struct character character_t;8,79
 typedef enum event_type 10,118
   event_character_turn,11,144
 } event_type_t;12,168
-typedef struct event 14,185
-  event_type_t type;15,208
-  uint32_t time;16,229
-  uint32_t sequence;17,246
-    character_t *c;c19,277
-} event_t;21,302
+typedef class event 14,185
+  event_type_t type;16,216
+  uint32_t time;17,237
+  uint32_t sequence;18,254
+    character_t *c;c20,285
+} event_t;22,310
 
 heap.c,1020
 struct heap_node 8,99
@@ -153,7 +156,7 @@ move.h,104
 typedef struct dungeon dungeon_t;8,74
 typedef struct character character_t;9,108
 
-npc.h,1235
+npc.h,1234
 # define NPC_H2,14
 # define NPC_SMART 8,72
 # define NPC_TELEPATH 9,110
@@ -191,11 +194,11 @@ npc.h,1235
 typedef struct dungeon dungeon_t;44,1399
 typedef struct character character_t;45,1433
 typedef uint32_t npc_characteristics_t;46,1471
-typedef struct npc 48,1512
-  npc_characteristics_t characteristics;49,1533
-  uint32_t have_seen_pc;50,1574
-  pair_t pc_last_known_position;51,1599
-} npc_t;53,1633
+typedef class npc 48,1512
+  npc_characteristics_t characteristics;50,1541
+  uint32_t have_seen_pc;51,1582
+  pair_t pc_last_known_position;52,1607
+} npc_t;54,1641
 
 path.h,93
 # define PATH_H2,15

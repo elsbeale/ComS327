@@ -11,7 +11,8 @@ typedef enum event_type {
   event_character_turn,
 } event_type_t;
 
-typedef struct event {
+typedef class event {
+ public:
   event_type_t type;
   uint32_t time;
   uint32_t sequence;

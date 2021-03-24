@@ -20,7 +20,8 @@
 
 #define DUMP_HARDNESS_IMAGES 0
 
-typedef struct corridor_path {
+typedef class corridor_path {
+public:
   heap_node_t *hn;
   uint8_t pos[2];
   uint8_t from[2];
@@ -518,9 +519,11 @@ static int empty_dungeon(dungeon_t *d)
   for (y = 0; y < DUNGEON_Y; y++) {
     for (x = 0; x < DUNGEON_X; x++) {
       mapxy(x, y) = ter_wall;
+      fogmapxy(x,y) = ter_wall;
       if (y == 0 || y == DUNGEON_Y - 1 ||
           x == 0 || x == DUNGEON_X - 1) {
         mapxy(x, y) = ter_wall_immutable;
+	fogmapxy(x, y) = ter_wall_immutable;
         hardnessxy(x, y) = 255;
       }
       charxy(x, y) = NULL;
@@ -636,7 +639,7 @@ void render_dungeon(dungeon_t *d)
       if (charpair(p)) {
         putchar(charpair(p)->symbol);
       } else {
-        switch (mappair(p)) {
+        switch(fogmappair(p)) {
         case ter_wall:
         case ter_wall_immutable:
           putchar(' ');

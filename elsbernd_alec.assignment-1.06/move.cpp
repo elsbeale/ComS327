@@ -112,14 +112,25 @@ void move_character(dungeon_t *d, character_t *c, pair_t next)
     c->position[dim_y] = next[dim_y];
     c->position[dim_x] = next[dim_x];
     d->character[c->position[dim_y]][c->position[dim_x]] = c;
+    if(c->symbol == '@'){
+    }
   }
 }
 
 void do_moves(dungeon_t *d)
 {
+  
   pair_t next;
   character_t *c;
   event_t *e;
+
+  int i,j;
+  for(i = d->pc.position[dim_x]-2; i < d->pc.position[dim_x]+3;i++){
+    for(j = d->pc.position[dim_y]-2; j < d->pc.position[dim_y]+3;j++){
+      fogmapxy(i,j) = mapxy(i,j); 
+    }
+  }
+  io_display(d);
 
   /* Remove the PC when it is PC turn.  Replace on next call.  This allows *
    * use to completely uninit the heap when generating a new level without *
@@ -166,7 +177,11 @@ void do_moves(dungeon_t *d)
 
     heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
   }
-
+  for(i = d->pc.position[dim_x]-2; i < d->pc.position[dim_x]+3;i++){
+    for(j = d->pc.position[dim_y]-2; j < d->pc.position[dim_y]+3;j++){
+      fogmapxy(i,j) = mapxy(i,j); 
+    }
+  }
   io_display(d);
   if (pc_is_alive(d) && e->c == &d->pc) {
     c = e->c;
