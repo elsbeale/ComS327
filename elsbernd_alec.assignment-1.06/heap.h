@@ -8,14 +8,14 @@ extern "C" {
 # include <stdint.h>
 
 struct heap_node;
-class heap_node_t;
+typedef struct heap_node heap_node_t;
 
-class heap_t {
+typedef struct heap {
   heap_node_t *min;
   uint32_t size;
   int32_t (*compare)(const void *key, const void *with);
   void (*datum_delete)(void *);
-};
+} heap_t;
 
 void heap_init(heap_t *h,
                int32_t (*compare)(const void *key, const void *with),

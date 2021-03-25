@@ -160,8 +160,8 @@ void io_display_hardness(dungeon_t *d)
 
 static int compare_monster_distance(const void *v1, const void *v2)
 {
-  const character_t *const *c1 = (const character* const*)v1;
-  const character_t *const *c2 = (const character* const*)v2;
+  const character_t *const *c1 = (const character_t* const*)v1;
+  const character_t *const *c2 = (const character_t* const*)v2;
 
   return (dungeon->pc_distance[(*c1)->position[dim_y]][(*c1)->position[dim_x]] -
           dungeon->pc_distance[(*c2)->position[dim_y]][(*c2)->position[dim_x]]);
@@ -588,11 +588,16 @@ void io_handle_input(dungeon_t *d)
     case 'L':
       fail_code = 1;
       break;
-    case 'g':
+    case 0147:
       //teleporting target
       
       tele_pos[dim_y] = d->pc.position[dim_y];
       tele_pos[dim_x] = d->pc.position[dim_x];
+      fogView = 0;
+      io_display(d);
+      mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+      refresh();
+      
 
       switch (key = getch()) {
       //upper left
@@ -697,6 +702,7 @@ void io_handle_input(dungeon_t *d)
         fail_code = 0;
         break;
       }
+      break;
     case 'm':
       io_list_monsters(d);
       fail_code = 1;
