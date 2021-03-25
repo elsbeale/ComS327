@@ -505,6 +505,7 @@ void io_handle_input(dungeon_t *d)
   uint32_t fail_code;
   int key;
   pair_t tele_pos;
+  int flag;
 
   do {
     switch (key = getch()) {
@@ -590,15 +591,16 @@ void io_handle_input(dungeon_t *d)
       break;
     case 0147:
       //teleporting target
-      
+
+      flag = 1;
       tele_pos[dim_y] = d->pc.position[dim_y];
       tele_pos[dim_x] = d->pc.position[dim_x];
       fogView = 0;
       io_display(d);
-      mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+      mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
       refresh();
-      
 
+      while(flag){
       switch (key = getch()) {
       //upper left
       case '7':
@@ -609,7 +611,8 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_x]--;
         }
         //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+	io_display(d);
+        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
         refresh();
         break;
       //up
@@ -620,7 +623,8 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]--;
         }
         //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+	io_display(d);
+        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
         refresh();
         break;
       //upper right
@@ -632,7 +636,8 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_x]++;  
         }
         //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+	io_display(d);
+        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
         refresh();
         break;
       //right
@@ -642,8 +647,9 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_x]++;
         }
+	io_display(d);
         //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
         refresh();
         break;
       //lower right
@@ -655,7 +661,8 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_x]++;
         }
         //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+	io_display(d);
+        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
         refresh();
         break;
       //down
@@ -666,7 +673,8 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]++;
         }
         //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+	io_display(d);
+        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
         refresh();
         break;
       //lower left
@@ -677,8 +685,9 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]++;
           tele_pos[dim_x]--;
         }
+	io_display(d);
         //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
         refresh();
         break;
       //left
@@ -689,19 +698,26 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_x]--;
         }
         //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+	io_display(d);
+        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
         refresh();
         break;
       case 'g':
         io_teleport_pc_targeted(d, tele_pos);
+	refresh();
+	flag = 0;
         fail_code = 0;
         break;
       case 'r':
         /* Teleport the PC to a random place in the dungeon.              */
         io_teleport_pc(d);
+	refresh();
+	flag = 0;
         fail_code = 0;
         break;
       }
+      }
+      fogView = 1;
       break;
     case 'm':
       io_list_monsters(d);
