@@ -603,7 +603,9 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]--;
           tele_pos[dim_x]--;
         }
-        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        refresh();
         break;
       //up
       case '8':
@@ -612,7 +614,9 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_y]--;
         }
-        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        refresh();
         break;
       //upper right
       case '9':
@@ -622,7 +626,9 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]--;
           tele_pos[dim_x]++;  
         }
-        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        refresh();
         break;
       //right
       case '6':
@@ -631,7 +637,9 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_x]++;
         }
-        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        refresh();
         break;
       //lower right
       case '3':
@@ -641,7 +649,9 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]++;
           tele_pos[dim_x]++;
         }
-        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        refresh();
         break;
       //down
       case '2':
@@ -650,7 +660,9 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_y]++;
         }
-        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        refresh();
         break;
       //lower left
       case '1':
@@ -660,7 +672,9 @@ void io_handle_input(dungeon_t *d)
           tele_pos[dim_y]++;
           tele_pos[dim_x]--;
         }
-        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        refresh();
         break;
       //left
       case '4':
@@ -669,7 +683,9 @@ void io_handle_input(dungeon_t *d)
         {
           tele_pos[dim_x]--;
         }
-        mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+        mvaddch(tele_pos[dim_y], tele_pos[dim_x], '*');
+        refresh();
         break;
       case 'g':
         io_teleport_pc_targeted(d, tele_pos);
