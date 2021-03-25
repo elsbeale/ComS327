@@ -601,121 +601,121 @@ void io_handle_input(dungeon_t *d)
       refresh();
 
       while(flag){
-      switch (key = getch()) {
-      //upper left
-      case '7':
-      case 'y':
-        if (d->map[tele_pos[dim_y - 1]][tele_pos[dim_x - 1]] != ter_wall_immutable)
-        {
-          tele_pos[dim_y]--;
-          tele_pos[dim_x]--;
+        switch (key = getch()) {
+        //upper left
+        case '7':
+        case 'y':
+          if (d->map[tele_pos[dim_y] - 1][tele_pos[dim_x] - 1] != ter_wall_immutable)
+          {
+            tele_pos[dim_y]--;
+            tele_pos[dim_x]--;
+          }
+          //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+          io_display(d);
+          mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
+          refresh();
+          break;
+        //up
+        case '8':
+        case 'k':
+          if (d->map[tele_pos[dim_y] - 1][tele_pos[dim_x]] != ter_wall_immutable)
+          {
+            tele_pos[dim_y]--;
+          }
+          //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+          io_display(d);
+          mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
+          refresh();
+          break;
+        //upper right
+        case '9':
+        case 'u':
+          if (d->map[tele_pos[dim_y] - 1][tele_pos[dim_x] + 1] != ter_wall_immutable)
+          {
+            tele_pos[dim_y]--;
+            tele_pos[dim_x]++;  
+          }
+          //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+          io_display(d);
+          mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
+          refresh();
+          break;
+        //right
+        case '6':
+        case 'l':
+          if (d->map[tele_pos[dim_y]][tele_pos[dim_x] + 1] != ter_wall_immutable)
+          {
+            tele_pos[dim_x]++;
+          }
+          io_display(d);
+          //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+          mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
+          refresh();
+          break;
+        //lower right
+        case '3':
+        case 'n':
+          if (d->map[tele_pos[dim_y] + 1][tele_pos[dim_x] + 1] != ter_wall_immutable)
+          {
+            tele_pos[dim_y]++;
+            tele_pos[dim_x]++;
+          }
+          //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+          io_display(d);
+          mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
+          refresh();
+          break;
+        //down
+        case '2':
+        case 'j':
+          if (d->map[tele_pos[dim_y] + 1][tele_pos[dim_x]] != ter_wall_immutable)
+          {
+            tele_pos[dim_y]++;
+          }
+          //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+          io_display(d);
+          mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
+          refresh();
+          break;
+        //lower left
+        case '1':
+        case 'b':
+          if (d->map[tele_pos[dim_y] + 1][tele_pos[dim_x] - 1] != ter_wall_immutable)
+          {
+            tele_pos[dim_y]++;
+            tele_pos[dim_x]--;
+          }
+          io_display(d);
+          //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+          mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
+          refresh();
+          break;
+        //left
+        case '4':
+        case 'h':
+          if (d->map[tele_pos[dim_y]][tele_pos[dim_x] - 1] != ter_wall_immutable)
+          {
+            tele_pos[dim_x]--;
+          }
+          //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
+          io_display(d);
+          mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
+          refresh();
+          break;
+        case 'g':
+          io_teleport_pc_targeted(d, tele_pos);
+          refresh();
+          flag = 0;
+          fail_code = 0;
+          break;
+        case 'r':
+          /* Teleport the PC to a random place in the dungeon.              */
+          io_teleport_pc(d);
+          refresh();
+          flag = 0;
+          fail_code = 0;
+          break;
         }
-        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-	io_display(d);
-        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
-        refresh();
-        break;
-      //up
-      case '8':
-      case 'k':
-        if (d->map[tele_pos[dim_y - 1]][tele_pos[dim_x]] != ter_wall_immutable)
-        {
-          tele_pos[dim_y]--;
-        }
-        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-	io_display(d);
-        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
-        refresh();
-        break;
-      //upper right
-      case '9':
-      case 'u':
-        if (d->map[tele_pos[dim_y - 1]][tele_pos[dim_x + 1]] != ter_wall_immutable)
-        {
-          tele_pos[dim_y]--;
-          tele_pos[dim_x]++;  
-        }
-        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-	io_display(d);
-        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
-        refresh();
-        break;
-      //right
-      case '6':
-      case 'l':
-        if (d->map[tele_pos[dim_y]][tele_pos[dim_x + 1]] != ter_wall_immutable)
-        {
-          tele_pos[dim_x]++;
-        }
-	io_display(d);
-        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
-        refresh();
-        break;
-      //lower right
-      case '3':
-      case 'n':
-        if (d->map[tele_pos[dim_y + 1]][tele_pos[dim_x + 1]] != ter_wall_immutable)
-        {
-          tele_pos[dim_y]++;
-          tele_pos[dim_x]++;
-        }
-        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-	io_display(d);
-        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
-        refresh();
-        break;
-      //down
-      case '2':
-      case 'j':
-        if (d->map[tele_pos[dim_y + 1]][tele_pos[dim_x]] != ter_wall_immutable)
-        {
-          tele_pos[dim_y]++;
-        }
-        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-	io_display(d);
-        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
-        refresh();
-        break;
-      //lower left
-      case '1':
-      case 'b':
-        if (d->map[tele_pos[dim_y + 1]][tele_pos[dim_x - 1]] != ter_wall_immutable)
-        {
-          tele_pos[dim_y]++;
-          tele_pos[dim_x]--;
-        }
-	io_display(d);
-        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
-        refresh();
-        break;
-      //left
-      case '4':
-      case 'h':
-        if (d->map[tele_pos[dim_y]][tele_pos[dim_x - 1]] != ter_wall_immutable)
-        {
-          tele_pos[dim_x]--;
-        }
-        //mvprintw(tele_pos[dim_y], tele_pos[dim_x], '*');
-	io_display(d);
-        mvaddch(tele_pos[dim_y]+1, tele_pos[dim_x], '*');
-        refresh();
-        break;
-      case 'g':
-        io_teleport_pc_targeted(d, tele_pos);
-	refresh();
-	flag = 0;
-        fail_code = 0;
-        break;
-      case 'r':
-        /* Teleport the PC to a random place in the dungeon.              */
-        io_teleport_pc(d);
-	refresh();
-	flag = 0;
-        fail_code = 0;
-        break;
-      }
       }
       fogView = 1;
       break;
