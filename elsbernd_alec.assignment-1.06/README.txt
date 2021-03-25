@@ -2,9 +2,5 @@ Alec Elsbernd elsbeale@iastate.edu
 Noah Tang ntang1@iastate.edu
 Brett Bethke bwbethke@iastate.edu
 
-This is an add onto the proffessors code that gives the user a UI to control the player character (@).
-This was accomplished by utilizing the ncurses library. Stairs were also given functionality in that the
-player character is allowed to traverse up and down stairs but monsters are not. If a player decides to
-use the stairs an entirely new dungeon will be generated that will represent the new floor the player is
-now on.
+This is a complete conversion of our old code to C++. It is also an addition that not only adds a "fog of war" effect to the map but also the ability to teleport the player character to a different location on the map.The fog of war can be toggled by using the f key. The teleport feature is mapped to the g key. Upon activation, the user simply needs to navigate the cursor to where the want the pc to teleport to and press g to send them there(or r for a random location).
 
