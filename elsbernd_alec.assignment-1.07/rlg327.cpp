@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <vector>
 
 #include "dungeon.h"
 #include "pc.h"
@@ -222,10 +224,27 @@ int main(int argc, char *argv[])
     io_queue_message("Seed is %u.", seed);
   }
 
+  std:: ifstream testf("monster_desc.txt");
+  std:: string tests;
+  int monster_amount = 0;
+
+  while (getline(testf,tests))
+  {
+    if (tests == "BEGIN MONSTER")
+    {
+      monster_amount++;
+    }
+  }
+  npc npc_arr[monster_amount];
+  int array_pos = 0;
   std:: ifstream f("monster_desc.txt");
   std:: string s;
   int flag1 = 1;
   int flag2;
+  std::string name;
+  npc temp;
+  std::string word;
+
 
   getline(f,s);
 
@@ -240,16 +259,101 @@ int main(int argc, char *argv[])
     }
     getline(f,s);
     if(!s.compare("BEGIN MONSTER")){
-	flag1 = 1;
+	    flag1 = 1;
     }
+
+    while(s != "END")
+    {
+      getline(f,s);
+      std::istringstream iss(s);
+      while (iss >> word)
+      {
+        if(word == "NAME")
+        {
+          while (iss >> word)
+          {
+            if(word != "NAME")
+            {
+              name.append(word);
+              name.append(" ");
+            }
+          }
+          temp.name = name;
+        }
+        else if (word == "SYMB")
+        {
+          while (iss >> word)
+          {
+            if (word != "SYMB")
+            {
+              assert(word.size() == 1);
+              char symbol = word[0];
+              temp.symbol = symbol;
+            }
+          }
+        }
+        else if (word == "COLOR")
+        {
+          while (iss >> word)
+          {
+            if (word != "COLOR")
+            {
+              temp.color = word;
+            }
+          }
+        }
+        else
+        {
+          //does nothing atm
+        }
+      }
+    }
+    // getline(f,s); //gets and sets the name
+    // std::istringstream iss(s);
+    // while (iss >> word)
+    // {
+    //   if(word != "NAME")
+    //   {
+    //     name.append(word);
+    //     name.append(" ");
+    //   }
+    // }
+    // temp.name = name;
+
+    // getline(f,s); //gets and sets the symbol
+    // std::istringstream iss(s);
+    // while (iss >> word)
+    // {
+    //   if (word != "SYMB")
+    //   {
+    //     assert(word.size() == 1);
+    //     char symbol = word[0];
+    //     temp.symbol = symbol;
+    //   }
+    // }
+
+    // getline(f,s); //gets and sets the color
+    // std::istringstream iss(s);
+    // while (iss >> word)
+    // {
+    //   if (word != "COLOR")
+    //   {
+    //     temp.color = word;
+    //   }
+    // }
+
+    // getline(f,s); //gets and sets the desc
+
+    
 
     while(flag2){
       getline(f,s);
       if(!s.compare("END")){
-	flag2 = 0;
+	      flag2 = 0;
       }
       std:: cout << s << std::endl;
     }
+    array_pos++;
   }
  
   
