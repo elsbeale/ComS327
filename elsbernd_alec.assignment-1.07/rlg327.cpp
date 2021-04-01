@@ -329,6 +329,7 @@ int main(int argc, char *argv[])
   std:: string s;
   int flag1 = 1;
   int flag2;
+  int monsters =0;
   std::string name;
   monsterdesc temp;
   
@@ -610,6 +611,7 @@ int main(int argc, char *argv[])
     }
     if (nameflag && symbolflag && colorflag && descflag && speedflag && damageflag && hpflag && rarityflag && abilityflag)
     {
+      monsters++;
       npc_arr[array_pos] = temp;
       array_pos++;
       nameflag = false;
@@ -631,7 +633,7 @@ int main(int argc, char *argv[])
     }
   }
 
-     for (int i = 0; i < monster_amount; i++)
+     for (int i = 0; i < monsters; i++)
      {
        std::cout << npc_arr[i].name << std::endl;
        std::cout << npc_arr[i].description << std::endl;
@@ -642,6 +644,7 @@ int main(int argc, char *argv[])
        std::cout << std::to_string(npc_arr[i].hpbase) + "+" + std::to_string(npc_arr[i].hpdice) + "d" + std::to_string(npc_arr[i].hpsides) << std::endl;
        std::cout << std::to_string(npc_arr[i].dbase) + "+" + std::to_string(npc_arr[i].ddice) + "d" + std::to_string(npc_arr[i].dsides) << std::endl;
        std::cout << npc_arr[i].rarity << std::endl;
+       std::cout <<  std::endl;
      }
 
      //std::cout << npc_arr[0].name << std::endl;
