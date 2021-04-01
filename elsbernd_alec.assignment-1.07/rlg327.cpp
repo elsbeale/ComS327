@@ -327,9 +327,11 @@ int main(int argc, char *argv[])
         else if (word == "DESC") //gets and sets the description
         {
           getline(f,s);
+          int count = 0;
           while (s != ".")
           {
             desc.append(s);
+            desc.append("\n");
             getline(f,s);
           }
           temp.description = desc;
@@ -535,10 +537,10 @@ int main(int argc, char *argv[])
     //   std::cout << npc_arr[i].description << std::endl;
     //   std::cout << npc_arr[i].symbol << std::endl;
     //   std::cout << npc_arr[i].color << std::endl;
-    //   std::cout << npc_arr[i].sbase + '+' + npc_arr[i].sdice + 'd' + npc_arr[i].ssides << std::endl;
+    //   std::cout << std::to_string(npc_arr[i].sbase) << "+" + std::to_string(npc_arr[i].sdice) + "d" + std::to_string(npc_arr[i].ssides) << std::endl;
     //   std::cout << npc_arr[i].ability << std::endl;
-    //   std::cout << npc_arr[i].hpbase + '+' + npc_arr[i].hpdice + 'd' + npc_arr[i].hpsides << std::endl;
-    //   std::cout << npc_arr[i].dbase + '+' + npc_arr[i].ddice + 'd' + npc_arr[i].dsides << std::endl;
+    //   std::cout << std::to_string(npc_arr[i].hpbase) + "+" + std::to_string(npc_arr[i].hpdice) + "d" + std::to_string(npc_arr[i].hpsides) << std::endl;
+    //   std::cout << std::to_string(npc_arr[i].dbase) + "+" + std::to_string(npc_arr[i].ddice) + "d" + std::to_string(npc_arr[i].dsides) << std::endl;
     //   std::cout << npc_arr[i].rarity << std::endl;
     // }
 
