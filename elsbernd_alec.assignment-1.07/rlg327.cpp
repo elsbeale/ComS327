@@ -378,6 +378,7 @@ int main(int argc, char *argv[])
           int char_count = 0;
           for (char &c: word)
           {
+	    c = c;
             char_count++;
           }
 
