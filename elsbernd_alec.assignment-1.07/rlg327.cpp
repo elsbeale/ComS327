@@ -341,33 +341,40 @@ int main(int argc, char *argv[])
           ss << word;
           std::string tmp;
           int tmpnum;
-          int base;
-          int dice;
-          int sides;
-          bool basedone = false;
-          bool dicedone = false;
+          // int base;
+          // int dice;
+          // int sides;
+          // bool basedone = false;
+          // bool dicedone = false;
+          int dice_arr[3];
+          int count = 0;
 
           while (!ss.eof())
           {
             ss >> tmp;
-            if (std::stringstream(tmp) >> tmpnum && !basedone)
+            // if (std::stringstream(tmp) >> tmpnum && !basedone)
+            // {
+            //   base = tmpnum;
+            //   basedone = true;
+            // }
+            // else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            // {
+            //   dice = tmpnum;
+            //   dicedone = true;
+            // }
+            // else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            // {
+            //   sides = tmpnum;
+            // }
+            if (std::stringstream(tmp) >> tmpnum)
             {
-              base = tmpnum;
-              basedone = true;
-            }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
-            {
-              dice = tmpnum;
-              dicedone = true;
-            }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
-            {
-              sides = tmpnum;
+              dice_arr[count] = tmpnum;
+              count++;
             }
           }
-          temp.sbase = base; //speed base
-          temp.sdice = dice; //speed dice
-          temp.ssides = sides; //speed sides
+          temp.sbase = dice_arr[0]; //speed base
+          temp.sdice = dice_arr[1]; //speed dice
+          temp.ssides = dice_arr[2]; //speed sides
         }
         else if (word == "DAM")
         {
@@ -490,7 +497,7 @@ int main(int argc, char *argv[])
     std::cout << npc_arr[0].description << std::endl;
     std::cout << npc_arr[0].symbol << std::endl;
     std::cout << npc_arr[0].color << std::endl;
-    std::cout << std::to_string(npc_arr[0].sbase) + "+" + std::to_string(npc_arr[0].sdice) + "d" + std::to_string(npc_arr[0].ssides) << std::endl;
+    std::cout << std::to_string(npc_arr[0].sbase) << "+" + std::to_string(npc_arr[0].sdice) + "d" + std::to_string(npc_arr[0].ssides) << std::endl;
     std::cout << npc_arr[0].ability << std::endl;
     std::cout << std::to_string(npc_arr[0].hpbase) + "+" + std::to_string(npc_arr[0].hpdice) + "d" + std::to_string(npc_arr[0].hpsides) << std::endl;
     std::cout << std::to_string(npc_arr[0].dbase) + "+" + std::to_string(npc_arr[0].ddice) + "d" + std::to_string(npc_arr[0].dsides) << std::endl;
