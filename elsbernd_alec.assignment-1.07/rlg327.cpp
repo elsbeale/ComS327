@@ -235,14 +235,14 @@ int main(int argc, char *argv[])
       monster_amount++;
     }
   }
-  npc npc_arr[monster_amount];
+  monsterdesc npc_arr[monster_amount];
   int array_pos = 0;
   std:: ifstream f("monster_desc.txt");
   std:: string s;
   int flag1 = 1;
   int flag2;
   std::string name;
-  npc temp;
+  monsterdesc temp;
   std::string word;
   std::string desc;
 
@@ -442,8 +442,6 @@ int main(int argc, char *argv[])
     npc_arr[array_pos] = temp;
     array_pos++;
 
-    
-
     while(flag2){
       getline(f,s);
       std:: cout << s << std::endl;
@@ -452,6 +450,30 @@ int main(int argc, char *argv[])
       }
     }
   }
+
+    // for (int i = 0; i < monster_amount; i++)
+    // {
+    //   std::cout << npc_arr[i].name << std::endl;
+    //   std::cout << npc_arr[i].description << std::endl;
+    //   std::cout << npc_arr[i].symbol << std::endl;
+    //   std::cout << npc_arr[i].color << std::endl;
+    //   std::cout << npc_arr[i].sbase + '+' + npc_arr[i].sdice + 'd' + npc_arr[i].ssides << std::endl;
+    //   std::cout << npc_arr[i].ability << std::endl;
+    //   std::cout << npc_arr[i].hpbase + '+' + npc_arr[i].hpdice + 'd' + npc_arr[i].hpsides << std::endl;
+    //   std::cout << npc_arr[i].dbase + '+' + npc_arr[i].ddice + 'd' + npc_arr[i].dsides << std::endl;
+    //   std::cout << npc_arr[i].rarity << std::endl;
+    // }
+
+    std::cout << "first monster" << std::endl;
+    std::cout << npc_arr[0].name << std::endl;
+    std::cout << npc_arr[0].description << std::endl;
+    std::cout << npc_arr[0].symbol << std::endl;
+    std::cout << npc_arr[0].color << std::endl;
+    std::cout << npc_arr[0].sbase + '+' + npc_arr[0].sdice + 'd' + npc_arr[0].ssides << std::endl;
+    std::cout << npc_arr[0].ability << std::endl;
+    std::cout << npc_arr[0].hpbase + '+' + npc_arr[0].hpdice + 'd' + npc_arr[0].hpsides << std::endl;
+    std::cout << npc_arr[0].dbase + '+' + npc_arr[0].ddice + 'd' + npc_arr[0].dsides << std::endl;
+    std::cout << npc_arr[0].rarity << std::endl;
  
   
   
@@ -504,3 +526,25 @@ int main(int argc, char *argv[])
 
   return 0;
 }
+
+class monsterdesc
+{
+  public:
+    std::string name;
+    std::string color;
+    std::string description;
+    int hp;
+    int damage;
+    int rarity;
+    std::string ability;
+    int sbase;
+    int sdice;
+    int ssides;
+    int dbase;
+    int ddice;
+    int dsides;
+    int hpbase;
+    int hpdice;
+    int hpsides;
+    char symbol;
+};
