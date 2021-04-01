@@ -385,43 +385,84 @@ int main(int argc, char *argv[])
           char temp_arr[char_count];
           
           int count = 0;
-          
           for (char &c: word)
           {
             temp_arr[count] =  c;
             count++;
           }
-          count = 0;
-          bool plus_trigger = false;
-          bool d_trigger = false;
-          std::string stbase;
-          std::string stdice;
-          std::string stsides;
+
+          int plus_pos = 0;
+          int d_pos = 0;
+
           for (int i = 0; i < char_count; i++)
           {
             if (temp_arr[i] == '+')
             {
-              plus_trigger = true;
-              continue;
+              plus_pos = i;
             }
             if (temp_arr[i] == 'd')
             {
-              d_trigger = true;
-              continue;
-            }
-            if(!plus_trigger)
-            {
-              stbase.append(std::to_string(temp_arr[i]));
-            }
-            else if(plus_trigger && !d_trigger)
-            {
-              stdice.append(std::to_string(temp_arr[i]));
-            }
-            else if(plus_trigger && d_trigger)
-            {
-              stsides.append(std::to_string(temp_arr[i]));
+              d_pos = i;
             }
           }
+          int temp_int_arr[char_count - 2];
+          count = 0;
+          for (int i = 0; i < char_count; i++)
+          {
+            if(temp_arr[i] != '+' && temp_arr[i] != 'd')
+            {
+              temp_int_arr[count] = temp_arr[i] - 48;
+              count++;
+            }
+          }
+          std::string stbase;
+          std::string stdice;
+          std::string stsides;
+          for (int i = 0; i < char_count-2; i++)
+          {
+            if (i < plus_pos)
+            {
+              stbase.append(std::to_string(temp_int_arr[i]));
+            }
+            else if (i >= plus_pos && i <= d_pos - plus_pos)
+            {
+              stdice.append(std::to_string(temp_int_arr[i]));
+            }
+            else
+            {
+              stsides.append(std::to_string(temp_int_arr[i]));
+            }
+          }
+
+
+          // bool plus_trigger = false;
+          // bool d_trigger = false;
+          
+          // for (int i = 0; i < char_count; i++)
+          // {
+          //   if (temp_arr[i] == '+')
+          //   {
+          //     plus_trigger = true;
+          //     continue;
+          //   }
+          //   if (temp_arr[i] == 'd')
+          //   {
+          //     d_trigger = true;
+          //     continue;
+          //   }
+          //   if(!plus_trigger)
+          //   {
+          //     stbase.append(std::to_string(temp_arr[i]));
+          //   }
+          //   else if(plus_trigger && !d_trigger)
+          //   {
+          //     stdice.append(std::to_string(temp_arr[i]));
+          //   }
+          //   else if(plus_trigger && d_trigger)
+          //   {
+          //     stsides.append(std::to_string(temp_arr[i]));
+          //   }
+          // }
           temp.sbase = stoi(stbase);
           temp.sdice = stoi(stdice);
           temp.ssides = stoi(stsides);
