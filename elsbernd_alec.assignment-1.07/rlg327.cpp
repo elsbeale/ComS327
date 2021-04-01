@@ -267,7 +267,15 @@ int main(int argc, char *argv[])
   monsterdesc temp;
   std::string word;
   std::string desc;
-
+  bool nameflag = false;
+  bool symbolflag = false;
+  bool colorflag = false;
+  bool descflag = false;
+  bool speedflag = false;
+  bool damageflag = false;
+  bool hpflag = false;
+  bool rarityflag = false;
+  bool abilityflag = false;
 
   getline(f,s);
 
@@ -307,6 +315,7 @@ int main(int argc, char *argv[])
           }
           temp.name = name;
           name.clear();
+          nameflag = true;
         }
         else if (word == "SYMB") //gets and sets the symbol
         {
@@ -319,11 +328,13 @@ int main(int argc, char *argv[])
               temp.symbol = symbol;
             }
           }
+          symbolflag = true;
         }
         else if (word == "COLOR") //gets and sets the color
         {
           iss >> word;
           temp.color = word;
+          colorflag = true;
         }
         else if (word == "DESC") //gets and sets the description
         {
@@ -339,6 +350,7 @@ int main(int argc, char *argv[])
           }
           temp.description = desc;
           desc.clear();
+          descflag = true;
         }
         else if (word == "SPEED") //gets and sets the speed
         {
@@ -392,7 +404,7 @@ int main(int argc, char *argv[])
           temp.sbase = stoi(stbase); //speed base
           temp.sdice = stoi(stdice); //speed dice
           temp.ssides = stoi(stsides); //speed sides
-          
+          speedflag = true;
         }
         else if (word == "DAM")
         {
@@ -445,6 +457,7 @@ int main(int argc, char *argv[])
           temp.dbase = stoi(stbase); //damage base
           temp.ddice = stoi(stdice); //damage dice
           temp.dsides = stoi(stsides); //damage sides
+          damageflag = true;
         }
         else if (word == "HP")
         {
@@ -498,6 +511,7 @@ int main(int argc, char *argv[])
           temp.hpbase = stoi(stbase); //hp base
           temp.hpdice = stoi(stdice); //hp dice
           temp.hpsides = stoi(stsides); //hp sides
+          hpflag = true;
         }
         else if (word == "RRTY")
         {
@@ -510,21 +524,29 @@ int main(int argc, char *argv[])
           ss >> tmp;
           std::stringstream(tmp) >> tmpnum;
           temp.rarity = tmpnum;
+          rarityflag = true;
         }
         else if (word == "ABIL")
         {
-          iss >> word;
-          temp.ability = word;
-        }
-        else
-        {
-          //does nothing atm
+          std::string abilwords;
+          while (!iss.eof())
+          {
+            iss >> word;
+            abilwords.append(word);
+            abilwords.append(" ");
+          }
+          
+          temp.ability = abilwords;
+          abilityflag = true;
         }
       }
 
     }
-    npc_arr[array_pos] = temp;
-    array_pos++;
+    if (nameflag && symbolflag && colorflag && descflag && speedflag && damageflag && hpflag && rarityflag && abilityflag)
+    {
+      npc_arr[array_pos] = temp;
+      array_pos++;
+    }
 
     while(flag2){
       getline(f,s);
