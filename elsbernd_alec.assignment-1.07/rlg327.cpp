@@ -471,15 +471,15 @@ int main(int argc, char *argv[])
             }
             if(!plus_trigger)
             {
-              stbase.append(std::to_string(temp_arr[i]));
+              stbase.append(std::to_string(temp_arr[i] - 48));
             }
             else if(plus_trigger && !d_trigger)
             {
-              stdice.append(std::to_string(temp_arr[i]));
+              stdice.append(std::to_string(temp_arr[i] - 48));
             }
             else if(plus_trigger && d_trigger)
             {
-              stsides.append(std::to_string(temp_arr[i]));
+              stsides.append(std::to_string(temp_arr[i] - 48));
             }
           }
           temp.sbase = stoi(stbase);
