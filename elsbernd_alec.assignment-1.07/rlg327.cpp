@@ -327,7 +327,6 @@ int main(int argc, char *argv[])
         else if (word == "DESC") //gets and sets the description
         {
           getline(f,s);
-          int count = 0;
           while (s != ".")
           {
             desc.append(s);
