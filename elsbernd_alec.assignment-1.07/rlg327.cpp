@@ -391,18 +391,18 @@ int main(int argc, char *argv[])
             count++;
           }
 
-          int plus_pos = 0;
-          int d_pos = 0;
+	  //int plus_pos = 0;
+	  //int d_pos = 0;
 
           for (int i = 0; i < char_count; i++)
           {
             if (temp_arr[i] == '+')
             {
-              plus_pos = i;
+	      // plus_pos = i;
             }
             if (temp_arr[i] == 'd')
             {
-              d_pos = i;
+              //d_pos = i;
             }
           }
           int temp_int_arr[char_count - 2];
@@ -418,7 +418,7 @@ int main(int argc, char *argv[])
 
           for (int i = 0; i < char_count - 2; i++)
           {
-            printf("%c", temp_int_arr[i]);
+            std::cout << temp_int_arr[i] << std::endl;
           }
           // std::string stbase;
           // std::string stdice;
@@ -437,7 +437,7 @@ int main(int argc, char *argv[])
           //   {
           //     stsides.append(std::to_string(temp_int_arr[i]));
           //   }
-          }
+          // }
 
 
           // bool plus_trigger = false;
@@ -468,9 +468,9 @@ int main(int argc, char *argv[])
           //     stsides.append(std::to_string(temp_arr[i]));
           //   }
           // }
-          temp.sbase = stoi(stbase);
-          temp.sdice = stoi(stdice);
-          temp.ssides = stoi(stsides);
+          // temp.sbase = stoi(stbase);
+          // temp.sdice = stoi(stdice);
+          // temp.ssides = stoi(stsides);
           
         }
         else if (word == "DAM")
