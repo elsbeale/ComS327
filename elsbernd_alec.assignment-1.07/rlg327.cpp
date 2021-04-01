@@ -486,15 +486,14 @@ int main(int argc, char *argv[])
     //   std::cout << npc_arr[i].rarity << std::endl;
     // }
 
-    std::cout << "first monster" << std::endl;
     std::cout << npc_arr[0].name << std::endl;
     std::cout << npc_arr[0].description << std::endl;
     std::cout << npc_arr[0].symbol << std::endl;
     std::cout << npc_arr[0].color << std::endl;
-    std::cout << npc_arr[0].sbase + '+' + npc_arr[0].sdice + 'd' + npc_arr[0].ssides << std::endl;
+    std::cout << std::to_string(npc_arr[0].sbase) + "+" + std::to_string(npc_arr[0].sdice) + "d" + std::to_string(npc_arr[0].ssides) << std::endl;
     std::cout << npc_arr[0].ability << std::endl;
-    std::cout << npc_arr[0].hpbase + '+' + npc_arr[0].hpdice + 'd' + npc_arr[0].hpsides << std::endl;
-    std::cout << npc_arr[0].dbase + '+' + npc_arr[0].ddice + 'd' + npc_arr[0].dsides << std::endl;
+    std::cout << std::to_string(npc_arr[0].hpbase) + "+" + std::to_string(npc_arr[0].hpdice) + "d" + std::to_string(npc_arr[0].hpsides) << std::endl;
+    std::cout << std::to_string(npc_arr[0].dbase) + "+" + std::to_string(npc_arr[0].ddice) + "d" + std::to_string(npc_arr[0].dsides) << std::endl;
     std::cout << npc_arr[0].rarity << std::endl;
  
   
