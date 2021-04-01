@@ -337,44 +337,6 @@ int main(int argc, char *argv[])
         else if (word == "SPEED") //gets and sets the speed
         {
           iss >> word;
-          // std::stringstream ss;
-          // ss << word;
-          // std::string tmp;
-          // int tmpnum;
-          // // int base;
-          // // int dice;
-          // // int sides;
-          // // bool basedone = false;
-          // // bool dicedone = false;
-          // int dice_arr[3];
-          // int count = 0;
-
-          // while (!ss.eof())
-          // {
-          //   ss >> tmp;
-          //   // if (std::stringstream(tmp) >> tmpnum && !basedone)
-          //   // {
-          //   //   base = tmpnum;
-          //   //   basedone = true;
-          //   // }
-          //   // else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
-          //   // {
-          //   //   dice = tmpnum;
-          //   //   dicedone = true;
-          //   // }
-          //   // else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
-          //   // {
-          //   //   sides = tmpnum;
-          //   // }
-          //   if (std::stringstream(tmp) >> tmpnum)
-          //   {
-          //     dice_arr[count] = tmpnum;
-          //     count++;
-          //   }
-          // }
-          // temp.sbase = dice_arr[0]; //speed base
-          // temp.sdice = dice_arr[1]; //speed dice
-          // temp.ssides = dice_arr[2]; //speed sides
           int char_count = 0;
           for (char &c: word)
           {
@@ -390,70 +352,9 @@ int main(int argc, char *argv[])
             temp_arr[count] =  c;
             count++;
           }
-
-          // int plus_pos = 0;
-          // int d_pos = 0;
-
-          // for (int i = 0; i < char_count; i++)
-          // {
-          //   if (temp_arr[i] == '+')
-          //   {
-          //     plus_pos = i;
-          //   }
-          //   if (temp_arr[i] == 'd')
-          //   {
-          //     d_pos = i;
-          //   }
-          // }
-
-          // std::stringstream str;
-          // int temp_int_arr[char_count - 2];
-          // count = 0;
-          // int throwaway;
-          // for (int i = 0; i < char_count; i++)
-          // {
-          //   if(temp_arr[i] != '+' && temp_arr[i] != 'd')
-          //   {
-          //     str << temp_arr[i];
-          //     str >> throwaway;
-          //     temp_int_arr[count] = throwaway;
-          //     count++;
-          //   }
-          // }
-
-          // for (int i = 0; i < char_count; i++)
-          // {
-          //   if(temp_arr[i] != '+' && temp_arr[i] != 'd')
-          //   {
-          //     temp_int_arr[count] = temp_arr[i] - 48;
-          //     count++;
-          //   }
-          // }
-
-          // for (int i = 0; i < char_count - 2; i++)
-          // {
-          //   std::cout << temp_int_arr[i] << std::endl;
-          // }
           std::string stbase;
           std::string stdice;
           std::string stsides;
-          // for (int i = 0; i < char_count-2; i++)
-          // {
-          //   if (i < plus_pos)
-          //   {
-          //     stbase.append(std::to_string(temp_int_arr[i]));
-          //   }
-          //   else if (i >= plus_pos && i <= d_pos - plus_pos)
-          //   {
-          //     stdice.append(std::to_string(temp_int_arr[i]));
-          //   }
-          //   else
-          //   {
-          //     stsides.append(std::to_string(temp_int_arr[i]));
-          //   }
-          // }
-
-
           bool plus_trigger = false;
           bool d_trigger = false;
           
@@ -482,78 +383,115 @@ int main(int argc, char *argv[])
               stsides.append(std::to_string(temp_arr[i] - 48));
             }
           }
-          temp.sbase = stoi(stbase);
-          temp.sdice = stoi(stdice);
-          temp.ssides = stoi(stsides);
+          temp.sbase = stoi(stbase); //speed base
+          temp.sdice = stoi(stdice); //speed dice
+          temp.ssides = stoi(stsides); //speed sides
           
         }
         else if (word == "DAM")
         {
           iss >> word;
-          std::stringstream ss;
-          ss << word;
-          std::string tmp;
-          int tmpnum;
-          int base;
-          int dice;
-          int sides;
-          bool basedone = false;
-          bool dicedone = false;
-          while (!ss.eof())
+          int char_count = 0;
+          for (char &c: word)
           {
-            ss >> tmp;
-            if (std::stringstream(tmp) >> tmpnum && !basedone)
+	          c = c;
+            char_count++;
+          }
+
+          char temp_arr[char_count];
+          
+          int count = 0;
+          for (char &c: word)
+          {
+            temp_arr[count] =  c;
+            count++;
+          }
+          std::string stbase;
+          std::string stdice;
+          std::string stsides;
+          bool plus_trigger = false;
+          bool d_trigger = false;
+          for (int i = 0; i < char_count; i++)
+          {
+            if (temp_arr[i] == '+')
             {
-              base = tmpnum;
-              basedone = true;
+              plus_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            if (temp_arr[i] == 'd')
             {
-              dice = tmpnum;
-              dicedone = true;
+              d_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            if(!plus_trigger)
             {
-              sides = tmpnum;
+              stbase.append(std::to_string(temp_arr[i] - 48));
+            }
+            else if(plus_trigger && !d_trigger)
+            {
+              stdice.append(std::to_string(temp_arr[i] - 48));
+            }
+            else if(plus_trigger && d_trigger)
+            {
+              stsides.append(std::to_string(temp_arr[i] - 48));
             }
           }
-          temp.dbase = base; //damage base
-          temp.ddice = dice; //damage dice
-          temp.dsides = sides; //damage sides
+          temp.dbase = stoi(stbase); //damage base
+          temp.ddice = stoi(stdice); //damage dice
+          temp.dsides = stoi(stsides); //damage sides
         }
         else if (word == "HP")
         {
           iss >> word;
-          std::stringstream ss;
-          ss << word;
-          std::string tmp;
-          int tmpnum;
-          int base;
-          int dice;
-          int sides;
-          bool basedone = false;
-          bool dicedone = false;
-          while (!ss.eof())
+          int char_count = 0;
+          for (char &c: word)
           {
-            ss >> tmp;
-            if (std::stringstream(tmp) >> tmpnum && !basedone)
+	          c = c;
+            char_count++;
+          }
+
+          char temp_arr[char_count];
+          
+          int count = 0;
+          for (char &c: word)
+          {
+            temp_arr[count] =  c;
+            count++;
+          }
+          std::string stbase;
+          std::string stdice;
+          std::string stsides;
+          bool plus_trigger = false;
+          bool d_trigger = false;
+          
+          for (int i = 0; i < char_count; i++)
+          {
+            if (temp_arr[i] == '+')
             {
-              base = tmpnum;
-              basedone = true;
+              plus_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            if (temp_arr[i] == 'd')
             {
-              dice = tmpnum;
-              dicedone = true;
+              d_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            if(!plus_trigger)
             {
-              sides = tmpnum;
+              stbase.append(std::to_string(temp_arr[i] - 48));
+            }
+            else if(plus_trigger && !d_trigger)
+            {
+              stdice.append(std::to_string(temp_arr[i] - 48));
+            }
+            else if(plus_trigger && d_trigger)
+            {
+              stsides.append(std::to_string(temp_arr[i] - 48));
             }
           }
-          temp.hpbase = base; //hp base
-          temp.hpdice = dice; //hp dice
-          temp.hpsides = sides; //hp sides
+          temp.hpbase = stoi(stbase); //hp base
+          temp.hpdice = stoi(stdice); //hp dice
+          temp.hpsides = stoi(stsides); //hp sides
         }
         else if (word == "RRTY")
         {
