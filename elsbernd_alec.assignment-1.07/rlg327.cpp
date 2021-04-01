@@ -16,6 +16,28 @@
 #include "utils.h"
 #include "io.h"
 
+class monsterdesc
+{
+  public:
+    std::string name;
+    std::string color;
+    std::string description;
+    int hp;
+    int damage;
+    int rarity;
+    std::string ability;
+    int sbase;
+    int sdice;
+    int ssides;
+    int dbase;
+    int ddice;
+    int dsides;
+    int hpbase;
+    int hpdice;
+    int hpsides;
+    char symbol;
+};
+
 const char *victory =
   "\n                                       o\n"
   "                                      $\"\"$o\n"
@@ -526,25 +548,3 @@ int main(int argc, char *argv[])
 
   return 0;
 }
-
-class monsterdesc
-{
-  public:
-    std::string name;
-    std::string color;
-    std::string description;
-    int hp;
-    int damage;
-    int rarity;
-    std::string ability;
-    int sbase;
-    int sdice;
-    int ssides;
-    int dbase;
-    int ddice;
-    int dsides;
-    int hpbase;
-    int hpdice;
-    int hpsides;
-    char symbol;
-};

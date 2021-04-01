@@ -141,7 +141,7 @@ io.h,19
 move.h,21
 # define MOVE_H2,15
 
-npc.h,1505
+npc.h,1125
 # define NPC_H2,14
 # define NPC_SMART 10,115
 # define NPC_TELEPATH 11,153
@@ -181,22 +181,6 @@ class npc 48,1483
   npc_characteristics_t characteristics;50,1523
   uint32_t have_seen_pc;51,1564
   pair_t pc_last_known_position;52,1589
-  std::string name;53,1622
-  std::string color;54,1642
-  std::string description;55,1663
-  int hp;56,1690
-  int damage;57,1700
-  int rarity;58,1714
-  std::string ability;59,1728
-  int sbase;60,1751
-  int sdice;61,1764
-  int ssides;62,1777
-  int dbase;63,1791
-  int ddice;64,1804
-  int dsides;65,1817
-  int hpbase;66,1831
-  int hpdice;67,1845
-  int hpsides;68,1859
 
 path.h,54
 # define PATH_H2,15
@@ -331,26 +315,26 @@ npc.cpp,808
 static uint32_t max_monster_cells(13,193
 #define min(27,438
 void gen_monsters(33,542
-void npc_next_pos_rand_tunnel(73,1850
-    uint32_t i;77,1937
-    uint8_t a[a78,1953
-void npc_next_pos_rand(118,2699
-    uint32_t i;122,2779
-    uint8_t a[a123,2795
-void npc_next_pos_line_of_sight(150,3254
-void npc_next_pos_line_of_sight_tunnel(174,3946
-void npc_next_pos_gradient(207,4679
-static void npc_next_pos_00(330,9356
-static void npc_next_pos_01(342,9778
-static void npc_next_pos_02(361,10428
-static void npc_next_pos_03(369,10720
-static void npc_next_pos_04(375,10885
-static void npc_next_pos_05(387,11314
-static void npc_next_pos_06(406,11971
-static void npc_next_pos_07(414,12270
-static void npc_next_pos_erratic(445,13185
-void npc_next_pos(455,13452
-uint32_t dungeon_has_npcs(463,13643
+void npc_next_pos_rand_tunnel(74,1881
+    uint32_t i;78,1968
+    uint8_t a[a79,1984
+void npc_next_pos_rand(119,2730
+    uint32_t i;123,2810
+    uint8_t a[a124,2826
+void npc_next_pos_line_of_sight(151,3285
+void npc_next_pos_line_of_sight_tunnel(175,3977
+void npc_next_pos_gradient(208,4710
+static void npc_next_pos_00(331,9387
+static void npc_next_pos_01(343,9809
+static void npc_next_pos_02(362,10459
+static void npc_next_pos_03(370,10751
+static void npc_next_pos_04(376,10916
+static void npc_next_pos_05(388,11345
+static void npc_next_pos_06(407,12002
+static void npc_next_pos_07(415,12301
+static void npc_next_pos_erratic(446,13216
+void npc_next_pos(456,13483
+uint32_t dungeon_has_npcs(464,13674
 
 path.cpp,306
 static dungeon *thedungeon;thedungeon16,689
@@ -377,11 +361,29 @@ void pc_init_known_terrain(188,6217
 void pc_observe_terrain(200,6430
 int32_t is_illuminated(237,7435
 
-rlg327.cpp,115
-const char *victory victory19,304
-const char *tombstone tombstone50,1875
-void usage(71,2926
-int main(82,3182
+rlg327.cpp,561
+class monsterdesc19,304
+    std::string name;22,334
+    std::string color;23,356
+    std::string description;24,379
+    int hp;25,408
+    int damage;26,420
+    int rarity;27,436
+    std::string ability;28,452
+    int sbase;29,477
+    int sdice;30,492
+    int ssides;31,507
+    int dbase;32,523
+    int ddice;33,538
+    int dsides;34,553
+    int hpbase;35,569
+    int hpdice;36,585
+    int hpsides;37,601
+    char symbol;38,618
+const char *victory victory41,639
+const char *tombstone tombstone72,2210
+void usage(93,3261
+int main(104,3517
 
 utils.cpp,25
 int makedirectory(9,124
