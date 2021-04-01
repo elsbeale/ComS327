@@ -306,6 +306,7 @@ int main(int argc, char *argv[])
             }
           }
           temp.name = name;
+          name.clear();
         }
         else if (word == "SYMB") //gets and sets the symbol
         {
@@ -330,10 +331,14 @@ int main(int argc, char *argv[])
           while (s != ".")
           {
             desc.append(s);
-            desc.append("\n");
             getline(f,s);
+            if (s != ".")
+            {
+              desc.append("\n");
+            }
           }
           temp.description = desc;
+          desc.clear();
         }
         else if (word == "SPEED") //gets and sets the speed
         {
@@ -530,28 +535,28 @@ int main(int argc, char *argv[])
     }
   }
 
-    // for (int i = 0; i < monster_amount; i++)
-    // {
-    //   std::cout << npc_arr[i].name << std::endl;
-    //   std::cout << npc_arr[i].description << std::endl;
-    //   std::cout << npc_arr[i].symbol << std::endl;
-    //   std::cout << npc_arr[i].color << std::endl;
-    //   std::cout << std::to_string(npc_arr[i].sbase) << "+" + std::to_string(npc_arr[i].sdice) + "d" + std::to_string(npc_arr[i].ssides) << std::endl;
-    //   std::cout << npc_arr[i].ability << std::endl;
-    //   std::cout << std::to_string(npc_arr[i].hpbase) + "+" + std::to_string(npc_arr[i].hpdice) + "d" + std::to_string(npc_arr[i].hpsides) << std::endl;
-    //   std::cout << std::to_string(npc_arr[i].dbase) + "+" + std::to_string(npc_arr[i].ddice) + "d" + std::to_string(npc_arr[i].dsides) << std::endl;
-    //   std::cout << npc_arr[i].rarity << std::endl;
-    // }
+     for (int i = 0; i < monster_amount; i++)
+     {
+       std::cout << npc_arr[i].name << std::endl;
+       std::cout << npc_arr[i].description << std::endl;
+       std::cout << npc_arr[i].symbol << std::endl;
+       std::cout << npc_arr[i].color << std::endl;
+       std::cout << std::to_string(npc_arr[i].sbase) << "+" + std::to_string(npc_arr[i].sdice) + "d" + std::to_string(npc_arr[i].ssides) << std::endl;
+       std::cout << npc_arr[i].ability << std::endl;
+       std::cout << std::to_string(npc_arr[i].hpbase) + "+" + std::to_string(npc_arr[i].hpdice) + "d" + std::to_string(npc_arr[i].hpsides) << std::endl;
+       std::cout << std::to_string(npc_arr[i].dbase) + "+" + std::to_string(npc_arr[i].ddice) + "d" + std::to_string(npc_arr[i].dsides) << std::endl;
+       std::cout << npc_arr[i].rarity << std::endl;
+     }
 
-    std::cout << npc_arr[0].name << std::endl;
-    std::cout << npc_arr[0].description << std::endl;
-    std::cout << npc_arr[0].symbol << std::endl;
-    std::cout << npc_arr[0].color << std::endl;
-    std::cout << std::to_string(npc_arr[0].sbase) << "+" + std::to_string(npc_arr[0].sdice) + "d" + std::to_string(npc_arr[0].ssides) << std::endl;
-    std::cout << npc_arr[0].ability << std::endl;
-    std::cout << std::to_string(npc_arr[0].hpbase) + "+" + std::to_string(npc_arr[0].hpdice) + "d" + std::to_string(npc_arr[0].hpsides) << std::endl;
-    std::cout << std::to_string(npc_arr[0].dbase) + "+" + std::to_string(npc_arr[0].ddice) + "d" + std::to_string(npc_arr[0].dsides) << std::endl;
-    std::cout << npc_arr[0].rarity << std::endl;
+     //std::cout << npc_arr[0].name << std::endl;
+     //std::cout << npc_arr[0].description << std::endl;
+     //std::cout << npc_arr[0].symbol << std::endl;
+     //std::cout << npc_arr[0].color << std::endl;
+     //std::cout << std::to_string(npc_arr[0].sbase) << "+" + std::to_string(npc_arr[0].sdice) + "d" + std::to_string(npc_arr[0].ssides) << std::endl;
+     //std::cout << npc_arr[0].ability << std::endl;
+     // std::cout << std::to_string(npc_arr[0].hpbase) + "+" + std::to_string(npc_arr[0].hpdice) + "d" + std::to_string(npc_arr[0].hpsides) << std::endl;
+     //std::cout << std::to_string(npc_arr[0].dbase) + "+" + std::to_string(npc_arr[0].ddice) + "d" + std::to_string(npc_arr[0].dsides) << std::endl;
+     //std::cout << npc_arr[0].rarity << std::endl;
  
   
   
