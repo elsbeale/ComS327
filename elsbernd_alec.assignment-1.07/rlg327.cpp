@@ -306,6 +306,7 @@ int main(int argc, char *argv[])
             }
           }
           temp.name = name;
+          name.clear();
         }
         else if (word == "SYMB") //gets and sets the symbol
         {
@@ -331,10 +332,14 @@ int main(int argc, char *argv[])
           while (s != ".")
           {
             desc.append(s);
-            desc.append("\n");
             getline(f,s);
+            if (s != ".")
+            {
+              desc.append("\n");
+            }
           }
           temp.description = desc;
+          desc.clear();
         }
         else if (word == "SPEED") //gets and sets the speed
         {
