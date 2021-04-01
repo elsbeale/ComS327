@@ -413,11 +413,11 @@ int main(int argc, char *argv[])
             {
               stbase.append(std::to_string(temp_arr[i]));
             }
-            if(plus_trigger && !d_trigger)
+            else if(plus_trigger && !d_trigger)
             {
               stdice.append(std::to_string(temp_arr[i]));
             }
-            if(plus_trigger && d_trigger)
+            else if(plus_trigger && d_trigger)
             {
               stsides.append(std::to_string(temp_arr[i]));
             }
