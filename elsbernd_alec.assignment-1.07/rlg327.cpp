@@ -310,6 +310,15 @@ int main(int argc, char *argv[])
       if (tnameflag && tsymbolflag && tcolorflag && tdescflag && tspeedflag && tdamageflag && thpflag && trarityflag && tabilityflag)
       {
         monster_amount++;
+        tnameflag = false;
+        tsymbolflag = false;
+        tcolorflag = false;
+        tdescflag = false;
+        tspeedflag = false;
+        tdamageflag = false;
+        thpflag = false;
+        trarityflag = false;
+        tabilityflag = false;
       }
       
     }
