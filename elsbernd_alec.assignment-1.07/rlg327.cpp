@@ -546,6 +546,15 @@ int main(int argc, char *argv[])
     {
       npc_arr[array_pos] = temp;
       array_pos++;
+      nameflag = false;
+      symbolflag = false;
+      colorflag = false;
+      descflag = false;
+      speedflag = false;
+      damageflag = false;
+      hpflag = false;
+      rarityflag = false;
+      abilityflag = false;
     }
 
     while(flag2){
