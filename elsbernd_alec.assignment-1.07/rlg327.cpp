@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <vector>
 
 #include "dungeon.h"
 #include "pc.h"
@@ -222,10 +224,28 @@ int main(int argc, char *argv[])
     io_queue_message("Seed is %u.", seed);
   }
 
+  std:: ifstream testf("monster_desc.txt");
+  std:: string tests;
+  int monster_amount = 0;
+
+  while (getline(testf,tests))
+  {
+    if (tests == "BEGIN MONSTER")
+    {
+      monster_amount++;
+    }
+  }
+  npc npc_arr[monster_amount];
+  int array_pos = 0;
   std:: ifstream f("monster_desc.txt");
   std:: string s;
   int flag1 = 1;
   int flag2;
+  std::string name;
+  npc temp;
+  std::string word;
+  std::string desc;
+
 
   getline(f,s);
 
@@ -244,14 +264,191 @@ int main(int argc, char *argv[])
     }
     getline(f,s);
     if(!s.compare("BEGIN MONSTER")){
-	flag1 = 1;
+	    flag1 = 1;
     }
+
+    while(s != "END")
+    {
+      getline(f,s);
+      std::istringstream iss(s);
+      while (iss >> word)
+      {
+        if(word == "NAME") //gets and sets the name
+        {
+          while (iss >> word)
+          {
+            if(word != "NAME")
+            {
+              name.append(word);
+              name.append(" ");
+            }
+          }
+          temp.name = name;
+        }
+        else if (word == "SYMB") //gets and sets the symbol
+        {
+          while (iss >> word)
+          {
+            if (word != "SYMB")
+            {
+              assert(word.size() == 1);
+              char symbol = word[0];
+              temp.symbol = symbol;
+            }
+          }
+        }
+        else if (word == "COLOR") //gets and sets the color
+        {
+          iss >> word;
+          temp.color = word;
+        }
+        else if (word == "DESC") //gets and sets the description
+        {
+          getline(f,s);
+          while (s != ".")
+          {
+            desc.append(s);
+            getline(f,s);
+          }
+          temp.description = desc;
+        }
+        else if (word == "SPEED") //gets and sets the speed
+        {
+          iss >> word;
+          std::stringstream ss;
+          ss << word;
+          std::string tmp;
+          int tmpnum;
+          int base;
+          int dice;
+          int sides;
+          bool basedone = false;
+          bool dicedone = false;
+
+          while (!ss.eof())
+          {
+            ss >> tmp;
+            if (std::stringstream(tmp) >> tmpnum && !basedone)
+            {
+              base = tmpnum;
+              basedone = true;
+            }
+            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            {
+              dice = tmpnum;
+              dicedone = true;
+            }
+            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            {
+              sides = tmpnum;
+            }
+          }
+          temp.sbase = base; //speed base
+          temp.sdice = dice; //speed dice
+          temp.ssides = sides; //speed sides
+        }
+        else if (word == "DAM")
+        {
+          iss >> word;
+          std::stringstream ss;
+          ss << word;
+          std::string tmp;
+          int tmpnum;
+          int base;
+          int dice;
+          int sides;
+          bool basedone = false;
+          bool dicedone = false;
+          while (!ss.eof())
+          {
+            ss >> tmp;
+            if (std::stringstream(tmp) >> tmpnum && !basedone)
+            {
+              base = tmpnum;
+              basedone = true;
+            }
+            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            {
+              dice = tmpnum;
+              dicedone = true;
+            }
+            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            {
+              sides = tmpnum;
+            }
+          }
+          temp.dbase = base; //damage base
+          temp.ddice = dice; //damage dice
+          temp.dsides = sides; //damage sides
+        }
+        else if (word == "HP")
+        {
+          iss >> word;
+          std::stringstream ss;
+          ss << word;
+          std::string tmp;
+          int tmpnum;
+          int base;
+          int dice;
+          int sides;
+          bool basedone = false;
+          bool dicedone = false;
+          while (!ss.eof())
+          {
+            ss >> tmp;
+            if (std::stringstream(tmp) >> tmpnum && !basedone)
+            {
+              base = tmpnum;
+              basedone = true;
+            }
+            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            {
+              dice = tmpnum;
+              dicedone = true;
+            }
+            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            {
+              sides = tmpnum;
+            }
+          }
+          temp.hpbase = base; //hp base
+          temp.hpdice = dice; //hp dice
+          temp.hpsides = sides; //hp sides
+        }
+        else if (word == "RRTY")
+        {
+          iss >> word;
+          std::stringstream ss;
+          ss << word;
+          std::string tmp;
+          int tmpnum;
+
+          ss >> tmp;
+          std::stringstream(tmp) >> tmpnum;
+          temp.rarity = tmpnum;
+        }
+        else if (word == "ABIL")
+        {
+          iss >> word;
+          temp.ability = word;
+        }
+        else
+        {
+          //does nothing atm
+        }
+      }
+
+    }
+    npc_arr[array_pos] = temp;
+    array_pos++;
+
+    
 
     while(flag2){
       getline(f,s);
       std:: cout << s << std::endl;
       if(!s.compare("END")){
-	flag2 = 0;
+	      flag2 = 0;
       }
       if (!s.compare(0,2,"NA")){
 	  std:: cout << "hi" << std::endl;
