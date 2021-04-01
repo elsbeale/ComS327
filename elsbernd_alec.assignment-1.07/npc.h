@@ -2,6 +2,7 @@
 # define NPC_H
 
 # include <stdint.h>
+# include <string>
 
 # include "dims.h"
 # include "character.h"
@@ -49,6 +50,16 @@ class npc : public character {
   npc_characteristics_t characteristics;
   uint32_t have_seen_pc;
   pair_t pc_last_known_position;
+  std::string name;
+  std::string color;
+  std::string description;
+  int hp;
+  int damage;
+  int rarity;
+  std::string ability;
+  int base;
+  int dice;
+  int sides;
 };
 
 void gen_monsters(dungeon *d);
