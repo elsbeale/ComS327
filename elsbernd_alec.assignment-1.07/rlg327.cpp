@@ -378,7 +378,7 @@ int main(int argc, char *argv[])
           int char_count = 0;
           for (char &c: word)
           {
-	    c = c;
+	          c = c;
             char_count++;
           }
 
@@ -391,30 +391,44 @@ int main(int argc, char *argv[])
             count++;
           }
 
-	  //int plus_pos = 0;
-	  //int d_pos = 0;
+          // int plus_pos = 0;
+          // int d_pos = 0;
 
-          for (int i = 0; i < char_count; i++)
-          {
-            if (temp_arr[i] == '+')
-            {
-	      // plus_pos = i;
-            }
-            if (temp_arr[i] == 'd')
-            {
-              //d_pos = i;
-            }
-          }
+          // for (int i = 0; i < char_count; i++)
+          // {
+          //   if (temp_arr[i] == '+')
+          //   {
+          //     plus_pos = i;
+          //   }
+          //   if (temp_arr[i] == 'd')
+          //   {
+          //     d_pos = i;
+          //   }
+          // }
+
+          std::stringstream str;
           int temp_int_arr[char_count - 2];
           count = 0;
+          int throwaway;
           for (int i = 0; i < char_count; i++)
           {
             if(temp_arr[i] != '+' && temp_arr[i] != 'd')
             {
-              temp_int_arr[count] = temp_arr[i] - 48;
+              str << temp_arr[i];
+              str >> throwaway;
+              temp_int_arr[count] = throwaway;
               count++;
             }
           }
+
+          // for (int i = 0; i < char_count; i++)
+          // {
+          //   if(temp_arr[i] != '+' && temp_arr[i] != 'd')
+          //   {
+          //     temp_int_arr[count] = temp_arr[i] - 48;
+          //     count++;
+          //   }
+          // }
 
           for (int i = 0; i < char_count - 2; i++)
           {
