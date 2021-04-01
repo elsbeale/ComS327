@@ -249,12 +249,69 @@ int main(int argc, char *argv[])
   std:: ifstream testf("monster_desc.txt");
   std:: string tests;
   int monster_amount = 0;
-
+  std::string word;
+  bool tnameflag = false;
+  bool tsymbolflag = false;
+  bool tcolorflag = false;
+  bool tdescflag = false;
+  bool tspeedflag = false;
+  bool tdamageflag = false;
+  bool thpflag = false;
+  bool trarityflag = false;
+  bool tabilityflag = false;
   while (getline(testf,tests))
   {
     if (tests == "BEGIN MONSTER")
     {
-      monster_amount++;
+      while (tests != "END")
+      {
+        getline(testf,tests);
+        std::istringstream iss(tests);
+        while (iss >> word)
+        {
+          if(word == "NAME") //gets and sets the name
+          {
+            tnameflag = true;
+          }
+          else if (word == "SYMB")
+          {
+            tsymbolflag = true;
+          }
+          else if (word == "COLOR") //gets and sets the color
+          {
+            tcolorflag = true;
+          }
+          else if (word == "DESC") //gets and sets the description
+          {
+            tdescflag = true;
+          }
+          else if (word == "SPEED") //gets and sets the speed
+          {
+            tspeedflag = true;
+          }
+          else if (word == "DAM")
+          {
+            tdamageflag = true;
+          }
+          else if (word == "HP")
+          {
+            thpflag = true;
+          }
+          else if (word == "RRTY")
+          {
+            trarityflag = true;
+          }
+          else if (word == "ABIL")
+          {
+            tabilityflag = true;
+          }
+        }
+      }
+      if (tnameflag && tsymbolflag && tcolorflag && tdescflag && tspeedflag && tdamageflag && thpflag && trarityflag && tabilityflag)
+      {
+        monster_amount++;
+      }
+      
     }
   }
   monsterdesc npc_arr[monster_amount];
@@ -265,7 +322,7 @@ int main(int argc, char *argv[])
   int flag2;
   std::string name;
   monsterdesc temp;
-  std::string word;
+  
   std::string desc;
   bool nameflag = false;
   bool symbolflag = false;
