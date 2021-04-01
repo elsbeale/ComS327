@@ -415,23 +415,28 @@ int main(int argc, char *argv[])
               count++;
             }
           }
-          std::string stbase;
-          std::string stdice;
-          std::string stsides;
-          for (int i = 0; i < char_count-2; i++)
+
+          for (int i = 0; i < char_count - 2; i++)
           {
-            if (i < plus_pos)
-            {
-              stbase.append(std::to_string(temp_int_arr[i]));
-            }
-            else if (i >= plus_pos && i <= d_pos - plus_pos)
-            {
-              stdice.append(std::to_string(temp_int_arr[i]));
-            }
-            else
-            {
-              stsides.append(std::to_string(temp_int_arr[i]));
-            }
+            printf("%c", temp_int_arr[i]);
+          }
+          // std::string stbase;
+          // std::string stdice;
+          // std::string stsides;
+          // for (int i = 0; i < char_count-2; i++)
+          // {
+          //   if (i < plus_pos)
+          //   {
+          //     stbase.append(std::to_string(temp_int_arr[i]));
+          //   }
+          //   else if (i >= plus_pos && i <= d_pos - plus_pos)
+          //   {
+          //     stdice.append(std::to_string(temp_int_arr[i]));
+          //   }
+          //   else
+          //   {
+          //     stsides.append(std::to_string(temp_int_arr[i]));
+          //   }
           }
 
 
