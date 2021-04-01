@@ -141,46 +141,62 @@ io.h,19
 move.h,21
 # define MOVE_H2,15
 
-npc.h,1123
+npc.h,1505
 # define NPC_H2,14
-# define NPC_SMART 9,96
-# define NPC_TELEPATH 10,134
-# define NPC_TUNNEL 11,172
-# define NPC_ERRATIC 12,210
-# define NPC_BIT04 13,248
-# define NPC_BIT05 14,286
-# define NPC_BIT06 15,324
-# define NPC_BIT07 16,362
-# define NPC_BIT08 17,400
-# define NPC_BIT09 18,438
-# define NPC_BIT10 19,476
-# define NPC_BIT11 20,514
-# define NPC_BIT12 21,552
-# define NPC_BIT13 22,590
-# define NPC_BIT14 23,628
-# define NPC_BIT15 24,666
-# define NPC_BIT16 25,704
-# define NPC_BIT17 26,742
-# define NPC_BIT18 27,780
-# define NPC_BIT19 28,818
-# define NPC_BIT20 29,856
-# define NPC_BIT21 30,894
-# define NPC_BIT22 31,932
-# define NPC_BIT23 32,970
-# define NPC_BIT24 33,1008
-# define NPC_BIT25 34,1046
-# define NPC_BIT26 35,1084
-# define NPC_BIT27 36,1122
-# define NPC_BIT28 37,1160
-# define NPC_BIT29 38,1198
-# define NPC_BIT30 39,1236
-# define NPC_BIT31 40,1274
-# define has_characteristic(42,1313
-typedef uint32_t npc_characteristics_t;45,1423
-class npc 47,1464
-  npc_characteristics_t characteristics;49,1504
-  uint32_t have_seen_pc;50,1545
-  pair_t pc_last_known_position;51,1570
+# define NPC_SMART 10,115
+# define NPC_TELEPATH 11,153
+# define NPC_TUNNEL 12,191
+# define NPC_ERRATIC 13,229
+# define NPC_BIT04 14,267
+# define NPC_BIT05 15,305
+# define NPC_BIT06 16,343
+# define NPC_BIT07 17,381
+# define NPC_BIT08 18,419
+# define NPC_BIT09 19,457
+# define NPC_BIT10 20,495
+# define NPC_BIT11 21,533
+# define NPC_BIT12 22,571
+# define NPC_BIT13 23,609
+# define NPC_BIT14 24,647
+# define NPC_BIT15 25,685
+# define NPC_BIT16 26,723
+# define NPC_BIT17 27,761
+# define NPC_BIT18 28,799
+# define NPC_BIT19 29,837
+# define NPC_BIT20 30,875
+# define NPC_BIT21 31,913
+# define NPC_BIT22 32,951
+# define NPC_BIT23 33,989
+# define NPC_BIT24 34,1027
+# define NPC_BIT25 35,1065
+# define NPC_BIT26 36,1103
+# define NPC_BIT27 37,1141
+# define NPC_BIT28 38,1179
+# define NPC_BIT29 39,1217
+# define NPC_BIT30 40,1255
+# define NPC_BIT31 41,1293
+# define has_characteristic(43,1332
+typedef uint32_t npc_characteristics_t;46,1442
+class npc 48,1483
+  npc_characteristics_t characteristics;50,1523
+  uint32_t have_seen_pc;51,1564
+  pair_t pc_last_known_position;52,1589
+  std::string name;53,1622
+  std::string color;54,1642
+  std::string description;55,1663
+  int hp;56,1690
+  int damage;57,1700
+  int rarity;58,1714
+  std::string ability;59,1728
+  int sbase;60,1751
+  int sdice;61,1764
+  int ssides;62,1777
+  int dbase;63,1791
+  int ddice;64,1804
+  int dsides;65,1817
+  int hpbase;66,1831
+  int hpdice;67,1845
+  int hpsides;68,1859
 
 path.h,54
 # define PATH_H2,15
@@ -315,26 +331,26 @@ npc.cpp,808
 static uint32_t max_monster_cells(13,193
 #define min(27,438
 void gen_monsters(33,542
-void npc_next_pos_rand_tunnel(74,1881
-    uint32_t i;78,1968
-    uint8_t a[a79,1984
-void npc_next_pos_rand(119,2730
-    uint32_t i;123,2810
-    uint8_t a[a124,2826
-void npc_next_pos_line_of_sight(151,3285
-void npc_next_pos_line_of_sight_tunnel(175,3977
-void npc_next_pos_gradient(208,4710
-static void npc_next_pos_00(331,9387
-static void npc_next_pos_01(343,9809
-static void npc_next_pos_02(362,10459
-static void npc_next_pos_03(370,10751
-static void npc_next_pos_04(376,10916
-static void npc_next_pos_05(388,11345
-static void npc_next_pos_06(407,12002
-static void npc_next_pos_07(415,12301
-static void npc_next_pos_erratic(446,13216
-void npc_next_pos(456,13483
-uint32_t dungeon_has_npcs(464,13674
+void npc_next_pos_rand_tunnel(73,1850
+    uint32_t i;77,1937
+    uint8_t a[a78,1953
+void npc_next_pos_rand(118,2699
+    uint32_t i;122,2779
+    uint8_t a[a123,2795
+void npc_next_pos_line_of_sight(150,3254
+void npc_next_pos_line_of_sight_tunnel(174,3946
+void npc_next_pos_gradient(207,4679
+static void npc_next_pos_00(330,9356
+static void npc_next_pos_01(342,9778
+static void npc_next_pos_02(361,10428
+static void npc_next_pos_03(369,10720
+static void npc_next_pos_04(375,10885
+static void npc_next_pos_05(387,11314
+static void npc_next_pos_06(406,11971
+static void npc_next_pos_07(414,12270
+static void npc_next_pos_erratic(445,13185
+void npc_next_pos(455,13452
+uint32_t dungeon_has_npcs(463,13643
 
 path.cpp,306
 static dungeon *thedungeon;thedungeon16,689
@@ -362,10 +378,10 @@ void pc_observe_terrain(200,6430
 int32_t is_illuminated(237,7435
 
 rlg327.cpp,115
-const char *victory victory17,267
-const char *tombstone tombstone48,1838
-void usage(69,2889
-int main(80,3145
+const char *victory victory19,304
+const char *tombstone tombstone50,1875
+void usage(71,2926
+int main(82,3182
 
 utils.cpp,25
 int makedirectory(9,124

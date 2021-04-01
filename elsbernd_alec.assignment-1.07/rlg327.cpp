@@ -450,33 +450,6 @@ int main(int argc, char *argv[])
       if(!s.compare("END")){
 	      flag2 = 0;
       }
-      if (!s.compare(0,2,"NA")){
-	  std:: cout << "hi" << std::endl;
-      }
-      if (!s.compare(0,2,"DE")){
-	  std:: cout << "hi" << std::endl;
-      }
-      if (!s.compare(0,2,"CO")){
-	  std:: cout << "hi" << std::endl;
-      }
-      if (!s.compare(0,2,"SP")){
-	  std:: cout << "hi" << std::endl;
-      }
-      if (!s.compare(0,2,"AB")){
-	  std:: cout << "hi" << std::endl;
-      }
-      if (!s.compare(0,2,"HP")){
-	  std:: cout << "hi" << std::endl;
-      }
-      if (!s.compare(0,2,"DA")){
-	  std:: cout << "hi" << std::endl;
-      }
-      if (!s.compare(0,2,"SY")){
-	  std:: cout << "hi" << std::endl;
-      }
-      if (!s.compare(0,2,"RR")){
-	  std:: cout << "hi" << std::endl;
-      }
     }
   }
  
