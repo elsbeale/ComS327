@@ -391,35 +391,35 @@ int main(int argc, char *argv[])
             count++;
           }
 
-          int plus_pos = 0;
-          int d_pos = 0;
+          // int plus_pos = 0;
+          // int d_pos = 0;
 
-          for (int i = 0; i < char_count; i++)
-          {
-            if (temp_arr[i] == '+')
-            {
-              plus_pos = i;
-            }
-            if (temp_arr[i] == 'd')
-            {
-              d_pos = i;
-            }
-          }
+          // for (int i = 0; i < char_count; i++)
+          // {
+          //   if (temp_arr[i] == '+')
+          //   {
+          //     plus_pos = i;
+          //   }
+          //   if (temp_arr[i] == 'd')
+          //   {
+          //     d_pos = i;
+          //   }
+          // }
 
-          std::stringstream str;
-          int temp_int_arr[char_count - 2];
-          count = 0;
-          int throwaway;
-          for (int i = 0; i < char_count; i++)
-          {
-            if(temp_arr[i] != '+' && temp_arr[i] != 'd')
-            {
-              str << temp_arr[i];
-              str >> throwaway;
-              temp_int_arr[count] = throwaway;
-              count++;
-            }
-          }
+          // std::stringstream str;
+          // int temp_int_arr[char_count - 2];
+          // count = 0;
+          // int throwaway;
+          // for (int i = 0; i < char_count; i++)
+          // {
+          //   if(temp_arr[i] != '+' && temp_arr[i] != 'd')
+          //   {
+          //     str << temp_arr[i];
+          //     str >> throwaway;
+          //     temp_int_arr[count] = throwaway;
+          //     count++;
+          //   }
+          // }
 
           // for (int i = 0; i < char_count; i++)
           // {
@@ -437,51 +437,51 @@ int main(int argc, char *argv[])
           std::string stbase;
           std::string stdice;
           std::string stsides;
-          for (int i = 0; i < char_count-2; i++)
-          {
-            if (i < plus_pos)
-            {
-              stbase.append(std::to_string(temp_int_arr[i]));
-            }
-            else if (i >= plus_pos && i <= d_pos - plus_pos)
-            {
-              stdice.append(std::to_string(temp_int_arr[i]));
-            }
-            else
-            {
-              stsides.append(std::to_string(temp_int_arr[i]));
-            }
-          }
-
-
-          // bool plus_trigger = false;
-          // bool d_trigger = false;
-          
-          // for (int i = 0; i < char_count; i++)
+          // for (int i = 0; i < char_count-2; i++)
           // {
-          //   if (temp_arr[i] == '+')
+          //   if (i < plus_pos)
           //   {
-          //     plus_trigger = true;
-          //     continue;
+          //     stbase.append(std::to_string(temp_int_arr[i]));
           //   }
-          //   if (temp_arr[i] == 'd')
+          //   else if (i >= plus_pos && i <= d_pos - plus_pos)
           //   {
-          //     d_trigger = true;
-          //     continue;
+          //     stdice.append(std::to_string(temp_int_arr[i]));
           //   }
-          //   if(!plus_trigger)
+          //   else
           //   {
-          //     stbase.append(std::to_string(temp_arr[i]));
-          //   }
-          //   else if(plus_trigger && !d_trigger)
-          //   {
-          //     stdice.append(std::to_string(temp_arr[i]));
-          //   }
-          //   else if(plus_trigger && d_trigger)
-          //   {
-          //     stsides.append(std::to_string(temp_arr[i]));
+          //     stsides.append(std::to_string(temp_int_arr[i]));
           //   }
           // }
+
+
+          bool plus_trigger = false;
+          bool d_trigger = false;
+          
+          for (int i = 0; i < char_count; i++)
+          {
+            if (temp_arr[i] == '+')
+            {
+              plus_trigger = true;
+              continue;
+            }
+            if (temp_arr[i] == 'd')
+            {
+              d_trigger = true;
+              continue;
+            }
+            if(!plus_trigger)
+            {
+              stbase.append(std::to_string(temp_arr[i]));
+            }
+            else if(plus_trigger && !d_trigger)
+            {
+              stdice.append(std::to_string(temp_arr[i]));
+            }
+            else if(plus_trigger && d_trigger)
+            {
+              stsides.append(std::to_string(temp_arr[i]));
+            }
+          }
           temp.sbase = stoi(stbase);
           temp.sdice = stoi(stdice);
           temp.ssides = stoi(stsides);
