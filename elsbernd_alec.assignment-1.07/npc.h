@@ -55,6 +55,11 @@ class npc : public character {
   std::string description;
   int hp;
   int damage;
+  int rarity;
+  std::string ability;
+  int base;
+  int dice;
+  int sides;
 };
 
 void gen_monsters(dungeon *d);
