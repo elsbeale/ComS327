@@ -58,18 +58,18 @@ class object{
 public:
   std::string name;
   std::string description;
-  object_type_t type;
-  uint32_t color;
-  uint32_t hit;
+  object_type type;
+  int color;
+  int hit;
   dice damage;
-  uint32_t dodge;
-  uint32_t defence;
-  uint32_t weight;
-  uint32_t speed;
-  uint32_t attribute;
-  uint32_t value;
+  int dodge;
+  int defence;
+  int weight;
+  int speed;
+  int attribute;
+  int value;
   bool art;
-  uint32_t rrty;
+  int rrty;
 };
   
 class pc;
@@ -77,7 +77,8 @@ class pc;
 class dungeon {
  public:
   dungeon() : num_rooms(0), rooms(0), map{ter_wall}, hardness{0},
-              pc_distance{0}, pc_tunnel{0}, character_map{0}, PC(0),
+              pc_distance{0}, pc_tunnel{0}, character_map{0}, object_map{0},
+	      PC(0),
               num_monsters(0), max_monsters(0), character_sequence_number(0),
               time(0), is_new(0), quit(0), monster_descriptions(),
               object_descriptions()  {}

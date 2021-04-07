@@ -223,9 +223,8 @@ void io_display(dungeon *d)
         visible_monsters++;
       }
       else if(d->object_map[y][x]){
-	 mvaddch(y + 1, x,
-		 (object_symbol[1]));
-	
+	mvaddch(y + 1, x,
+		object_symbol[d->object_map[y][x]->type]);
       } else {
         switch (pc_learned_terrain(d->PC, y, x)) {
         case ter_wall:

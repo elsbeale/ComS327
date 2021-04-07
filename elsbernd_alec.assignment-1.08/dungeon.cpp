@@ -627,7 +627,9 @@ int gen_dungeon(dungeon *d)
   connect_rooms(d);
   place_stairs(d);
 
-  for(std::vector<object_description>::size_type i = 0; i < 5; i++) {
+
+  
+  for(std::vector<object_description>::size_type i = 0; i < d->object_descriptions.size(); i++) {
 
     temp = new object;
 
@@ -640,6 +642,8 @@ int gen_dungeon(dungeon *d)
 			  (d->rooms[room].position[dim_x] +
 			   d->rooms[room].size[dim_x] - 1));
     } while (d->object_map[y][x]);
+
+     d->object_map[y][x] = temp;
 
     temp->name = d->object_descriptions[i].name;
     temp->description = d->object_descriptions[i].description;
@@ -655,8 +659,11 @@ int gen_dungeon(dungeon *d)
     temp->value = d->object_descriptions[i].value.roll();
     temp->art = d->object_descriptions[i].artifact;
     temp->rrty = d->object_descriptions[i].rarity;
-   
 
+  
+
+ 
+    
     
     d->object_map[y][x] = temp;
 
