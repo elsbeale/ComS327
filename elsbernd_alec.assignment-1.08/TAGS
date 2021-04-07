@@ -431,26 +431,26 @@ static int place_rooms(534,16675
 static void place_stairs(571,17860
 static int make_rooms(593,18493
 int gen_dungeon(616,19065
-void render_dungeon(676,20622
-void delete_dungeon(719,21572
-void init_dungeon(726,21712
-int write_dungeon_map(733,21867
-int write_rooms(746,22094
-uint16_t count_up_stairs(768,22564
-uint16_t count_down_stairs(784,22813
-int write_stairs(800,23066
-uint32_t calculate_dungeon_size(832,23819
-int write_dungeon(843,24288
-int read_dungeon_map(909,25858
-int read_stairs(932,26454
-int read_rooms(955,26929
-int read_dungeon(1013,28863
-int read_pgm(1094,30755
-void render_hardness_map(1179,33167
-void render_movement_cost_map(1202,33692
-void render_distance_map(1224,34197
-void render_tunnel_distance_map(1265,35265
-void new_dungeon(1306,36336
+void render_dungeon(681,20740
+void delete_dungeon(724,21690
+void init_dungeon(731,21830
+int write_dungeon_map(738,21985
+int write_rooms(751,22212
+uint16_t count_up_stairs(773,22682
+uint16_t count_down_stairs(789,22931
+int write_stairs(805,23184
+uint32_t calculate_dungeon_size(837,23937
+int write_dungeon(848,24406
+int read_dungeon_map(914,25976
+int read_stairs(937,26572
+int read_rooms(960,27047
+int read_dungeon(1018,28981
+int read_pgm(1099,30873
+void render_hardness_map(1184,33285
+void render_movement_cost_map(1207,33810
+void render_distance_map(1229,34315
+void render_tunnel_distance_map(1270,35383
+void new_dungeon(1311,36454
 
 event.cpp,174
 static uint32_t next_event_number(6,63
@@ -459,7 +459,7 @@ event *new_event(new_event27,701
 event *update_event(update_event44,995
 void event_delete(52,1137
 
-io.cpp,1039
+io.cpp,1040
 static dungeon *thedungeon;thedungeon15,254
 typedef struct io_message 17,283
   char msg[msg20,464
@@ -478,14 +478,14 @@ void io_display_hardness(140,3004
 static int compare_monster_distance(160,3833
 static character *io_nearest_visible_monster(io_nearest_visible_monster171,4267
 void io_display(203,5003
-void io_display_no_fog(290,7558
-void io_display_monster_list(356,9511
-uint32_t io_teleport_pc(365,9707
-static const char *adjectives[adjectives517,12837
-static void io_scroll_monster_list(550,13619
-static void io_list_monsters_display(579,14073
-static void io_list_monsters(628,15745
-void io_handle_input(658,16510
+void io_display_no_fog(297,7793
+void io_display_monster_list(370,9959
+uint32_t io_teleport_pc(379,10155
+static const char *adjectives[adjectives531,13285
+static void io_scroll_monster_list(564,14067
+static void io_list_monsters_display(593,14521
+static void io_list_monsters(642,16193
+void io_handle_input(672,16958
 
 move.cpp,237
 void do_combat(18,266

@@ -206,10 +206,14 @@ void io_display(dungeon *d)
   uint32_t illuminated;
   character *c;
   int32_t visible_monsters;
+  pair_t current;
 
   clear();
   for (visible_monsters = -1, y = 0; y < 21; y++) {
     for (x = 0; x < 80; x++) {
+      current[dim_x] = x;
+      current[dim_y] = y;
+      
       if ((illuminated = is_illuminated(d->PC, y, x))) {
         attron(A_BOLD);
       }
@@ -220,11 +224,14 @@ void io_display(dungeon *d)
                   1, 0)) {
        mvaddch(y + 1, x,
                 character_get_symbol(d->character_map[y][x]));
+       
         visible_monsters++;
       }
-      else if(d->object_map[y][x]){
+      else if(d->object_map[y][x] && can_see(d,character_get_pos(d->PC),current,1,0)){
+	attron(COLOR_PAIR(d->object_map[y][x]->color));
 	mvaddch(y + 1, x,
 		object_symbol[d->object_map[y][x]->type]);
+	attroff(COLOR_PAIR(d->object_map[y][x]->color));
       } else {
         switch (pc_learned_terrain(d->PC, y, x)) {
         case ter_wall:
@@ -297,7 +304,14 @@ void io_display_no_fog(dungeon *d)
     for (x = 0; x < 80; x++) {
       if (d->character_map[y][x]) {
         mvaddch(y + 1, x, d->character_map[y][x]->symbol);
-      } else {
+      }
+      else if(d->object_map[y][x]){
+	attron(COLOR_PAIR(d->object_map[y][x]->color));
+	mvaddch(y + 1, x,
+		object_symbol[d->object_map[y][x]->type]);
+	attroff(COLOR_PAIR(d->object_map[y][x]->color));
+      }
+      else {
         switch (mapxy(x, y)) {
         case ter_wall:
         case ter_wall_immutable:

@@ -628,6 +628,11 @@ int gen_dungeon(dungeon *d)
   place_stairs(d);
 
 
+  for (y = 0; y < DUNGEON_Y; y++) {
+    for (x = 0; x < DUNGEON_X; x++) {
+      d->object_map[y][x] = NULL;
+    }
+  }
   
   for(std::vector<object_description>::size_type i = 0; i < d->object_descriptions.size(); i++) {
 
