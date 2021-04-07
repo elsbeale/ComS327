@@ -431,26 +431,26 @@ static int place_rooms(534,16675
 static void place_stairs(571,17860
 static int make_rooms(593,18493
 int gen_dungeon(616,19065
-void render_dungeon(681,20740
-void delete_dungeon(724,21690
-void init_dungeon(731,21830
-int write_dungeon_map(738,21985
-int write_rooms(751,22212
-uint16_t count_up_stairs(773,22682
-uint16_t count_down_stairs(789,22931
-int write_stairs(805,23184
-uint32_t calculate_dungeon_size(837,23937
-int write_dungeon(848,24406
-int read_dungeon_map(914,25976
-int read_stairs(937,26572
-int read_rooms(960,27047
-int read_dungeon(1018,28981
-int read_pgm(1099,30873
-void render_hardness_map(1184,33285
-void render_movement_cost_map(1207,33810
-void render_distance_map(1229,34315
-void render_tunnel_distance_map(1270,35383
-void new_dungeon(1311,36454
+void render_dungeon(683,20792
+void delete_dungeon(726,21742
+void init_dungeon(733,21882
+int write_dungeon_map(740,22037
+int write_rooms(753,22264
+uint16_t count_up_stairs(775,22734
+uint16_t count_down_stairs(791,22983
+int write_stairs(807,23236
+uint32_t calculate_dungeon_size(839,23989
+int write_dungeon(850,24458
+int read_dungeon_map(916,26028
+int read_stairs(939,26624
+int read_rooms(962,27099
+int read_dungeon(1020,29033
+int read_pgm(1101,30925
+void render_hardness_map(1186,33337
+void render_movement_cost_map(1209,33862
+void render_distance_map(1231,34367
+void render_tunnel_distance_map(1272,35435
+void new_dungeon(1313,36506
 
 event.cpp,174
 static uint32_t next_event_number(6,63

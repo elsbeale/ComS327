@@ -667,9 +667,6 @@ int gen_dungeon(dungeon *d)
 
   
 
-    std::cout << temp->speed;
-    std::cout << " ";
- 
     
     
     d->object_map[y][x] = temp;
