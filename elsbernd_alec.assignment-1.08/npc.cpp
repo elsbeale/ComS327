@@ -73,6 +73,8 @@ void gen_monsters(dungeon *d)
           d->monster_descriptions[i].hitpoints,
           d->monster_descriptions[i].damage,
           d->monster_descriptions[i].rarity);
+    m->speed = d->monster_descriptions[i].speed.roll();
+    m->hitpoints = d->monster_descriptions[i].hitpoints.roll();
 
     d->character_map[p[dim_y]][p[dim_x]] = m;
 
