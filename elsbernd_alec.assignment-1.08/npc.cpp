@@ -40,7 +40,7 @@ void gen_monsters(dungeon *d)
 
   d->num_monsters = min(d->max_monsters, max_monster_cells(d));
 
-  for (i = 0; i < d->num_monsters; i++) {
+  for (std::vector<monster_description>::size_type i = 0; i < d->num_monsters; i++) {
     m = new npc;
     memset(m, 0, sizeof (*m));
     
@@ -56,14 +56,23 @@ void gen_monsters(dungeon *d)
     m->position[dim_y] = p[dim_y];
     m->position[dim_x] = p[dim_x];
     d->character_map[p[dim_y]][p[dim_x]] = m;
-    m->speed = rand_range(5, 20);
+    //m->speed = rand_range(5, 20);
     m->alive = 1;
     m->sequence_number = ++d->character_sequence_number;
     m->characteristics = rand() & 0x0000000f;
     /*    m->npc->characteristics = 0xf;*/
-    m->symbol = symbol[m->characteristics];
+    //m->symbol = symbol[m->characteristics];
     m->have_seen_pc = 0;
     m->kills[kill_direct] = m->kills[kill_avenged] = 0;
+    m->set(d->monster_descriptions[i].name,
+          d->monster_descriptions[i].description,
+          d->monster_descriptions[i].get_symbol(),
+          d->monster_descriptions[i].color,
+          d->monster_descriptions[i].speed,
+          d->monster_descriptions[i].abilities,
+          d->monster_descriptions[i].hitpoints,
+          d->monster_descriptions[i].damage,
+          d->monster_descriptions[i].rarity);
 
     d->character_map[p[dim_y]][p[dim_x]] = m;
 

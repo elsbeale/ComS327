@@ -39,7 +39,7 @@ typedef enum object_type {
 extern const char object_symbol[];
 
 class monster_description {
- private:
+ public:
   std::string name, description;
   char symbol;
   std::vector<uint32_t> color;

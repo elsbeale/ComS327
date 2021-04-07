@@ -670,35 +670,35 @@ int gen_dungeon(dungeon *d)
     d->object_map[y][x] = temp;
   }
 
-  for(std::vector<monster_description>::size_type i = 0; i < d->num_monsters; i++)
-  {
-    temp = new npc;
+  // for(std::vector<monster_description>::size_type i = 0; i < d->num_monsters; i++)
+  // {
+  //   temp = new npc;
 
-    do {
-      room = rand_range(1, d->num_rooms - 1);
-      y = rand_range(d->rooms[room].position[dim_y],
-                    (d->rooms[room].position[dim_y] +
-	                  d->rooms[room].size[dim_y] - 1));
-      x = rand_range(d->rooms[room].position[dim_x],
-			              (d->rooms[room].position[dim_x] + d->rooms[room].size[dim_x] - 1));
-    } while (d->character_map[y][x]);
+  //   do {
+  //     room = rand_range(1, d->num_rooms - 1);
+  //     y = rand_range(d->rooms[room].position[dim_y],
+  //                   (d->rooms[room].position[dim_y] +
+	//                   d->rooms[room].size[dim_y] - 1));
+  //     x = rand_range(d->rooms[room].position[dim_x],
+	// 		              (d->rooms[room].position[dim_x] + d->rooms[room].size[dim_x] - 1));
+  //   } while (d->character_map[y][x]);
 
-    d->character_map[y][x] = temp;
+  //   d->character_map[y][x] = temp;
 
-    temp->name = d->monster_descriptions[i].name;
-    temp->description = d->monster_descriptions[i].description;
-    temp->symbol = d->monster_descriptions[i].get_symbol;
-    temp->color = d->monster_descriptions[i].color;
-    temp->abilities = d->monster_descriptions[i].abilities;
-    temp->speed = d->monster_descriptions[i].speed.roll();
-    temp->hitpoints = d->monster_descriptions[i].hitpoints.roll();
-    temp->damage = d->monster_descriptions[i].damage;
-    temp->rarity = d->monster_descriptions[i].rarity;
+  //   temp->name = d->monster_descriptions[i].name;
+  //   temp->description = d->monster_descriptions[i].description;
+  //   temp->symbol = d->monster_descriptions[i].get_symbol;
+  //   temp->color = d->monster_descriptions[i].color;
+  //   temp->abilities = d->monster_descriptions[i].abilities;
+  //   temp->speed = d->monster_descriptions[i].speed.roll();
+  //   temp->hitpoints = d->monster_descriptions[i].hitpoints.roll();
+  //   temp->damage = d->monster_descriptions[i].damage;
+  //   temp->rarity = d->monster_descriptions[i].rarity;
 
-    std::cout << temp->speed << " ";
+  //   std::cout << temp->speed << " ";
 
-    d->character_map[y][x] = temp;
-  }
+  //   d->character_map[y][x] = temp;
+  // }
 
   return 0;
 }
