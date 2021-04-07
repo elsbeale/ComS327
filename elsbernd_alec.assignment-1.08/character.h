@@ -11,7 +11,7 @@ typedef enum kill_type {
   num_kill_types
 } kill_type_t;
 
-class character {
+class character : public monster_description {
  public:
   char symbol;
   pair_t position;
