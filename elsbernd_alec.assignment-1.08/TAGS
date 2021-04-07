@@ -53,33 +53,33 @@ class monster_description 41,741
   monster_description(50,941
   char get_symbol(65,1504
 class object_description 68,1547
-  std::string name,70,1584
-  std::string name, description;70,1584
-  object_type_t type;71,1617
-  uint32_t color;72,1639
-  dice hit,73,1657
-  dice hit, damage,73,1657
-  dice hit, damage, dodge,73,1657
-  dice hit, damage, dodge, defence,73,1657
-  dice hit, damage, dodge, defence, weight,73,1657
-  dice hit, damage, dodge, defence, weight, speed,73,1657
-  dice hit, damage, dodge, defence, weight, speed, attribute,73,1657
-  dice hit, damage, dodge, defence, weight, speed, attribute, value;73,1657
-  bool artifact;74,1726
-  uint32_t rarity;75,1743
-  object_description(77,1771
-  inline const std::string &get_name(get_name101,2712
-  inline const std::string &get_description(get_description102,2774
-  inline const object_type_t get_type(103,2850
-  inline const uint32_t get_color(104,2913
-  inline const dice &get_hit(get_hit105,2973
-  inline const dice &get_damage(get_damage106,3026
-  inline const dice &get_dodge(get_dodge107,3085
-  inline const dice &get_defence(get_defence108,3142
-  inline const dice &get_weight(get_weight109,3203
-  inline const dice &get_speed(get_speed110,3262
-  inline const dice &get_attribute(get_attribute111,3319
-  inline const dice &get_value(get_value112,3384
+  std::string name,70,1583
+  std::string name, description;70,1583
+  object_type_t type;71,1616
+  uint32_t color;72,1638
+  dice hit,73,1656
+  dice hit, damage,73,1656
+  dice hit, damage, dodge,73,1656
+  dice hit, damage, dodge, defence,73,1656
+  dice hit, damage, dodge, defence, weight,73,1656
+  dice hit, damage, dodge, defence, weight, speed,73,1656
+  dice hit, damage, dodge, defence, weight, speed, attribute,73,1656
+  dice hit, damage, dodge, defence, weight, speed, attribute, value;73,1656
+  bool artifact;74,1725
+  uint32_t rarity;75,1742
+  object_description(77,1770
+  inline const std::string &get_name(get_name101,2711
+  inline const std::string &get_description(get_description102,2773
+  inline const object_type_t get_type(103,2849
+  inline const uint32_t get_color(104,2912
+  inline const dice &get_hit(get_hit105,2972
+  inline const dice &get_damage(get_damage106,3025
+  inline const dice &get_dodge(get_dodge107,3084
+  inline const dice &get_defence(get_defence108,3141
+  inline const dice &get_weight(get_weight109,3202
+  inline const dice &get_speed(get_speed110,3261
+  inline const dice &get_attribute(get_attribute111,3318
+  inline const dice &get_value(get_value112,3383
 
 dice.h,375
 # define DICE_H2,15
@@ -106,7 +106,7 @@ typedef enum dim 7,190
 } dim_t;11,238
 typedef int16_t pair_t[pair_t13,248
 
-dungeon.h,2573
+dungeon.h,3027
 # define DUNGEON_H2,18
 #define DUNGEON_X 11,148
 #define DUNGEON_Y 12,182
@@ -149,38 +149,54 @@ typedef struct room 52,1413
   pair_t position;53,1435
   pair_t size;54,1454
 } room_t;55,1469
-class dungeon 59,1491
-  dungeon(61,1516
-  dungeon() : num_rooms(0), rooms(0), map{ter_wall}, hardness{hardness61,1516
-              pc_distance{pc_distance62,1582
-              pc_distance{0}, pc_tunnel{pc_tunnel62,1582
-              pc_distance{0}, pc_tunnel{0}, character_map{character_map62,1582
-              pc_distance{0}, pc_tunnel{0}, character_map{0}, PC(62,1582
-              num_monsters(63,1651
-              num_monsters(0), max_monsters(63,1651
-              num_monsters(0), max_monsters(0), character_sequence_number(63,1651
-              time(64,1729
-              time(0), is_new(64,1729
-              time(0), is_new(0), quit(64,1729
-              time(0), is_new(0), quit(0), monster_descriptions(64,1729
-              object_descriptions(65,1796
-  uint32_t num_rooms;66,1835
-  room_t *rooms;rooms67,1857
-  terrain_type map[map68,1874
-  uint8_t hardness[hardness77,2525
-  uint8_t pc_distance[pc_distance78,2567
-  uint8_t pc_tunnel[pc_tunnel79,2612
-  character *character_map[character_map80,2655
-  pc *PC;PC81,2705
-  heap_t events;82,2715
-  uint16_t num_monsters;83,2732
-  uint16_t max_monsters;84,2757
-  uint32_t character_sequence_number;85,2782
-  uint32_t time;91,3206
-  uint32_t is_new;92,3223
-  uint32_t quit;93,3242
-  std::vector<monster_description> monster_descriptions;94,3259
-  std::vector<object_description> object_descriptions;95,3316
+class object{object57,1480
+  std::string name;59,1502
+  std::string description;60,1522
+  object_type_t type;61,1549
+  uint32_t color;62,1571
+  uint32_t hit;63,1589
+  dice damage;64,1605
+  uint32_t dodge;65,1620
+  uint32_t defence;66,1638
+  uint32_t weight;67,1658
+  uint32_t speed;68,1677
+  uint32_t attribute;69,1695
+  uint32_t value;70,1717
+  bool art;71,1735
+  uint32_t rrty;72,1747
+class dungeon 77,1781
+  dungeon(79,1806
+  dungeon() : num_rooms(0), rooms(0), map{ter_wall}, hardness{hardness79,1806
+              pc_distance{pc_distance80,1872
+              pc_distance{0}, pc_tunnel{pc_tunnel80,1872
+              pc_distance{0}, pc_tunnel{0}, character_map{character_map80,1872
+              pc_distance{0}, pc_tunnel{0}, character_map{0}, PC(80,1872
+              num_monsters(81,1941
+              num_monsters(0), max_monsters(81,1941
+              num_monsters(0), max_monsters(0), character_sequence_number(81,1941
+              time(82,2019
+              time(0), is_new(82,2019
+              time(0), is_new(0), quit(82,2019
+              time(0), is_new(0), quit(0), monster_descriptions(82,2019
+              object_descriptions(83,2086
+  uint32_t num_rooms;84,2126
+  room_t *rooms;rooms85,2148
+  terrain_type map[map86,2165
+  uint8_t hardness[hardness95,2816
+  uint8_t pc_distance[pc_distance96,2858
+  uint8_t pc_tunnel[pc_tunnel97,2903
+  character *character_map[character_map98,2946
+  object *object_map[object_map99,2996
+  pc *PC;PC100,3040
+  heap_t events;101,3050
+  uint16_t num_monsters;102,3067
+  uint16_t max_monsters;103,3092
+  uint32_t character_sequence_number;104,3117
+  uint32_t time;110,3541
+  uint32_t is_new;111,3558
+  uint32_t quit;112,3577
+  std::vector<monster_description> monster_descriptions;113,3594
+  std::vector<object_description> object_descriptions;114,3651
 
 event.h,227
 # define EVENT_H2,16
@@ -385,7 +401,7 @@ int32_t dice::roll(roll6,58
 std::ostream &dice::print(print22,257
 std::ostream &operator<<(operator<<27,358
 
-dungeon.cpp,1590
+dungeon.cpp,1591
 #define DUMP_HARDNESS_IMAGES 21,353
 typedef struct corridor_path 23,385
   heap_node_t *hn;hn24,416
@@ -414,26 +430,26 @@ static int place_rooms(534,16675
 static void place_stairs(571,17860
 static int make_rooms(593,18493
 int gen_dungeon(616,19065
-void render_dungeon(629,19225
-void delete_dungeon(672,20175
-void init_dungeon(679,20315
-int write_dungeon_map(686,20470
-int write_rooms(699,20697
-uint16_t count_up_stairs(721,21167
-uint16_t count_down_stairs(737,21416
-int write_stairs(753,21669
-uint32_t calculate_dungeon_size(785,22422
-int write_dungeon(796,22891
-int read_dungeon_map(862,24461
-int read_stairs(885,25057
-int read_rooms(908,25532
-int read_dungeon(966,27466
-int read_pgm(1047,29358
-void render_hardness_map(1132,31770
-void render_movement_cost_map(1155,32295
-void render_distance_map(1177,32800
-void render_tunnel_distance_map(1218,33868
-void new_dungeon(1259,34939
+void render_dungeon(669,20549
+void delete_dungeon(712,21499
+void init_dungeon(719,21639
+int write_dungeon_map(726,21794
+int write_rooms(739,22021
+uint16_t count_up_stairs(761,22491
+uint16_t count_down_stairs(777,22740
+int write_stairs(793,22993
+uint32_t calculate_dungeon_size(825,23746
+int write_dungeon(836,24215
+int read_dungeon_map(902,25785
+int read_stairs(925,26381
+int read_rooms(948,26856
+int read_dungeon(1006,28790
+int read_pgm(1087,30682
+void render_hardness_map(1172,33094
+void render_movement_cost_map(1195,33619
+void render_distance_map(1217,34124
+void render_tunnel_distance_map(1258,35192
+void new_dungeon(1299,36263
 
 event.cpp,174
 static uint32_t next_event_number(6,63
@@ -443,32 +459,32 @@ event *update_event(update_event44,995
 void event_delete(52,1137
 
 io.cpp,1039
-static dungeon *thedungeon;thedungeon14,228
-typedef struct io_message 16,257
-  char msg[msg19,438
-  struct io_message *next;next20,454
-} io_message_t;21,481
-static io_message_t *io_head,io_head23,498
-static io_message_t *io_head, *io_tail;io_tail23,498
-void io_init_terminal(25,539
-void io_reset_terminal(42,1024
-void io_queue_message(54,1184
-static void io_print_message_queue(80,1591
-void io_display_tunnel(100,2067
-void io_display_distance(118,2475
-static char hardness_to_char[hardness_to_char136,2876
-void io_display_hardness(139,2978
-static int compare_monster_distance(159,3807
-static character *io_nearest_visible_monster(io_nearest_visible_monster170,4241
-void io_display(202,4977
-void io_display_no_fog(285,7424
-void io_display_monster_list(351,9377
-uint32_t io_teleport_pc(360,9573
-static const char *adjectives[adjectives512,12703
-static void io_scroll_monster_list(545,13485
-static void io_list_monsters_display(574,13939
-static void io_list_monsters(623,15611
-void io_handle_input(653,16376
+static dungeon *thedungeon;thedungeon15,254
+typedef struct io_message 17,283
+  char msg[msg20,464
+  struct io_message *next;next21,480
+} io_message_t;22,507
+static io_message_t *io_head,io_head24,524
+static io_message_t *io_head, *io_tail;io_tail24,524
+void io_init_terminal(26,565
+void io_reset_terminal(43,1050
+void io_queue_message(55,1210
+static void io_print_message_queue(81,1617
+void io_display_tunnel(101,2093
+void io_display_distance(119,2501
+static char hardness_to_char[hardness_to_char137,2902
+void io_display_hardness(140,3004
+static int compare_monster_distance(160,3833
+static character *io_nearest_visible_monster(io_nearest_visible_monster171,4267
+void io_display(203,5003
+void io_display_no_fog(291,7540
+void io_display_monster_list(357,9493
+uint32_t io_teleport_pc(366,9689
+static const char *adjectives[adjectives518,12819
+static void io_scroll_monster_list(551,13601
+static void io_list_monsters_display(580,14055
+static void io_list_monsters(629,15727
+void io_handle_input(659,16492
 
 move.cpp,237
 void do_combat(18,266

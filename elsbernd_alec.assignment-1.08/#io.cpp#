@@ -9,7 +9,6 @@
 #include "pc.h"
 #include "utils.h"
 #include "dungeon.h"
-#include "descriptions.h"
 
 /* Same ugly hack we did in path.c */
 static dungeon *thedungeon;
@@ -221,11 +220,6 @@ void io_display(dungeon *d)
        mvaddch(y + 1, x,
                 character_get_symbol(d->character_map[y][x]));
         visible_monsters++;
-      }
-      else if(d->object_map[y][x]){
-	 mvaddch(y + 1, x,
-		 (object_symbol[1]));
-	
       } else {
         switch (pc_learned_terrain(d->PC, y, x)) {
         case ter_wall:

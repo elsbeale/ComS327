@@ -66,7 +66,7 @@ class monster_description {
 };
 
 class object_description {
- private:
+ public:
   std::string name, description;
   object_type_t type;
   uint32_t color;

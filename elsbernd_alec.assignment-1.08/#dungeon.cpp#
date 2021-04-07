@@ -627,7 +627,7 @@ int gen_dungeon(dungeon *d)
   connect_rooms(d);
   place_stairs(d);
 
-  for(std::vector<object_description>::size_type i = 0; i < 5; i++) {
+  for(std::vector<object_description>::size_type i = 0; i < d->object_descriptions.size(); i++) {
 
     temp = new object;
 
