@@ -44,11 +44,12 @@
 
 typedef uint32_t npc_characteristics_t;
 
-class npc : public character {
+class npc : public character, public monster_description {
  public:
   npc_characteristics_t characteristics;
   uint32_t have_seen_pc;
   pair_t pc_last_known_position;
+  int32_t hitpoints;
 };
 
 void gen_monsters(dungeon *d);

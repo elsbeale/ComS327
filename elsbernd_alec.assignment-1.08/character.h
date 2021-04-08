@@ -11,12 +11,11 @@ typedef enum kill_type {
   num_kill_types
 } kill_type_t;
 
-class character : public monster_description {
+class character {
  public:
   char symbol;
   pair_t position;
   int32_t speed;
-  int32_t hitpoints;
   uint32_t alive;
   /* Characters use to have a next_turn for the move queue.  Now that it is *
    * an event queue, there's no need for that here.  Instead it's in the    *
