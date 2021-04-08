@@ -17,6 +17,13 @@ class character {
   pair_t position;
   int32_t speed;
   uint32_t alive;
+  std::string name, description;
+  char symbol;
+  std::vector<uint32_t> color;
+  uint32_t abilities;
+  dice damage;
+  uint32_t speed, hitpoints;
+  uint32_t rarity;
   /* Characters use to have a next_turn for the move queue.  Now that it is *
    * an event queue, there's no need for that here.  Instead it's in the    *
    * event.  Similarly, sequence_number was introduced in order to ensure   *

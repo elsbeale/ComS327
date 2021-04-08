@@ -64,17 +64,16 @@ void gen_monsters(dungeon *d)
     //m->symbol = symbol[m->characteristics];
     m->have_seen_pc = 0;
     m->kills[kill_direct] = m->kills[kill_avenged] = 0;
-    m->set(d->monster_descriptions[i].name,
-          d->monster_descriptions[i].description,
-          d->monster_descriptions[i].get_symbol(),
-          d->monster_descriptions[i].color,
-          d->monster_descriptions[i].speed,
-          d->monster_descriptions[i].abilities,
-          d->monster_descriptions[i].hitpoints,
-          d->monster_descriptions[i].damage,
-          d->monster_descriptions[i].rarity);
+
+    m->name = d->monster_descriptions[i].name;
+    m->description = d->monster_descriptions[i].description;
+    m->symbol = d->monster_descriptions[i].get_symbol();
+    m->color = d->monster_descriptions[i].color;
+    m->abilities = d->monster_descriptions[i].abilities;
     m->speed = d->monster_descriptions[i].speed.roll();
     m->hitpoints = d->monster_descriptions[i].hitpoints.roll();
+    m->damage = d->monster_descriptions[i].damage;
+    m->rarity = d->monster_descriptions[i].rarity;
 
     d->character_map[p[dim_y]][p[dim_x]] = m;
 
