@@ -32,17 +32,17 @@ static uint32_t max_monster_cells(dungeon *d)
 
 void gen_monsters(dungeon *d)
 {
-  uint32_t i;
+  //uint32_t i;
   npc *m;
   uint32_t room;
   pair_t p;
-  const static char symbol[] = "0123456789abcdef";
+  //const static char symbol[] = "0123456789abcdef";
 
   d->num_monsters = min(d->max_monsters, max_monster_cells(d));
 
   for (std::vector<monster_description>::size_type i = 0; i < d->num_monsters; i++) {
     m = new npc;
-    memset(m, 0, sizeof (*m));
+    //memset(m, 0, sizeof (*m));
     
     do {
       room = rand_range(1, d->num_rooms - 1);
