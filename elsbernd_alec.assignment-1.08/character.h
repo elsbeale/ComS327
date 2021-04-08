@@ -6,6 +6,7 @@
 # include "dims.h"
 # include <vector>
 # include <string>
+# include "dice.h"
 
 typedef enum kill_type {
   kill_direct,
@@ -15,9 +16,7 @@ typedef enum kill_type {
 
 class character {
  public:
-  char symbol;
   pair_t position;
-  int32_t speed;
   uint32_t alive;
   std::string name, description;
   char symbol;
