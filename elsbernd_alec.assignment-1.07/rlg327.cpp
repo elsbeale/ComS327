@@ -16,6 +16,28 @@
 #include "utils.h"
 #include "io.h"
 
+class monsterdesc
+{
+  public:
+    std::string name;
+    std::string color;
+    std::string description;
+    int hp;
+    int damage;
+    int rarity;
+    std::string ability;
+    int sbase;
+    int sdice;
+    int ssides;
+    int dbase;
+    int ddice;
+    int dsides;
+    int hpbase;
+    int hpdice;
+    int hpsides;
+    char symbol;
+};
+
 const char *victory =
   "\n                                       o\n"
   "                                      $\"\"$o\n"
@@ -227,25 +249,102 @@ int main(int argc, char *argv[])
   std:: ifstream testf("monster_desc.txt");
   std:: string tests;
   int monster_amount = 0;
+  std::string word;
+  bool tnameflag = false;
+  bool tsymbolflag = false;
+  bool tcolorflag = false;
+  bool tdescflag = false;
+  bool tspeedflag = false;
+  bool tdamageflag = false;
+  bool thpflag = false;
+  bool trarityflag = false;
+  bool tabilityflag = false;
 
-  while (getline(testf,tests))
+  while (getline(testf,tests)) //goes through the file first, to see how many monsters there are
   {
     if (tests == "BEGIN MONSTER")
     {
-      monster_amount++;
+      while (tests != "END")
+      {
+        getline(testf,tests);
+        std::istringstream iss(tests);
+        while (iss >> word)
+        {
+          if(word == "NAME")
+          {
+            tnameflag = true;
+          }
+          else if (word == "SYMB")
+          {
+            tsymbolflag = true;
+          }
+          else if (word == "COLOR")
+          {
+            tcolorflag = true;
+          }
+          else if (word == "DESC")
+          {
+            tdescflag = true;
+          }
+          else if (word == "SPEED")
+          {
+            tspeedflag = true;
+          }
+          else if (word == "DAM")
+          {
+            tdamageflag = true;
+          }
+          else if (word == "HP")
+          {
+            thpflag = true;
+          }
+          else if (word == "RRTY")
+          {
+            trarityflag = true;
+          }
+          else if (word == "ABIL")
+          {
+            tabilityflag = true;
+          }
+        }
+      }
+      if (tnameflag && tsymbolflag && tcolorflag && tdescflag && tspeedflag && tdamageflag && thpflag && trarityflag && tabilityflag)
+      {
+        monster_amount++;
+        tnameflag = false;
+        tsymbolflag = false;
+        tcolorflag = false;
+        tdescflag = false;
+        tspeedflag = false;
+        tdamageflag = false;
+        thpflag = false;
+        trarityflag = false;
+        tabilityflag = false;
+      }
+      
     }
   }
-  npc npc_arr[monster_amount];
+  monsterdesc npc_arr[monster_amount]; //makes the npc array
   int array_pos = 0;
-  std:: ifstream f("monster_desc.txt");
+  std:: ifstream f("monster_desc.txt"); //actually going through the file now
   std:: string s;
   int flag1 = 1;
   int flag2;
+  int monsters =0;
   std::string name;
-  npc temp;
-  std::string word;
+  monsterdesc temp;
+  
   std::string desc;
-
+  //flags to see if the monster is valid
+  bool nameflag = false;
+  bool symbolflag = false;
+  bool colorflag = false;
+  bool descflag = false;
+  bool speedflag = false;
+  bool damageflag = false;
+  bool hpflag = false;
+  bool rarityflag = false;
+  bool abilityflag = false;
 
   getline(f,s);
 
@@ -257,17 +356,21 @@ int main(int argc, char *argv[])
     flag2 = 1;
     while((char) f.peek() != 'B'){
       f.get();
+      if(f.eof()){
+	flag2 =0;
+	break;
+      }
     }
     getline(f,s);
     if(!s.compare("BEGIN MONSTER")){
 	    flag1 = 1;
     }
 
-    while(s != "END")
+    while(s != "END") //goes through each line till it hits END
     {
       getline(f,s);
       std::istringstream iss(s);
-      while (iss >> word)
+      while (iss >> word) //goes through word by word in the line
       {
         if(word == "NAME") //gets and sets the name
         {
@@ -280,6 +383,8 @@ int main(int argc, char *argv[])
             }
           }
           temp.name = name;
+          name.clear();
+          nameflag = true;
         }
         else if (word == "SYMB") //gets and sets the symbol
         {
@@ -292,11 +397,13 @@ int main(int argc, char *argv[])
               temp.symbol = symbol;
             }
           }
+          symbolflag = true;
         }
         else if (word == "COLOR") //gets and sets the color
         {
           iss >> word;
           temp.color = word;
+          colorflag = true;
         }
         else if (word == "DESC") //gets and sets the description
         {
@@ -305,113 +412,177 @@ int main(int argc, char *argv[])
           {
             desc.append(s);
             getline(f,s);
+            if (s != ".")
+            {
+              desc.append("\n");
+            }
           }
           temp.description = desc;
+          desc.clear();
+          descflag = true;
         }
         else if (word == "SPEED") //gets and sets the speed
         {
           iss >> word;
-          std::stringstream ss;
-          ss << word;
-          std::string tmp;
-          int tmpnum;
-          int base;
-          int dice;
-          int sides;
-          bool basedone = false;
-          bool dicedone = false;
+          int char_count = 0;
+          for (char &c: word)
+          {
+	          c = c;
+            char_count++;
+          }
 
-          while (!ss.eof())
+          char temp_arr[char_count];
+          
+          int count = 0;
+          for (char &c: word)
           {
-            ss >> tmp;
-            if (std::stringstream(tmp) >> tmpnum && !basedone)
+            temp_arr[count] =  c;
+            count++;
+          }
+          std::string stbase; //string base for appending to the end of a string
+          std::string stdice; //string dice for appending to the end of a string
+          std::string stsides; //string sides for appending to the end of a string
+          bool plus_trigger = false; //trigger for +
+          bool d_trigger = false; //trigger for d
+          
+          for (int i = 0; i < char_count; i++)
+          {
+            if (temp_arr[i] == '+') //finds the + and skips to the next loop
             {
-              base = tmpnum;
-              basedone = true;
+              plus_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            if (temp_arr[i] == 'd') //finds the d and skips to the next loop
             {
-              dice = tmpnum;
-              dicedone = true;
+              d_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            if(!plus_trigger)
             {
-              sides = tmpnum;
+              stbase.append(std::to_string(temp_arr[i] - 48)); //base
+            }
+            else if(plus_trigger && !d_trigger)
+            {
+              stdice.append(std::to_string(temp_arr[i] - 48)); //dice
+            }
+            else if(plus_trigger && d_trigger)
+            {
+              stsides.append(std::to_string(temp_arr[i] - 48)); //sides
             }
           }
-          temp.sbase = base; //speed base
-          temp.sdice = dice; //speed dice
-          temp.ssides = sides; //speed sides
+          temp.sbase = stoi(stbase); //turning the string base into int
+          temp.sdice = stoi(stdice); //turning the string dice into int
+          temp.ssides = stoi(stsides); //turning the string sides into int
+          speedflag = true;
         }
-        else if (word == "DAM")
+        else if (word == "DAM") //same logic and similar code as speed
         {
           iss >> word;
-          std::stringstream ss;
-          ss << word;
-          std::string tmp;
-          int tmpnum;
-          int base;
-          int dice;
-          int sides;
-          bool basedone = false;
-          bool dicedone = false;
-          while (!ss.eof())
+          int char_count = 0;
+          for (char &c: word)
           {
-            ss >> tmp;
-            if (std::stringstream(tmp) >> tmpnum && !basedone)
+	          c = c;
+            char_count++;
+          }
+
+          char temp_arr[char_count];
+          
+          int count = 0;
+          for (char &c: word)
+          {
+            temp_arr[count] =  c;
+            count++;
+          }
+          std::string stbase;
+          std::string stdice;
+          std::string stsides;
+          bool plus_trigger = false;
+          bool d_trigger = false;
+          for (int i = 0; i < char_count; i++)
+          {
+            if (temp_arr[i] == '+')
             {
-              base = tmpnum;
-              basedone = true;
+              plus_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            if (temp_arr[i] == 'd')
             {
-              dice = tmpnum;
-              dicedone = true;
+              d_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            if(!plus_trigger)
             {
-              sides = tmpnum;
+              stbase.append(std::to_string(temp_arr[i] - 48));
+            }
+            else if(plus_trigger && !d_trigger)
+            {
+              stdice.append(std::to_string(temp_arr[i] - 48));
+            }
+            else if(plus_trigger && d_trigger)
+            {
+              stsides.append(std::to_string(temp_arr[i] - 48));
             }
           }
-          temp.dbase = base; //damage base
-          temp.ddice = dice; //damage dice
-          temp.dsides = sides; //damage sides
+          temp.dbase = stoi(stbase); //damage base
+          temp.ddice = stoi(stdice); //damage dice
+          temp.dsides = stoi(stsides); //damage sides
+          damageflag = true;
         }
-        else if (word == "HP")
+        else if (word == "HP") //same logic as speed and damage and similar code with them too
         {
           iss >> word;
-          std::stringstream ss;
-          ss << word;
-          std::string tmp;
-          int tmpnum;
-          int base;
-          int dice;
-          int sides;
-          bool basedone = false;
-          bool dicedone = false;
-          while (!ss.eof())
+          int char_count = 0;
+          for (char &c: word)
           {
-            ss >> tmp;
-            if (std::stringstream(tmp) >> tmpnum && !basedone)
+	          c = c;
+            char_count++;
+          }
+
+          char temp_arr[char_count];
+          
+          int count = 0;
+          for (char &c: word)
+          {
+            temp_arr[count] =  c;
+            count++;
+          }
+          std::string stbase;
+          std::string stdice;
+          std::string stsides;
+          bool plus_trigger = false;
+          bool d_trigger = false;
+          
+          for (int i = 0; i < char_count; i++)
+          {
+            if (temp_arr[i] == '+')
             {
-              base = tmpnum;
-              basedone = true;
+              plus_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && !dicedone)
+            if (temp_arr[i] == 'd')
             {
-              dice = tmpnum;
-              dicedone = true;
+              d_trigger = true;
+              continue;
             }
-            else if (std::stringstream(tmp) >> tmpnum && basedone && dicedone)
+            if(!plus_trigger)
             {
-              sides = tmpnum;
+              stbase.append(std::to_string(temp_arr[i] - 48));
+            }
+            else if(plus_trigger && !d_trigger)
+            {
+              stdice.append(std::to_string(temp_arr[i] - 48));
+            }
+            else if(plus_trigger && d_trigger)
+            {
+              stsides.append(std::to_string(temp_arr[i] - 48));
             }
           }
-          temp.hpbase = base; //hp base
-          temp.hpdice = dice; //hp dice
-          temp.hpsides = sides; //hp sides
+          temp.hpbase = stoi(stbase); //hp base
+          temp.hpdice = stoi(stdice); //hp dice
+          temp.hpsides = stoi(stsides); //hp sides
+          hpflag = true;
         }
-        else if (word == "RRTY")
+        else if (word == "RRTY") //gets and sets rarity
         {
           iss >> word;
           std::stringstream ss;
@@ -422,35 +593,65 @@ int main(int argc, char *argv[])
           ss >> tmp;
           std::stringstream(tmp) >> tmpnum;
           temp.rarity = tmpnum;
+          rarityflag = true;
         }
         else if (word == "ABIL")
         {
-          iss >> word;
-          temp.ability = word;
-        }
-        else
-        {
-          //does nothing atm
+          std::string abilwords;
+          while (!iss.eof())
+          {
+            iss >> word;
+            abilwords.append(word);
+            abilwords.append(" "); //if multiple abilities, it adds a space
+          }
+          
+          temp.ability = abilwords;
+          abilityflag = true;
         }
       }
 
     }
-    npc_arr[array_pos] = temp;
-    array_pos++;
-
-    
+    //happens if every flag gets triggered aka it's a valid npc
+    if (nameflag && symbolflag && colorflag && descflag && speedflag && damageflag && hpflag && rarityflag && abilityflag)
+    {
+      monsters++;
+      npc_arr[array_pos] = temp;
+      array_pos++;
+      //resets the flags for the next npc
+      nameflag = false;
+      symbolflag = false;
+      colorflag = false;
+      descflag = false;
+      speedflag = false;
+      damageflag = false;
+      hpflag = false;
+      rarityflag = false;
+      abilityflag = false;
+    }
 
     while(flag2){
       getline(f,s);
       if(!s.compare("END")){
 	      flag2 = 0;
       }
-      std:: cout << s << std::endl;
     }
   }
- 
-  
-  
+
+  //prints each monster with all of its parameters
+  for (int i = 0; i < monsters; i++)
+  {
+    std::cout << npc_arr[i].name << std::endl; //name
+    std::cout << npc_arr[i].description << std::endl; //description
+    std::cout << npc_arr[i].symbol << std::endl; //symbol
+    std::cout << npc_arr[i].color << std::endl; //color
+    std::cout << std::to_string(npc_arr[i].sbase) << "+" + std::to_string(npc_arr[i].sdice) + "d" + std::to_string(npc_arr[i].ssides) << std::endl; //speed
+    std::cout << npc_arr[i].ability << std::endl; //abilities
+    std::cout << std::to_string(npc_arr[i].hpbase) + "+" + std::to_string(npc_arr[i].hpdice) + "d" + std::to_string(npc_arr[i].hpsides) << std::endl; //hp
+    std::cout << std::to_string(npc_arr[i].dbase) + "+" + std::to_string(npc_arr[i].ddice) + "d" + std::to_string(npc_arr[i].dsides) << std::endl; //damage
+    std::cout << npc_arr[i].rarity << std::endl;//rarity
+    std::cout <<  std::endl;
+  }
+
   
   // while (pc_is_alive(&d) && dungeon_has_npcs(&d) && !d.quit) {
   // do_moves(&d);
