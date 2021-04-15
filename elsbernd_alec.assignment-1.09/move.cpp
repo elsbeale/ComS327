@@ -156,7 +156,12 @@ void move_character(dungeon *d, character *c, pair_t next)
 {
   if (charpair(next) && ((next[dim_y] != c->position[dim_y]) || (next[dim_x] != c->position[dim_x]))) 
   {
-    if (d->character_map[next[dim_y]][next[dim_x]] == d->PC)
+    //if (d->character_map[c->position[dim_y]][c->position[dim_x]])
+    // if (c == d->PC)
+    // {
+    //   do_combat(d, c, charpair(next));
+    // }
+    if (c == d->PC || d->character_map[next[dim_y]][next[dim_x]] == d->PC)
     {
       do_combat(d, c, charpair(next));
     }
