@@ -15,6 +15,7 @@
 #include "event.h"
 #include "io.h"
 #include "npc.h"
+#include "object.h"
 
 void do_combat(dungeon *d, character *atk, character *def)
 {
@@ -52,7 +53,6 @@ void do_combat(dungeon *d, character *atk, character *def)
   //   "brain",                   /* 29 */
   // };
   // int part;
-  
   if (atk != d->PC && def != d->PC)
 
   if (def->alive) 
@@ -69,7 +69,7 @@ void do_combat(dungeon *d, character *atk, character *def)
         }
         else
         {
-          damage = damage + d->equipment[i]->damage->roll();
+          damage = damage + d->equipment[i]->damage.roll();
         }
       }
       def->hp = ((int32_t) def->hp) - damage;

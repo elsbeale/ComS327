@@ -535,15 +535,15 @@ static void io_list_monsters_display(772,23559
 static void io_list_monsters(838,26176
 void io_handle_input(868,26941
 
-move.cpp,237
-void do_combat(19,283
-void move_character(115,3994
-void do_moves(136,4570
-void dir_nearest_wall(201,6602
-uint32_t against_wall(213,7013
-uint32_t in_corner(225,7497
-static void new_dungeon_level(243,8121
-uint32_t move_pc(259,8411
+move.cpp,242
+void do_combat(20,303
+void move_character(155,4963
+void do_moves(257,8916
+void dir_nearest_wall(322,10948
+uint32_t against_wall(334,11359
+uint32_t in_corner(346,11843
+static void new_dungeon_level(364,12467
+uint32_t move_pc(380,12757
 
 npc.cpp,1541
 static uint32_t max_monster_cells(13,193
