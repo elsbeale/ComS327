@@ -73,10 +73,14 @@ void do_combat(dungeon *d, character *atk, character *def)
         }
       }
       def->hp = ((int32_t) def->hp) - damage;
+      io_queue_message("player attack");
+         io_queue_message("");
     }
     else
     {
       def->hp = ((int32_t) def->hp) - atk->damage->roll();
+      io_queue_message("npc attack");
+         io_queue_message("");
     }
     
     if (def->hp <= 0)

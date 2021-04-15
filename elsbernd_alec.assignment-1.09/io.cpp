@@ -1266,8 +1266,11 @@ void io_handle_input(dungeon *d)
        getchar = getch();
 	} while (getchar != 119);
 	if(d->inventory[cursorPos] != NULL){
+	  if(d->inventory[cursorPos]->speed > 0){
+	      d->PC->speed += d->inventory[cursorPos]->speed;
+	    }
 	  if(d->inventory[cursorPos]->type > 0 && d->inventory[cursorPos]->type < 11){
-	    
+	  
 	    if(d->equipment[d->inventory[cursorPos]->type -1] != NULL){
 	      temp = d->equipment[d->inventory[cursorPos]->type -1];
 	      d->equipment[d->inventory[cursorPos]->type-1] = d->inventory[cursorPos];
@@ -1598,6 +1601,9 @@ void io_handle_input(dungeon *d)
        if(d->equipment[cursorPos] != NULL){
 	 for(int i = 0; i < 10; i++){
 	  if(d->inventory[i] == NULL){
+	    if(d->equipment[cursorPos]->speed > 0){
+	      d->PC->speed -= d->inventory[cursorPos]->speed;
+	    }
 	    d->inventory[i] = d->equipment[cursorPos];
 	    d->equipment[cursorPos] = NULL;
 	    break;
