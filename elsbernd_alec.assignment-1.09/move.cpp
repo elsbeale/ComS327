@@ -57,9 +57,22 @@ void do_combat(dungeon *d, character *atk, character *def)
 
   if (def->alive) 
   {
-    if (d->equipment[0] != NULL && atk == d->PC)
+    if (atk == d->PC)
     {
-      def->hp =  ((int32_t) def->hp) - d->equipment[0].damage.roll();
+      // def->hp =  ((int32_t) def->hp) - d->equipment[0].damage.roll();
+      int damage = atk->damage->roll();
+      for (int i = 0; i < 12; i++)
+      {
+        if (d->equipment[i] == NULL)
+        {
+          damage+=0;
+        }
+        else
+        {
+          damage = damage + d->equipment[i]->damage->roll();
+        }
+      }
+      def->hp = ((int32_t) def->hp) - damage;
     }
     else
     {
