@@ -1,5 +1,5 @@
 
-character.h,565
+character.h,564
 # define CHARACTER_H2,20
 typedef enum kill_type 11,142
   kill_direct,12,167
@@ -13,13 +13,13 @@ class character 19,244
   int32_t speed;24,331
   uint32_t alive;25,348
   std::vector<uint32_t> color;26,366
-  uint32_t hp;27,397
-  const dice *damage;damage28,412
-  const char *name;name29,434
-  uint32_t sequence_number;37,1001
-  uint32_t kills[kills38,1029
-  inline uint32_t get_color(39,1063
-  inline char get_symbol(40,1144
+  int32_t hp;27,397
+  const dice *damage;damage28,411
+  const char *name;name29,433
+  uint32_t sequence_number;37,1000
+  uint32_t kills[kills38,1028
+  inline uint32_t get_color(39,1062
+  inline char get_symbol(40,1143
 
 descriptions.h,2700
 # define DESCRIPTIONS_H2,23
@@ -537,13 +537,13 @@ void io_handle_input(868,26941
 
 move.cpp,242
 void do_combat(20,303
-void move_character(159,5104
-void do_moves(266,9222
-void dir_nearest_wall(331,11254
-uint32_t against_wall(343,11665
-uint32_t in_corner(355,12149
-static void new_dungeon_level(373,12773
-uint32_t move_pc(389,13063
+void move_character(159,5106
+void do_moves(266,9433
+void dir_nearest_wall(331,11465
+uint32_t against_wall(343,11876
+uint32_t in_corner(355,12360
+static void new_dungeon_level(373,12984
+uint32_t move_pc(389,13274
 
 npc.cpp,1541
 static uint32_t max_monster_cells(13,193
