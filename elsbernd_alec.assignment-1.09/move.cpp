@@ -89,6 +89,11 @@ void do_combat(dungeon *d, character *atk, character *def)
       {
         d->num_monsters--;
       }
+      else
+      {
+        io_queue_message("player has died");
+          io_queue_message("");
+      }
       def->alive = 0;
       charpair(def->position) = NULL;
     
