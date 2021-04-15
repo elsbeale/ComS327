@@ -94,9 +94,15 @@ void do_combat(dungeon *d, character *atk, character *def)
         io_queue_message("player has died");
           io_queue_message("");
       }
+      if (has_characteristic(def, BOSS))
+      {
+        io_queue_message("player has killed the boss and won");
+          io_queue_message("");
+        d->quit = 1;
+      }
       def->alive = 0;
       charpair(def->position) = NULL;
-    
+      
     
     // if (def != d->PC) 
     // {
