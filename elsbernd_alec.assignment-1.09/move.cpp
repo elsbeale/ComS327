@@ -53,7 +53,7 @@ void do_combat(dungeon *d, character *atk, character *def)
   //   "brain",                   /* 29 */
   // };
   // int part;
-  if (atk != d->PC && def != d->PC)
+  //if (atk != d->PC && def != d->PC)
 
   if (def->alive) 
   {
@@ -165,7 +165,7 @@ void move_character(dungeon *d, character *c, pair_t next)
     // {
     //   do_combat(d, c, charpair(next));
     // }
-    if (c == d->PC || d->character_map[next[dim_y]][next[dim_x]] == d->PC)
+    if ((c->position[dim_y] == d->PC->position[dim_y] && c->position[dim_x] == d->PC->position[dim_x]) || (d->character_map[next[dim_y]][next[dim_x]]->position[dim_y] == d->PC->position[dim_y] && d->character_map[next[dim_y]][next[dim_x]]->position[dim_x] == d->PC->position[dim_x]))
     {
       do_combat(d, c, charpair(next));
     }
