@@ -19,7 +19,7 @@
 
 void do_combat(dungeon *d, character *atk, character *def)
 {
-  uint32_t damage, i;
+  uint32_t damage, i, dodge, defense, weight, chance;
   const char *organs[] = {
     "liver",
     "pancreas",
@@ -88,14 +88,74 @@ void do_combat(dungeon *d, character *atk, character *def)
     "anoints",
   };
   if (character_is_alive(def)) {
-    if (atk != d->PC) {
+    if (atk != d->PC) { //attacker is a monster
       damage = atk->damage->roll();
-      io_queue_message("%s%s %s your %s for %d.", is_unique(atk) ? "" : "The ",
+      for (i = dodge = 0; i < num_eq_slots; i++) {
+        if (!d->PC->eq[i]) {
+          dodge += 0;
+        }
+        else {
+          dodge += d->PC->eq[i]->get_dodge();
+        }
+      }
+      for (i = defense = 0; i < num_eq_slots; i++) {
+        if (!d->PC->eq[i])
+        {
+          defense += 0;
+        }
+        else
+        {
+          defense += d->PC->eq[i]->get_defense();
+        }
+      }
+      for (i = weight = 0; i < num_eq_slots; i++) {
+        if (!d->PC->eq[i])
+        {
+          weight += 0;
+        }
+        else
+        {
+          weight += d->PC->eq[i]->get_weight();
+        }
+      }
+      if (weight > 100)
+      {
+        io_queue_message("You feel overburdened by your equipment, you cannot dodge and it doesn't provide any defenses while overburdened");
+        def->hp = def->hp - damage;
+      }
+      else if ((chance = rand() / (RAND_MAX / 100 + 1)) > dodge)
+      {
+        if (defense > 0)
+        {
+          io_queue_message("Damage is reduced by defense");
+        }
+        damage = damage - defense;
+        if (damage < 0)
+        {
+          damage = 0;
+        }
+        def->hp = def->hp - damage;
+        if (damage > 0)
+        {
+          io_queue_message("%s%s %s your %s for %d.", is_unique(atk) ? "" : "The ",
                        atk->name, attacks[rand() % (sizeof (attacks) /
                                                     sizeof (attacks[0]))],
                        organs[rand() % (sizeof (organs) /
                                         sizeof (organs[0]))], damage);
-    } else {
+        }
+        else
+        {
+          io_queue_message("You get hit but your defense of %d protected you.", defense);
+        }
+      }
+      else
+      {
+        io_queue_message("%s misses you completly.", atk->name);
+      }
+
+      
+      
+    } else { //attacker is the pc
       for (i = damage = 0; i < num_eq_slots; i++) {
         if (i == eq_slot_weapon && !d->PC->eq[i]) {
           damage += atk->damage->roll();
@@ -103,19 +163,21 @@ void do_combat(dungeon *d, character *atk, character *def)
           damage += d->PC->eq[i]->roll_dice();
         }
       }
+      
       io_queue_message("You hit %s%s for %d.", is_unique(def) ? "" : "the ",
                        def->name, damage);
     }
-
+    //chance = rand() / (RAND_MAX / 100 + 1);
+    
     if (damage >= def->hp) {
       if (atk != d->PC) {
         io_queue_message("You die.");
         io_queue_message("As %s%s eats your %s,", is_unique(atk) ? "" : "the ",
-                         atk->name, organs[rand() % (sizeof (organs) /
-                                                     sizeof (organs[0]))]);
+                        atk->name, organs[rand() % (sizeof (organs) /
+                                                    sizeof (organs[0]))]);
         io_queue_message("   ...you wonder if there is an afterlife.");
         /* Queue an empty message, otherwise the game will not pause for *
-         * player to see above.                                          */
+        * player to see above.                                          */
         io_queue_message("");
       } else {
         io_queue_message("%s%s dies.", is_unique(def) ? "" : "The ", def->name);
@@ -124,7 +186,7 @@ void do_combat(dungeon *d, character *atk, character *def)
       def->alive = 0;
       character_increment_dkills(atk);
       character_increment_ikills(atk, (character_get_dkills(def) +
-                                       character_get_ikills(def)));
+                                      character_get_ikills(def)));
       if (def != d->PC) {
         d->num_monsters--;
       }

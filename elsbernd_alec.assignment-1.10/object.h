@@ -33,6 +33,11 @@ class object {
   {
     return damage.get_sides();
   }
+
+  int32_t get_dodge();
+  int32_t get_defense();
+  int32_t get_weight();
+
   char get_symbol();
   uint32_t get_color();
   const char *get_name();
