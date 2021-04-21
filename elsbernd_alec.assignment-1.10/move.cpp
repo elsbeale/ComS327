@@ -118,12 +118,13 @@ void do_combat(dungeon *d, character *atk, character *def)
           weight += d->PC->eq[i]->get_weight();
         }
       }
+      chance = rand() / (RAND_MAX / 100 + 1);
       if (weight > 100)
       {
         io_queue_message("You feel overburdened by your equipment, you cannot dodge and it doesn't provide any defenses while overburdened");
         def->hp = def->hp - damage;
       }
-      else if ((chance = rand() / (RAND_MAX / 100 + 1)) > dodge)
+      else if (chance > dodge)
       {
         if (defense > 0)
         {
