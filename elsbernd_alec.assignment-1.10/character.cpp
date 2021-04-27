@@ -97,7 +97,7 @@ uint32_t can_see(dungeon *d, pair_t voyeur, pair_t exhibitionist,
   int16_t a, b, c, i;
   int16_t visual_range;
 
-  visual_range = is_pc ? PC_VISUAL_RANGE : NPC_VISUAL_RANGE;
+  visual_range = is_pc ? PC_VISUL_RANGE + d->extra_light : NPC_VISUAL_RANGE;
 
   first[dim_x] = voyeur[dim_x];
   first[dim_y] = voyeur[dim_y];

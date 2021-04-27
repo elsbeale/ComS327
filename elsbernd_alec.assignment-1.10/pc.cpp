@@ -259,19 +259,19 @@ void pc_observe_terrain(pc *p, dungeon *d)
   pair_t where;
   int16_t y_min, y_max, x_min, x_max;
 
-  y_min = p->position[dim_y] - PC_VISUAL_RANGE;
+  y_min = p->position[dim_y] - PC_VISUL_RANGE - d->extra_light;
   if (y_min < 0) {
     y_min = 0;
   }
-  y_max = p->position[dim_y] + PC_VISUAL_RANGE;
+  y_max = p->position[dim_y] + PC_VISUL_RANGE + d->extra_light;
   if (y_max > DUNGEON_Y - 1) {
     y_max = DUNGEON_Y - 1;
   }
-  x_min = p->position[dim_x] - PC_VISUAL_RANGE;
+  x_min = p->position[dim_x] - PC_VISUL_RANGE - d->extra_light;
   if (x_min < 0) {
     x_min = 0;
   }
-  x_max = p->position[dim_x] + PC_VISUAL_RANGE;
+  x_max = p->position[dim_x] + PC_VISUL_RANGE + d->extra_light;
   if (x_max > DUNGEON_X - 1) {
     x_max = DUNGEON_X - 1;
   }
@@ -318,7 +318,7 @@ void pc::recalculate_speed()
   }
 }
 
-uint32_t pc::wear_in(uint32_t slot)
+uint32_t pc::wear_in(uint32_t slot, dungeon *d)
 {
   object *tmp;
   uint32_t i;
@@ -336,6 +336,11 @@ uint32_t pc::wear_in(uint32_t slot)
        !eq[i + 1])) {
     i++;
   }
+
+  if(in[slot] &&
+     (in[slot]->get_type() == objtype_LIGHT)){
+    d->extra_light = 2;
+     }
 
   tmp = in[slot];
   in[slot] = eq[i];
@@ -374,7 +379,7 @@ int32_t pc::get_first_open_inventory_slot()
   return -1;
 }
 
-uint32_t pc::remove_eq(uint32_t slot)
+uint32_t pc::remove_eq(uint32_t slot, dungeon *d)
 {
   if (!eq[slot]                      ||
       !in[slot]->is_removable() ||
@@ -386,6 +391,11 @@ uint32_t pc::remove_eq(uint32_t slot)
   }
 
   io_queue_message("You remove %s.", eq[slot]->get_name());
+
+  if(eq[slot] &&
+     (eq[slot]->get_type() == objtype_LIGHT)){
+    d->extra_light = 0;
+     }
 
   in[get_first_open_inventory_slot()] = eq[slot];
   eq[slot] = NULL;

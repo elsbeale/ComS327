@@ -177,11 +177,11 @@ static void io_redisplay_visible_monsters(dungeon *d, pair_t cursor)
   uint32_t color;
   uint32_t illuminated;
 
-  for (pos[dim_y] = -PC_VISUAL_RANGE;
-       pos[dim_y] <= PC_VISUAL_RANGE;
+  for (pos[dim_y] = -PC_VISUL_RANGE - d->extra_light;
+       pos[dim_y] <= PC_VISUL_RANGE + d->extra_light;
        pos[dim_y]++) {
-    for (pos[dim_x] = -PC_VISUAL_RANGE;
-         pos[dim_x] <= PC_VISUAL_RANGE;
+    for (pos[dim_x] = -PC_VISUL_RANGE - d->extra_light;
+         pos[dim_x] <= PC_VISUL_RANGE + d->extra_light;
          pos[dim_x]++) {
       if ((d->PC->position[dim_y] + pos[dim_y] < 0) ||
           (d->PC->position[dim_y] + pos[dim_y] >= DUNGEON_Y) ||
@@ -933,7 +933,7 @@ uint32_t io_wear_eq(dungeon *d)
       continue;
     }
 
-    if (!d->PC->wear_in(key - '0')) {
+    if (!d->PC->wear_in(key - '0', d)) {
       return 0;
     }
 
@@ -1004,7 +1004,7 @@ uint32_t io_remove_eq(dungeon *d)
       continue;
     }
 
-    if (!d->PC->remove_eq(key - 'a')) {
+    if (!d->PC->remove_eq(key - 'a', d)) {
       return 0;
     }
 
