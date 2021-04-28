@@ -115,18 +115,18 @@ void config_pc(dungeon *d)
 }
 
 //Leveling and Experience
-// void update_pc(dungeon *d)
-// {
-//   d->PC->strength = d->PC->strength + (rand() % 3);
-//   d->PC->constitution = d->PC->constitution + (rand() % 3);
-//   d->PC->dexterity = d->PC->dexterity + (rand() % 3);
+void update_pc(dungeon *d)
+{
+  d->PC->strength = d->PC->strength + (rand() % 3);
+  d->PC->constitution = d->PC->constitution + (rand() % 3);
+  d->PC->dexterity = d->PC->dexterity + (rand() % 3);
 
-//   dice pc_dice(d->PC->strength, 1, 4);
+  static dice pc_dice(d->PC->strength, 1, 4);
 
-//   d->PC->speed = PC_SPEED + d->PC->dexterity;
-//   d->PC->damage = &pc_dice;
-//   d->PC->hp = d->PC->hp + d->PC->constitution;
-// }
+  d->PC->speed = PC_SPEED + d->PC->dexterity;
+  d->PC->damage = &pc_dice;
+  d->PC->hp = d->PC->hp + d->PC->constitution;
+}
 
 uint32_t pc_next_pos(dungeon *d, pair_t dir)
 {

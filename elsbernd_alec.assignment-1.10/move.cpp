@@ -189,7 +189,7 @@ void do_combat(dungeon *d, character *atk, character *def)
         if (d->PC->experience >= 100)
         {
           d->PC->level++;
-          //update_pc(d);
+          update_pc(d);
           d->PC->experience = 0;
         }
 
