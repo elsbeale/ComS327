@@ -96,8 +96,8 @@ void config_pc(dungeon *d)
   static dice pc_dice(d->PC->strength, 1, 4);
 
   //Leveling and Experience
-  // d->PC->level = 0;
-  // d->PC->experience = 0;
+  d->PC->level = 0;
+  d->PC->experience = 0;
 
   d->PC->hp += d->PC->constitution;
   d->PC->speed = PC_SPEED + d->PC->dexterity;

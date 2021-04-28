@@ -20,6 +20,7 @@
 void do_combat(dungeon *d, character *atk, character *def)
 {
   uint32_t damage, i, dodge, defense, weight, chance;
+  bool missed = false;
   const char *organs[] = {
     "liver",
     "pancreas",
@@ -122,7 +123,7 @@ void do_combat(dungeon *d, character *atk, character *def)
       if (weight > 100)
       {
         io_queue_message("You feel overburdened by your equipment, you cannot dodge and it doesn't provide any defenses while overburdened");
-        def->hp = def->hp - damage;
+        //def->hp = def->hp - damage;
       }
       else if (chance > dodge)
       {
@@ -135,7 +136,7 @@ void do_combat(dungeon *d, character *atk, character *def)
         {
           damage = 0;
         }
-        def->hp = def->hp - damage;
+        //def->hp = def->hp - damage;
         if (damage > 0)
         {
           io_queue_message("%s%s %s your %s for %d.", is_unique(atk) ? "" : "The ",
@@ -152,6 +153,7 @@ void do_combat(dungeon *d, character *atk, character *def)
       else
       {
         io_queue_message("%s misses you completly.", atk->name);
+        missed = true;
       }
 
       
@@ -169,7 +171,7 @@ void do_combat(dungeon *d, character *atk, character *def)
                        def->name, damage);
     }
     
-    if (damage >= def->hp) {
+    if (damage >= def->hp && missed == false) {
       if (atk != d->PC) {
         io_queue_message("You die.");
         io_queue_message("As %s%s eats your %s,", is_unique(atk) ? "" : "the ",
@@ -183,13 +185,13 @@ void do_combat(dungeon *d, character *atk, character *def)
         io_queue_message("%s%s dies.", is_unique(def) ? "" : "The ", def->name);
 
         //Leveling and Experience
-        // atk->experience+= rand() % 20;
-        // if (atk->experience >= 100)
-        // {
-        //   atk->level++;
-        //   update_pc(d);
-        //   atk->experience = 0;
-        // }
+        d->PC->experience += rand() % 20;
+        if (d->PC->experience >= 100)
+        {
+          d->PC->level++;
+          //update_pc(d);
+          d->PC->experience = 0;
+        }
 
       }
       def->hp = 0;
@@ -201,8 +203,8 @@ void do_combat(dungeon *d, character *atk, character *def)
         d->num_monsters--;
       }
       charpair(def->position) = NULL;
-    } 
-    else {
+    }
+    else if (missed == false) {
       def->hp -= damage;
     }
   }

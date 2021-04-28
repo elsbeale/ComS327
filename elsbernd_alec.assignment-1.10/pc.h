@@ -42,8 +42,8 @@ class pc : public character {
   uint32_t constitution;
 
   //Leveling and Experience
-  // uint32_t level;
-  // uint32_t experience;
+  uint32_t level;
+  uint32_t experience;
 
   uint32_t wear_in(uint32_t slot, dungeon *d);
   uint32_t remove_eq(uint32_t slot, dungeon *d);
