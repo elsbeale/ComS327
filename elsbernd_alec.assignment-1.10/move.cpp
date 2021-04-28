@@ -181,6 +181,8 @@ void do_combat(dungeon *d, character *atk, character *def)
         io_queue_message("");
       } else {
         io_queue_message("%s%s dies.", is_unique(def) ? "" : "The ", def->name);
+
+        //Leveling and Experience
         // atk->experience+= rand() % 20;
         // if (atk->experience >= 100)
         // {

@@ -27,10 +27,13 @@ class character {
   uint32_t hp;
   const dice *damage;
   const char *name;
-  uint32_t strength;
-  uint32_t dexterity;
-  uint32_t constitution;
 
+  //STATS
+  // uint32_t strength;
+  // uint32_t dexterity;
+  // uint32_t constitution;
+
+  //Leveling and Experience
   // uint32_t level;
   // uint32_t experience;
 
