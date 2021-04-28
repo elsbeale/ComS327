@@ -1282,7 +1282,14 @@ void new_dungeon_up(dungeon *d)
 
   place_pc(d);
   d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = d->PC;
-
+  if (d->max_monsters < 15)
+  {
+    d->max_monsters = 15;
+  }
+  else
+  {
+    d->max_monsters--;
+  }
   gen_monsters(d);
   gen_objects(d);
 }
@@ -1303,6 +1310,7 @@ void new_dungeon_down(dungeon *d)
   place_pc(d);
   d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = d->PC;
 
+  d->max_monsters++;
   gen_monsters(d);
   gen_objects(d);
 }
