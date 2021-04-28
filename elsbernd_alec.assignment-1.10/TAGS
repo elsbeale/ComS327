@@ -16,10 +16,10 @@ class character 19,244
   uint32_t hp;27,397
   const dice *damage;damage28,412
   const char *name;name29,434
-  uint32_t sequence_number;37,1001
-  uint32_t kills[kills38,1029
-  inline uint32_t get_color(39,1063
-  inline char get_symbol(40,1144
+  uint32_t sequence_number;47,1166
+  uint32_t kills[kills48,1194
+  inline uint32_t get_color(49,1228
+  inline char get_symbol(50,1309
 
 descriptions.h,2703
 # define DESCRIPTIONS_H2,23
@@ -125,7 +125,7 @@ typedef enum dim 7,190
 } dim_t;11,238
 typedef int16_t pair_t[pair_t13,248
 
-dungeon.h,2894
+dungeon.h,2920
 # define DUNGEON_H2,18
 #define DUNGEON_X 11,148
 #define DUNGEON_Y 12,182
@@ -190,25 +190,26 @@ class dungeon 64,1670
               object_descriptions(70,1991
   uint32_t num_rooms;71,2030
   room_t *rooms;rooms72,2052
-  terrain_type map[map73,2069
-  uint8_t hardness[hardness82,2720
-  uint8_t pc_distance[pc_distance83,2762
-  uint8_t pc_tunnel[pc_tunnel84,2807
-  character *character_map[character_map85,2850
-  object *objmap[objmap86,2900
-  pc *PC;PC87,2940
-  heap_t events;88,2950
-  uint16_t num_monsters;89,2967
-  uint16_t max_monsters;90,2992
-  uint16_t num_objects;91,3017
-  uint16_t max_objects;92,3041
-  int extra_light;93,3065
-  uint32_t character_sequence_number;94,3084
-  uint32_t time;100,3508
-  uint32_t is_new;101,3525
-  uint32_t quit;102,3544
-  std::vector<monster_description> monster_descriptions;103,3561
-  std::vector<object_description> object_descriptions;104,3618
+  uint32_t floor;73,2069
+  terrain_type map[map74,2087
+  uint8_t hardness[hardness83,2738
+  uint8_t pc_distance[pc_distance84,2780
+  uint8_t pc_tunnel[pc_tunnel85,2825
+  character *character_map[character_map86,2868
+  object *objmap[objmap87,2918
+  pc *PC;PC88,2958
+  heap_t events;89,2968
+  uint16_t num_monsters;90,2985
+  uint16_t max_monsters;91,3010
+  uint16_t num_objects;92,3035
+  uint16_t max_objects;93,3059
+  int extra_light;94,3083
+  uint32_t character_sequence_number;95,3102
+  uint32_t time;101,3526
+  uint32_t is_new;102,3543
+  uint32_t quit;103,3562
+  std::vector<monster_description> monster_descriptions;104,3579
+  std::vector<object_description> object_descriptions;105,3636
 
 event.h,227
 # define EVENT_H2,16
@@ -349,7 +350,7 @@ path.h,54
 # define PATH_H2,15
 # define HARDNESS_PER_TURN 4,32
 
-pc.h,535
+pc.h,626
 # define PC_H2,13
 typedef enum eq_slot 10,116
   eq_slot_weapon,11,139
@@ -369,8 +370,11 @@ typedef enum eq_slot 10,116
 class pc 28,427
   object *eq[eq37,647
   object *in[in38,675
-  terrain_type known_terrain[known_terrain45,918
-  uint8_t visible[visible46,970
+  uint32_t strength;40,714
+  uint32_t dexterity;41,735
+  uint32_t constitution;42,757
+  terrain_type known_terrain[known_terrain53,1072
+  uint8_t visible[visible54,1124
 
 utils.h,123
 # define UTILS_H2,16
@@ -467,7 +471,7 @@ int32_t dice::roll(roll6,58
 std::ostream &dice::print(print22,257
 std::ostream &operator<<(operator<<27,358
 
-dungeon.cpp,1590
+dungeon.cpp,1627
 #define DUMP_HARDNESS_IMAGES 22,366
 typedef struct corridor_path 24,398
   heap_node_t *hn;hn25,429
@@ -515,7 +519,8 @@ void render_hardness_map(1136,31907
 void render_movement_cost_map(1159,32432
 void render_distance_map(1181,32937
 void render_tunnel_distance_map(1222,34005
-void new_dungeon(1263,35076
+void new_dungeon_up(1263,35076
+void new_dungeon_down(1297,35608
 
 event.cpp,174
 static uint32_t next_event_number(6,63
@@ -569,13 +574,13 @@ void io_handle_input(1480,41787
 
 move.cpp,242
 void do_combat(20,303
-void move_character(201,4980
-void do_moves(303,8626
-void dir_nearest_wall(368,10658
-uint32_t against_wall(380,11069
-uint32_t in_corner(392,11553
-static void new_dungeon_level(410,12177
-uint32_t move_pc(434,12782
+void move_character(211,5170
+void do_moves(313,8816
+void dir_nearest_wall(378,10848
+uint32_t against_wall(390,11259
+uint32_t in_corner(402,11743
+static void new_dungeon_level(420,12367
+uint32_t move_pc(444,12980
 
 npc.cpp,1571
 static uint32_t max_monster_cells(13,193
@@ -657,31 +662,31 @@ void dijkstra(37,1514
 #define tunnel_movement_cost(147,6020
 void dijkstra_tunnel(150,6112
 
-pc.cpp,921
+pc.cpp,924
 const char *eq_slot_name[eq_slot_name13,189
 pc::pc(pc28,378
 pc::~pc(~pc43,539
 uint32_t pc_is_alive(62,787
 void place_pc(67,857
 void config_pc(82,1367
-uint32_t pc_next_pos(106,1857
-uint32_t pc_in_room(204,5916
-void pc_learn_terrain(219,6465
-void pc_reset_visibility(225,6621
-terrain_type pc_learned_terrain(236,6788
-void pc_init_known_terrain(245,7025
-void pc_observe_terrain(257,7238
-int32_t is_illuminated(294,8307
-void pc_see_object(299,8391
-void pc::recalculate_speed(recalculate_speed306,8484
-uint32_t pc::wear_in(wear_in321,8687
-uint32_t pc::has_open_inventory_slot(has_open_inventory_slot356,9430
-int32_t pc::get_first_open_inventory_slot(get_first_open_inventory_slot369,9581
-uint32_t pc::remove_eq(remove_eq382,9738
-uint32_t pc::drop_in(drop_in409,10313
-uint32_t pc::destroy_in(destroy_in423,10557
-uint32_t pc::pick_up(pick_up437,10784
-object *pc::from_pile(from_pile459,11362
+uint32_t pc_next_pos(131,2541
+uint32_t pc_in_room(229,6600
+void pc_learn_terrain(244,7149
+void pc_reset_visibility(250,7305
+terrain_type pc_learned_terrain(261,7472
+void pc_init_known_terrain(270,7709
+void pc_observe_terrain(282,7922
+int32_t is_illuminated(319,8991
+void pc_see_object(324,9075
+void pc::recalculate_speed(recalculate_speed331,9168
+uint32_t pc::wear_in(wear_in346,9371
+uint32_t pc::has_open_inventory_slot(has_open_inventory_slot381,10114
+int32_t pc::get_first_open_inventory_slot(get_first_open_inventory_slot394,10265
+uint32_t pc::remove_eq(remove_eq407,10422
+uint32_t pc::drop_in(drop_in434,10997
+uint32_t pc::destroy_in(destroy_in448,11241
+uint32_t pc::pick_up(pick_up462,11468
+object *pc::from_pile(from_pile484,12046
 
 rlg327.cpp,115
 const char *victory victory15,230
