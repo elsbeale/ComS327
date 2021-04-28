@@ -81,7 +81,7 @@ void place_pc(dungeon *d)
 
 void config_pc(dungeon *d)
 {
-  // static dice pc_dice(0, 1, 4);
+  static dice pc_dice(0, 1, 4);
   
   d->PC = new pc;
 
@@ -93,14 +93,14 @@ void config_pc(dungeon *d)
   d->PC->strength = 0;
   d->PC->constitution = 0;
   d->PC->dexterity = 0;
-  dice pc_dice(d->PC->strength, 1, 4);
+  // dice pc_dice(d->PC->strength, 1, 4);
 
   //Leveling and Experience
   // d->PC->level = 0;
   // d->PC->experience = 0;
 
-  d->PC->hp += d->PC->constitution;
-  d->PC->speed = PC_SPEED + d->PC->dexterity;
+  //d->PC->hp += d->PC->constitution;
+  d->PC->speed = PC_SPEED;// + d->PC->dexterity;
   d->PC->alive = 1;
   d->PC->sequence_number = 0;
   d->PC->kills[kill_direct] = d->PC->kills[kill_avenged] = 0;
