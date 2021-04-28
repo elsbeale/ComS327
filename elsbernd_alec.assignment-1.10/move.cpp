@@ -181,13 +181,13 @@ void do_combat(dungeon *d, character *atk, character *def)
         io_queue_message("");
       } else {
         io_queue_message("%s%s dies.", is_unique(def) ? "" : "The ", def->name);
-        atk->experience+= rand() % 20;
-        if (atk->experience >= 100)
-        {
-          atk->level++;
-          update_pc(d);
-          atk->experience = 0;
-        }
+        // atk->experience+= rand() % 20;
+        // if (atk->experience >= 100)
+        // {
+        //   atk->level++;
+        //   update_pc(d);
+        //   atk->experience = 0;
+        // }
 
       }
       def->hp = 0;
@@ -199,7 +199,8 @@ void do_combat(dungeon *d, character *atk, character *def)
         d->num_monsters--;
       }
       charpair(def->position) = NULL;
-    } else {
+    } 
+    else {
       def->hp -= damage;
     }
   }
