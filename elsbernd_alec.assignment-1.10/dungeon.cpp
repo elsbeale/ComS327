@@ -1260,7 +1260,7 @@ void render_tunnel_distance_map(dungeon *d)
   }
 }
 
-void new_dungeon(dungeon *d)
+void new_dungeon_up(dungeon *d)
 {
   uint32_t sequence_number;
 
@@ -1271,6 +1271,34 @@ void new_dungeon(dungeon *d)
   init_dungeon(d);
   gen_dungeon(d);
   d->character_sequence_number = sequence_number;
+  if (d->floor < 1)
+  {
+    d->floor = 1;
+  }
+  else
+  {
+    d->floor--;
+  }
+
+  place_pc(d);
+  d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = d->PC;
+
+  gen_monsters(d);
+  gen_objects(d);
+}
+
+void new_dungeon_down(dungeon *d)
+{
+  uint32_t sequence_number;
+
+  sequence_number = d->character_sequence_number;
+
+  delete_dungeon(d);
+
+  init_dungeon(d);
+  gen_dungeon(d);
+  d->character_sequence_number = sequence_number;
+  d->floor++;
 
   place_pc(d);
   d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = d->PC;

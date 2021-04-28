@@ -70,6 +70,7 @@ class dungeon {
               object_descriptions() {}
   uint32_t num_rooms;
   room_t *rooms;
+  uint32_t floor;
   terrain_type map[DUNGEON_Y][DUNGEON_X];
   /* Since hardness is usually not used, it would be expensive to pull it *
    * into cache every time we need a map cell, so we store it in a        *
@@ -105,7 +106,8 @@ class dungeon {
 };
 
 void init_dungeon(dungeon *d);
-void new_dungeon(dungeon *d);
+void new_dungeon_up(dungeon *d);
+void new_dungeon_down(dungeon *d);
 void delete_dungeon(dungeon *d);
 int gen_dungeon(dungeon *d);
 void render_dungeon(dungeon *d);

@@ -168,7 +168,6 @@ void do_combat(dungeon *d, character *atk, character *def)
       io_queue_message("You hit %s%s for %d.", is_unique(def) ? "" : "the ",
                        def->name, damage);
     }
-    //chance = rand() / (RAND_MAX / 100 + 1);
     
     if (damage >= def->hp) {
       if (atk != d->PC) {
@@ -182,6 +181,14 @@ void do_combat(dungeon *d, character *atk, character *def)
         io_queue_message("");
       } else {
         io_queue_message("%s%s dies.", is_unique(def) ? "" : "The ", def->name);
+        atk->experience+= rand() % 20;
+        if (atk->experience >= 100)
+        {
+          atk->level++;
+          update_pc(d);
+          atk->experience = 0;
+        }
+
       }
       def->hp = 0;
       def->alive = 0;
@@ -417,13 +424,14 @@ static void new_dungeon_level(dungeon *d, uint32_t dir)
     io_queue_message("You go up the stairs.");
     io_queue_message(""); /* To force "more" */
     io_display(d); /* To force queue flush */
-    new_dungeon(d);
+    new_dungeon_up(d);
     break;
   case '>':
     io_queue_message("You go down the stairs.");
     io_queue_message(""); /* To force "more" */
     io_display(d); /* To force queue flush */
-    new_dungeon(d);
+    d->floor++;
+    new_dungeon_down(d);
     break;
   default:
     break;

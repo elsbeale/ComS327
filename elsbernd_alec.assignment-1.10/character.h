@@ -27,6 +27,11 @@ class character {
   uint32_t hp;
   const dice *damage;
   const char *name;
+  uint32_t strength;
+  uint32_t dexterity;
+  uint32_t constitution;
+  uint32_t level;
+  uint32_t experience;
   /* Characters use to have a next_turn for the move queue.  Now that it is *
    * an event queue, there's no need for that here.  Instead it's in the    *
    * event.  Similarly, sequence_number was introduced in order to ensure   *
